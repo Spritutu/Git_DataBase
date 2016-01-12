@@ -114,7 +114,7 @@ namespace MainProject
 
             if (e.RowIndex < 0)
             {
-
+                int abd;
             }
             else if (e.ColumnIndex < 0)
             {
