@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.hWindowControl1 = new HalconDotNet.HWindowControl();
+            this.MainWindw = new HalconDotNet.HWindowControl();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.dataGridView2 = new System.Windows.Forms.DataGridView();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
@@ -38,16 +38,16 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
             this.SuspendLayout();
             // 
-            // hWindowControl1
+            // MainWindw
             // 
-            this.hWindowControl1.BackColor = System.Drawing.Color.Black;
-            this.hWindowControl1.BorderColor = System.Drawing.Color.Black;
-            this.hWindowControl1.ImagePart = new System.Drawing.Rectangle(0, 0, 640, 480);
-            this.hWindowControl1.Location = new System.Drawing.Point(12, 45);
-            this.hWindowControl1.Name = "hWindowControl1";
-            this.hWindowControl1.Size = new System.Drawing.Size(785, 665);
-            this.hWindowControl1.TabIndex = 0;
-            this.hWindowControl1.WindowSize = new System.Drawing.Size(785, 665);
+            this.MainWindw.BackColor = System.Drawing.Color.Black;
+            this.MainWindw.BorderColor = System.Drawing.Color.Black;
+            this.MainWindw.ImagePart = new System.Drawing.Rectangle(0, 0, 640, 480);
+            this.MainWindw.Location = new System.Drawing.Point(12, 45);
+            this.MainWindw.Name = "MainWindw";
+            this.MainWindw.Size = new System.Drawing.Size(785, 665);
+            this.MainWindw.TabIndex = 0;
+            this.MainWindw.WindowSize = new System.Drawing.Size(785, 665);
             // 
             // dataGridView1
             // 
@@ -88,7 +88,7 @@
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.dataGridView2);
             this.Controls.Add(this.dataGridView1);
-            this.Controls.Add(this.hWindowControl1);
+            this.Controls.Add(this.MainWindw);
             this.Name = "Form1";
             this.Text = "Form1";
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
@@ -100,7 +100,7 @@
 
         #endregion
 
-        private HalconDotNet.HWindowControl hWindowControl1;
+        private HalconDotNet.HWindowControl MainWindw;
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.DataGridView dataGridView2;
         private System.Windows.Forms.StatusStrip statusStrip1;
