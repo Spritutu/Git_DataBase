@@ -11,12 +11,12 @@ using System.Collections;
 
 namespace MainProject
 {
-    public partial class Form1 : Form
+    public partial class MainFrom : Form
     {
         private ArrayList Camrea = new ArrayList();
 
 
-        public Form1()
+        public MainFrom()
         {
             InitializeComponent();
         }

@@ -1,6 +1,6 @@
 ﻿namespace MainProject
 {
-    partial class Form1
+    partial class MainFrom
     {
         /// <summary>
         /// 設計工具所需的變數。
