@@ -1,6 +1,6 @@
 ﻿namespace MainProject
 {
-    partial class Form1
+    partial class MainprojectFrom
     {
         /// <summary>
         /// 設計工具所需的變數。
@@ -80,7 +80,7 @@
             this.contextMenuStrip1.Name = "contextMenuStrip1";
             this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
             // 
-            // Form1
+            // MainprojectFrom
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -89,8 +89,8 @@
             this.Controls.Add(this.dataGridView2);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.MainWindw);
-            this.Name = "Form1";
-            this.Text = "Form1";
+            this.Name = "MainprojectFrom";
+            this.Text = "MainprojectFrom";
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
             this.ResumeLayout(false);
