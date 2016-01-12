@@ -14,6 +14,7 @@ namespace MainProject
     public partial class MainFrom : Form
     {
 
+
         //相機陣列
         private ArrayList Camrea = new ArrayList();
 
