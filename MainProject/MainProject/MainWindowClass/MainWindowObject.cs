@@ -8,6 +8,10 @@ using HalconDotNet;
 
 namespace MainProject
 {
+    /// <summary>
+    /// 主視窗的物件
+    /// 目前包括：Object、Procedure
+    /// </summary>
     public class MainWindowObject
     {
         public ArrayList Object = new ArrayList();

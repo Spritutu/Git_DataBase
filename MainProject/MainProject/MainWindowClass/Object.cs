@@ -7,6 +7,10 @@ using HalconDotNet;
 
 namespace MainProject
 {
+    /// <summary>
+    /// 主視窗的物件中的Object
+    /// 目前包括：image
+    /// </summary>
     public class Object
     {
         private HObject image;

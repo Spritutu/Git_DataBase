@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace MainProject
 {
-    class procedure
+    /// <summary>
+    /// 主視窗的物件中的procedure
+    /// 目前包括：num、procedureName
+    /// </summary>
+    public class procedure
     {
         private double num;
         private string procedureName;
