@@ -58,9 +58,17 @@
     <Compile Include="MainFrom.Designer.cs">
       <DependentUpon>MainFrom.cs</DependentUpon>
     </Compile>
+    <Compile Include="MainWindowClass\Camera.cs" />
+    <Compile Include="MainWindowClass\ImageBase.cs" />
     <Compile Include="MainWindowClass\MainWindowObject.cs" />
+    <Compile Include="MainWindowClass\MaskBase.cs" />
     <Compile Include="MainWindowClass\Object.cs" />
+    <Compile Include="MainWindowClass\PointBase.cs" />
     <Compile Include="MainWindowClass\procedure.cs" />
+    <Compile Include="MainWindowClass\RegionBase.cs" />
+    <Compile Include="MainWindowPartial\Windowctrl.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="MainFrom.resx">
@@ -88,6 +96,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

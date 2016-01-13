@@ -13,7 +13,7 @@ namespace MainProject
     /// </summary>
     public class Object
     {
-        private HObject image;
+        public HObject image ;
         public HObject Image { get { return image; }set { image = value; } }
 
     }

@@ -37,6 +37,8 @@
             this.插入程序ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.刪除程序ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.MainWindowStatusStrip = new System.Windows.Forms.StatusStrip();
+            this.MouseXY = new System.Windows.Forms.ToolStripStatusLabel();
+            this.pixelvalue = new System.Windows.Forms.ToolStripStatusLabel();
             this.Object = new System.Windows.Forms.Label();
             this.Procedure = new System.Windows.Forms.Label();
             this.ObjectMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -46,6 +48,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.ProcedureTable)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.MainWindowObjectTable)).BeginInit();
             this.PrcedureMenuStrip.SuspendLayout();
+            this.MainWindowStatusStrip.SuspendLayout();
             this.ObjectMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -59,6 +62,7 @@
             this.MainWindow.Size = new System.Drawing.Size(801, 669);
             this.MainWindow.TabIndex = 0;
             this.MainWindow.WindowSize = new System.Drawing.Size(801, 669);
+            this.MainWindow.HMouseMove += new HalconDotNet.HMouseEventHandler(this.MainWindow_HMouseMove);
             // 
             // ProcedureTable
             // 
@@ -94,31 +98,46 @@
             // 新增程序ToolStripMenuItem
             // 
             this.新增程序ToolStripMenuItem.Name = "新增程序ToolStripMenuItem";
-            this.新增程序ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.新增程序ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
             this.新增程序ToolStripMenuItem.Text = "新增程序";
             this.新增程序ToolStripMenuItem.Click += new System.EventHandler(this.新增程序ToolStripMenuItem_Click);
             // 
             // 插入程序ToolStripMenuItem
             // 
             this.插入程序ToolStripMenuItem.Name = "插入程序ToolStripMenuItem";
-            this.插入程序ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.插入程序ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
             this.插入程序ToolStripMenuItem.Text = "插入程序";
             this.插入程序ToolStripMenuItem.Click += new System.EventHandler(this.插入程序ToolStripMenuItem_Click);
             // 
             // 刪除程序ToolStripMenuItem
             // 
             this.刪除程序ToolStripMenuItem.Name = "刪除程序ToolStripMenuItem";
-            this.刪除程序ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.刪除程序ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
             this.刪除程序ToolStripMenuItem.Text = "刪除程序";
             this.刪除程序ToolStripMenuItem.Click += new System.EventHandler(this.刪除程序ToolStripMenuItem_Click);
             // 
             // MainWindowStatusStrip
             // 
+            this.MainWindowStatusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.MouseXY,
+            this.pixelvalue});
             this.MainWindowStatusStrip.Location = new System.Drawing.Point(0, 713);
             this.MainWindowStatusStrip.Name = "MainWindowStatusStrip";
             this.MainWindowStatusStrip.Size = new System.Drawing.Size(1419, 22);
             this.MainWindowStatusStrip.TabIndex = 4;
             this.MainWindowStatusStrip.Text = "MainWindowStatusStrip";
+            // 
+            // MouseXY
+            // 
+            this.MouseXY.Name = "MouseXY";
+            this.MouseXY.Size = new System.Drawing.Size(98, 17);
+            this.MouseXY.Text = "Mouse(null,null)";
+            // 
+            // pixelvalue
+            // 
+            this.pixelvalue.Name = "pixelvalue";
+            this.pixelvalue.Size = new System.Drawing.Size(100, 17);
+            this.pixelvalue.Text = "pixelvalue = null";
             // 
             // Object
             // 
@@ -188,6 +207,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.ProcedureTable)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.MainWindowObjectTable)).EndInit();
             this.PrcedureMenuStrip.ResumeLayout(false);
+            this.MainWindowStatusStrip.ResumeLayout(false);
+            this.MainWindowStatusStrip.PerformLayout();
             this.ObjectMenuStrip.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -210,6 +231,8 @@
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem3;
         private System.Windows.Forms.Label ObjectXY;
         private System.Windows.Forms.Label ProcedureXY;
+        private System.Windows.Forms.ToolStripStatusLabel MouseXY;
+        private System.Windows.Forms.ToolStripStatusLabel pixelvalue;
     }
 }
 

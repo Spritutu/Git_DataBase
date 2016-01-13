@@ -8,17 +8,18 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Collections;
+using HalconDotNet;//測試用 不應該存在於使用者介面
+using System.Drawing;
+
 
 namespace MainProject
 {
     public partial class MainFrom : Form
     {
-
-
+        
         //相機陣列
         private ArrayList Camrea = new ArrayList();
-
-
+        
         public MainFrom()
         {
             InitializeComponent();
@@ -29,8 +30,9 @@ namespace MainProject
             CreateCamrea(1);
             BindProcedureToGrid(ProcedureTable,0);
             BindObjectToGrid(MainWindowObjectTable,0);
-
+            test();
         }
+
         /// <summary>
         /// 創造一台相機。
         /// </summary>
@@ -62,6 +64,7 @@ namespace MainProject
             Table.Columns[0].Resizable = DataGridViewTriState.False;
             Table.Columns[1].Width = 300;//設定列寬
         }
+
         /// <summary>
         /// 將Object表格綁定。
         /// </summary>
@@ -152,7 +155,6 @@ namespace MainProject
 
             for (int i = 0; i < mwo.Procedure.Count; i++)
             {
-
                 p = (procedure)mwo.Procedure[i];
                 p.Num = i;
                 mwo.Procedure[i] = p;
