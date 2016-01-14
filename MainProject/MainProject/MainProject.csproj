@@ -62,6 +62,7 @@
     <Compile Include="MainWindowClass\ImageBase.cs" />
     <Compile Include="MainWindowClass\MainWindowObject.cs" />
     <Compile Include="MainWindowClass\MaskBase.cs" />
+    <Compile Include="MainWindowClass\MiniImage.cs" />
     <Compile Include="MainWindowClass\Object.cs" />
     <Compile Include="MainWindowClass\PointBase.cs" />
     <Compile Include="MainWindowClass\procedure.cs" />

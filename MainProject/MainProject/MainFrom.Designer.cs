@@ -33,8 +33,8 @@
             this.ProcedureTable = new System.Windows.Forms.DataGridView();
             this.MainWindowObjectTable = new System.Windows.Forms.DataGridView();
             this.PrcedureMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.新增程序ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.插入程序ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.載入圖片ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.刪除程序ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.MainWindowStatusStrip = new System.Windows.Forms.StatusStrip();
             this.MouseXY = new System.Windows.Forms.ToolStripStatusLabel();
@@ -45,6 +45,7 @@
             this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
             this.ObjectXY = new System.Windows.Forms.Label();
             this.ProcedureXY = new System.Windows.Forms.Label();
+            this.DO = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.ProcedureTable)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.MainWindowObjectTable)).BeginInit();
             this.PrcedureMenuStrip.SuspendLayout();
@@ -89,25 +90,25 @@
             // PrcedureMenuStrip
             // 
             this.PrcedureMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.新增程序ToolStripMenuItem,
             this.插入程序ToolStripMenuItem,
             this.刪除程序ToolStripMenuItem});
             this.PrcedureMenuStrip.Name = "PrcedureStrip";
-            this.PrcedureMenuStrip.Size = new System.Drawing.Size(125, 70);
-            // 
-            // 新增程序ToolStripMenuItem
-            // 
-            this.新增程序ToolStripMenuItem.Name = "新增程序ToolStripMenuItem";
-            this.新增程序ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
-            this.新增程序ToolStripMenuItem.Text = "新增程序";
-            this.新增程序ToolStripMenuItem.Click += new System.EventHandler(this.新增程序ToolStripMenuItem_Click);
+            this.PrcedureMenuStrip.Size = new System.Drawing.Size(125, 48);
             // 
             // 插入程序ToolStripMenuItem
             // 
+            this.插入程序ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.載入圖片ToolStripMenuItem});
             this.插入程序ToolStripMenuItem.Name = "插入程序ToolStripMenuItem";
             this.插入程序ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
             this.插入程序ToolStripMenuItem.Text = "插入程序";
-            this.插入程序ToolStripMenuItem.Click += new System.EventHandler(this.插入程序ToolStripMenuItem_Click);
+            // 
+            // 載入圖片ToolStripMenuItem
+            // 
+            this.載入圖片ToolStripMenuItem.Name = "載入圖片ToolStripMenuItem";
+            this.載入圖片ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.載入圖片ToolStripMenuItem.Text = "載入圖片";
+            this.載入圖片ToolStripMenuItem.Click += new System.EventHandler(this.載入圖片ToolStripMenuItem_Click);
             // 
             // 刪除程序ToolStripMenuItem
             // 
@@ -188,11 +189,22 @@
             this.ProcedureXY.TabIndex = 10;
             this.ProcedureXY.Text = "(null,null)";
             // 
+            // DO
+            // 
+            this.DO.Location = new System.Drawing.Point(12, 12);
+            this.DO.Name = "DO";
+            this.DO.Size = new System.Drawing.Size(75, 23);
+            this.DO.TabIndex = 11;
+            this.DO.Text = "DO";
+            this.DO.UseVisualStyleBackColor = true;
+            this.DO.Click += new System.EventHandler(this.DO_Click);
+            // 
             // MainFrom
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1419, 735);
+            this.Controls.Add(this.DO);
             this.Controls.Add(this.ProcedureXY);
             this.Controls.Add(this.ObjectXY);
             this.Controls.Add(this.Procedure);
@@ -202,7 +214,7 @@
             this.Controls.Add(this.ProcedureTable);
             this.Controls.Add(this.MainWindow);
             this.Name = "MainFrom";
-            this.Text = "Form1";
+            this.Text = "MainFrom";
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.ProcedureTable)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.MainWindowObjectTable)).EndInit();
@@ -222,7 +234,6 @@
         private System.Windows.Forms.DataGridView MainWindowObjectTable;
         private System.Windows.Forms.ContextMenuStrip PrcedureMenuStrip;
         private System.Windows.Forms.StatusStrip MainWindowStatusStrip;
-        private System.Windows.Forms.ToolStripMenuItem 新增程序ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 插入程序ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 刪除程序ToolStripMenuItem;
         private System.Windows.Forms.Label Object;
@@ -233,6 +244,8 @@
         private System.Windows.Forms.Label ProcedureXY;
         private System.Windows.Forms.ToolStripStatusLabel MouseXY;
         private System.Windows.Forms.ToolStripStatusLabel pixelvalue;
+        private System.Windows.Forms.ToolStripMenuItem 載入圖片ToolStripMenuItem;
+        private System.Windows.Forms.Button DO;
     }
 }
 

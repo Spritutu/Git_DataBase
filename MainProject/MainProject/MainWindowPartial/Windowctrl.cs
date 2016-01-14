@@ -25,7 +25,8 @@ namespace MainProject
             
             HObject Image;
             HOperatorSet.GenEmptyObj(out Image);
-            HOperatorSet.ReadImage(out Image, "C:/Users/User/Desktop/osXRj9I.jpg");
+            string str = System.Windows.Forms.Application.StartupPath;
+            HOperatorSet.ReadImage(out Image, str+ "\\OnePounch.jpg");
             Object O = new Object();
             O = (Object)mwo.Object[0];
 

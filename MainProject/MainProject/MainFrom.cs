@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Collections;
 using HalconDotNet;//測試用 不應該存在於使用者介面
-using System.Drawing;
 
 
 namespace MainProject
@@ -73,8 +72,23 @@ namespace MainProject
         {
             MainWindowObject mwo;
             mwo = (MainWindowObject)Camrea[whichcamera];
-            Table.DataSource = mwo.Object;
-            Table.Columns[0].Width = 100;//設定列寬
+
+            string str = System.Windows.Forms.Application.StartupPath;
+            List<Images> L = new List<Images>();
+            for (int i = 0; i < mwo.Object.Count; i++)
+            {
+                L.Add(new Images() { Im = Image.FromFile(str +"\\MinimizingChart\\1.bmp") });
+            }
+
+            Table.DataSource = L;//繫結到圖片集合
+
+            Table.Columns[0].HeaderText = "圖片";//設定列文字
+            Table.Columns[0].Width =100;//設定列寬度
+            for (int i = 0; i < Table.Rows.Count; i++)
+            {
+                Table.Rows[i].Height = 70;//設定行高度
+            }
+
         }
 
         private void ProcedureTable_CellContextMenuStripNeeded(object sender, DataGridViewCellContextMenuStripNeededEventArgs e)
@@ -138,11 +152,7 @@ namespace MainProject
         {
             ProcedureXY.Text = "(" + e.ColumnIndex + "," + e.RowIndex + ")";
         }
-
-        private void 新增程序ToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-        }
+             
 
         private void 刪除程序ToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -166,7 +176,10 @@ namespace MainProject
             }
         }
 
-        private void 插入程序ToolStripMenuItem_Click(object sender, EventArgs e)
+        Imagefucker fucker = new Imagefucker();
+
+
+        private void 載入圖片ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             CurrencyManager cm = (CurrencyManager)this.BindingContext[ProcedureTable.DataSource];
 
@@ -174,8 +187,13 @@ namespace MainProject
             mwo = (MainWindowObject)Camrea[0];
             procedure p = new procedure();
 
+
+
+            p.procedurefunction.doprocedurefunction += fucker.readimage;
+            p.Procedure = "載入圖片";
+
             mwo.Procedure.Insert(cm.Position + 1, p);
-            
+
             for (int i = 0; i < mwo.Procedure.Count; i++)
             {
 
@@ -188,6 +206,55 @@ namespace MainProject
             {
                 cm.Refresh();
             }
+        }
+
+
+        public class Imagefucker
+        {
+            //--------------Image物件，讀寫函式------------------------------
+            protected HObject Image = null;
+            public HObject GetImage { get { return Image; } }
+            public HObject SetImage { set { Image = value; } }
+            //-------------Image物件長寬，讀取函式---------------------------
+            protected HTuple hv_Width = null;
+            public HTuple GetWidth { get { return hv_Width; } }
+            protected HTuple hv_Height = null;
+            public HTuple GetHeight { get { return hv_Height; } }
+
+            public void readimage()
+            {
+                HOperatorSet.ReadImage(out Image, "C:/Users/User/Desktop/images.jpg");
+                HOperatorSet.GetImageSize(Image, out hv_Width, out hv_Height);
+                HOperatorSet.SetSystem("width", hv_Width);
+                HOperatorSet.SetSystem("height", hv_Height);
+            }
+        }
+
+
+
+
+
+
+        public void show()
+        {
+
+            HOperatorSet.SetPart(MainWindow.HalconWindow, 0, 0, fucker.GetHeight - 1, fucker.GetWidth - 1);
+            HOperatorSet.ClearWindow(MainWindow.HalconWindow);
+            HOperatorSet.DispObj(fucker.GetImage, MainWindow.HalconWindow);
+        }
+
+        private void DO_Click(object sender, EventArgs e)
+        {
+            MainWindowObject mwo;
+            mwo = (MainWindowObject)Camrea[0];
+            procedure p = new procedure();
+
+            for (int i = 0; i < mwo.Procedure.Count; i++)
+            {
+                p = (procedure)mwo.Procedure[i];
+                p.procedurefunction.dofunction();
+            }
+            show();
         }
     }
 }
