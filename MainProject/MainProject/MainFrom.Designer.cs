@@ -71,6 +71,7 @@
             this.ProcedureTable.Location = new System.Drawing.Point(1021, 41);
             this.ProcedureTable.Name = "ProcedureTable";
             this.ProcedureTable.RowTemplate.Height = 24;
+            this.ProcedureTable.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.ProcedureTable.Size = new System.Drawing.Size(386, 669);
             this.ProcedureTable.TabIndex = 1;
             this.ProcedureTable.CellContextMenuStripNeeded += new System.Windows.Forms.DataGridViewCellContextMenuStripNeededEventHandler(this.ProcedureTable_CellContextMenuStripNeeded);
@@ -197,7 +198,7 @@
             this.DO.TabIndex = 11;
             this.DO.Text = "DO";
             this.DO.UseVisualStyleBackColor = true;
-            this.DO.Click += new System.EventHandler(this.DO_Click);
+            this.DO.Click += new System.EventHandler(this.DO_Click_1);
             // 
             // MainFrom
             // 

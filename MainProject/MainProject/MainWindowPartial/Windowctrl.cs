@@ -21,7 +21,7 @@ namespace MainProject
         private void test()
         {
             MainWindowObject mwo;
-            mwo = (MainWindowObject)Camrea[0];
+            mwo = (MainWindowObject)Camera[0];
             
             HObject Image;
             HOperatorSet.GenEmptyObj(out Image);
