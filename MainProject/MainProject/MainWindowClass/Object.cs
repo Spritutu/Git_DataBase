@@ -4,7 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using HalconDotNet;
-
+using System.Drawing.Imaging;
+using System.Drawing;
 namespace MainProject
 {
     /// <summary>
@@ -13,7 +14,9 @@ namespace MainProject
     /// </summary>
     public class Object
     {
-        public HObject image ;
+        private HObject image ;
         public HObject Image { get { return image; }set { image = value; } }
+        private Bitmap bitmap;
+        public Bitmap Bitmap { get { return bitmap; } set { bitmap = value; } }
     }
 }
