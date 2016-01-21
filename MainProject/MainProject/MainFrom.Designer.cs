@@ -74,6 +74,7 @@
             this.ProcedureTable.Size = new System.Drawing.Size(386, 669);
             this.ProcedureTable.TabIndex = 1;
             this.ProcedureTable.CellContextMenuStripNeeded += new System.Windows.Forms.DataGridViewCellContextMenuStripNeededEventHandler(this.ProcedureTable_CellContextMenuStripNeeded);
+            this.ProcedureTable.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.ProcedureTable_CellDoubleClick);
             this.ProcedureTable.CellMouseMove += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.ProcedureTable_CellMouseMove);
             // 
             // MainWindowObjectTable
@@ -85,6 +86,7 @@
             this.MainWindowObjectTable.Size = new System.Drawing.Size(196, 669);
             this.MainWindowObjectTable.TabIndex = 2;
             this.MainWindowObjectTable.CellContextMenuStripNeeded += new System.Windows.Forms.DataGridViewCellContextMenuStripNeededEventHandler(this.MainWindowObjectTable_CellContextMenuStripNeeded);
+            this.MainWindowObjectTable.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.MainWindowObjectTable_CellDoubleClick);
             this.MainWindowObjectTable.CellMouseMove += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.MainWindowObjectTable_CellMouseMove);
             // 
             // PrcedureMenuStrip

@@ -13,11 +13,10 @@ namespace MainProject
     /// 主視窗的物件中的Object
     /// 目前包括：image
     /// </summary>
-    public class Object
+    public class Object_Table
     {
         private HObject image ;
         public HObject Image { get { return image; }set { image = value; } }
-        private Bitmap bitmap;
-        public Bitmap Bitmap { get { return bitmap; } set { bitmap = value; } }
+        
     }
 }

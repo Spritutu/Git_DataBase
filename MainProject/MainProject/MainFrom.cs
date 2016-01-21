@@ -15,21 +15,41 @@ namespace MainProject
 {
     public partial class MainFrom : Form
     {
-        
+        #region //介面參數
         //相機陣列
-        private ArrayList Camrea = new ArrayList();
-        
+        List<Camera_Table> Camrea = new List<Camera_Table>();
+        private ImageBase window_image = new ImageBase();
+        PointBase mousePosition_pre = new PointBase();
+        PointBase mousePosition = new PointBase();
+        #endregion
+
+        #region //介面雜亂功能
         public MainFrom()
         {
             InitializeComponent();
         }
+        private void MainWindowObjectTable_CellMouseMove(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            ObjectXY.Text = "(" + e.ColumnIndex + "," + e.RowIndex + ")";
+        }
+        private void ProcedureTable_CellMouseMove(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            ProcedureXY.Text = "(" + e.ColumnIndex + "," + e.RowIndex + ")";
+        }
+        private void MainWindow_HMouseMove(object sender, HMouseEventArgs e)
+        {
+            mousePosition.GetMposition(MainWindow.HalconWindow);
+            MouseXY.Text = "Mouse(" + mousePosition.col.ToString() + "," + mousePosition.row.ToString() + ")";
+            pixelvalue.Text = "pixelvalue =" + window_image.PiexlGrayval(mousePosition).ToString();
 
+        }
+
+        #endregion
         private void Form1_Load(object sender, EventArgs e)
         {
             CreateCamrea(1);
             BindProcedureToGrid(ProcedureTable,0);
             BindObjectToGrid(MainWindowObjectTable,0);
-            test();
         }
 
         /// <summary>
@@ -39,14 +59,9 @@ namespace MainProject
 
             for (int i = 0; i < camreanum; i++)
             {
-                Camrea.Add(new MainWindowObject());
-
-                MainWindowObject mwo;
-                mwo = (MainWindowObject)Camrea[Camrea.Count - 1];
-
-                mwo.Object.Add(new Object());
-                mwo.Procedure.Add(new procedure());
-                Camrea[Camrea.Count - 1] = mwo;
+                Camrea.Add(new Camera_Table());
+                Camrea[Camrea.Count - 1].Object.Add(new Object_Table());
+                Camrea[Camrea.Count - 1].Procedure.Add(new Procedure_Table());
             }
         }
 
@@ -56,41 +71,31 @@ namespace MainProject
         /// <param name="Table">Procedure table。</param>
         private void BindProcedureToGrid(DataGridView Table,int whichcamera)
         {
-            MainWindowObject mwo;
-            mwo = (MainWindowObject)Camrea[whichcamera];
-            Table.DataSource = mwo.Procedure;
+            Table.DataSource = Camrea[whichcamera].Procedure;
             Table.Columns[0].Width = 35;//設定列寬
             Table.Columns[0].Resizable = DataGridViewTriState.False;
             Table.Columns[1].Width = 300;//設定列寬
         }
-
         /// <summary>
         /// 將Object表格綁定。
         /// </summary>
         /// <param name="Table">Object table。</param>
         private void BindObjectToGrid(DataGridView Table, int whichcamera)
         {
-            MainWindowObject mwo;
-            mwo = (MainWindowObject)Camrea[whichcamera];
-            Object O = new Object(); 
-
             string str = System.Windows.Forms.Application.StartupPath;
-            List<MiniImages> L = new List<MiniImages>();
+            List<MiniImage_Table> L = new List<MiniImage_Table>();
 
-            for (int i = 0; i < mwo.Object.Count; i++)
+            for (int i = 0; i < Camrea[whichcamera].Object.Count; i++)
             {
-                
-                O = (Object)mwo.Object[i];
-                if (O.Image != null)
+                if (Camrea[whichcamera].Object[i].Image != null)
                 {
-                    MiniImages mini = new MiniImages();
-                    mini.Bitmap = minipicture(O.Image);
+                    MiniImage_Table mini = new MiniImage_Table();
+                    mini.Object2minipicture(Camrea[whichcamera].Object[i].Image);
                     L.Add(mini);
                 }
             }
 
             Table.DataSource = L;//繫結到圖片集合
-
             Table.Columns[0].HeaderText = "圖片";//設定列文字
             Table.Columns[0].Width =100;//設定列寬度
             for (int i = 0; i < Table.Rows.Count; i++)
@@ -99,17 +104,17 @@ namespace MainProject
             }
 
         }
-
+        /// <summary>
+        /// 設定ProcedureTable的左鍵表單
+        /// </summary>
         private void ProcedureTable_CellContextMenuStripNeeded(object sender, DataGridViewCellContextMenuStripNeededEventArgs e)
         {
+
             DataGridView dgv = (DataGridView)sender;
             dgv.ClearSelection();
             dgv.Rows[e.RowIndex].Selected = true;
-
-            MainWindowObject mwo;
-            mwo = (MainWindowObject)Camrea[0];
-
-            CurrencyManager cm = (CurrencyManager)this.BindingContext[mwo.Procedure];
+            
+            CurrencyManager cm = (CurrencyManager)this.BindingContext[Camrea[0].Procedure];
             cm.Position = e.RowIndex;
 
             if (e.RowIndex < 0)
@@ -125,17 +130,16 @@ namespace MainProject
                 e.ContextMenuStrip = this.PrcedureMenuStrip;
             }
         }
-
+        /// <summary>
+        /// 設定MainWindowObjectTable的左鍵表單
+        /// </summary>
         private void MainWindowObjectTable_CellContextMenuStripNeeded(object sender, DataGridViewCellContextMenuStripNeededEventArgs e)
         {
             DataGridView dgv = (DataGridView)sender;
             dgv.ClearSelection();
             dgv.Rows[e.RowIndex].Selected = true;
 
-            MainWindowObject mwo;
-            mwo = (MainWindowObject)Camrea[0];
-
-            CurrencyManager cm = (CurrencyManager)this.BindingContext[mwo.Object];
+            CurrencyManager cm = (CurrencyManager)this.BindingContext[Camrea[0].Object];
             cm.Position = e.RowIndex;
 
             if (e.RowIndex < 0)
@@ -151,35 +155,18 @@ namespace MainProject
                 e.ContextMenuStrip = this.ObjectMenuStrip;
             }
         }
-
-        private void MainWindowObjectTable_CellMouseMove(object sender, DataGridViewCellMouseEventArgs e)
-        {
-            ObjectXY.Text = "(" + e.ColumnIndex + "," + e.RowIndex + ")";
-        }
-
-        private void ProcedureTable_CellMouseMove(object sender, DataGridViewCellMouseEventArgs e)
-        {
-            ProcedureXY.Text = "(" + e.ColumnIndex + "," + e.RowIndex + ")";
-        }
-             
+        
 
         private void 刪除程序ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             CurrencyManager cm = (CurrencyManager)this.BindingContext[ProcedureTable.DataSource];
 
-            MainWindowObject mwo;
-            mwo = (MainWindowObject)Camrea[0];
-            mwo.Procedure.RemoveAt(cm.Position);
-            mwo.Object.RemoveAt(cm.Position);
-            procedure p = new procedure();
+            Camrea[0].Procedure.RemoveAt(cm.Position);
+            Camrea[0].Object.RemoveAt(cm.Position);
 
-
-
-            for (int i = 0; i < mwo.Procedure.Count; i++)
+            for (int i = 0; i < Camrea[0].Procedure.Count; i++)
             {
-                p = (procedure)mwo.Procedure[i];
-                p.Num = i;
-                mwo.Procedure[i] = p;
+                Camrea[0].Procedure[i].Num = i;
             }
 
             if (cm != null)
@@ -188,95 +175,65 @@ namespace MainProject
             }
         }
 
-
-
-        int clk = 0;
+        int clk = 0;//載入圖片序數
         private void 載入圖片ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            
-            ReadImage readthefuckingimage = new ReadImage();
             CurrencyManager cm = (CurrencyManager)this.BindingContext[ProcedureTable.DataSource];
 
-            MainWindowObject mwo;
-            mwo = (MainWindowObject)Camrea[0];
-            procedure p = new procedure();
+            //載入圖片函式
+            AccessImage readthefuckingimage = new AccessImage();
+            //由檔案載入圖片
+            readthefuckingimage.ImagefromFile();
+            //設定顯示視窗
+            readthefuckingimage.setwindow(MainWindow.HalconWindow);
 
-            readthefuckingimage.readimageNsetwindow(MainWindow.HalconWindow);
+            //設定Procedure_Table顯示字串
+            Procedure_Table p = new Procedure_Table();
+            p.ProcedureName = "載入圖片" + clk;
+
 
             if (readthefuckingimage.getObject().Image != null)
             {
-                p.Procedure = "載入圖片" + clk;
                 p.procedurefunction.doprocedurefunction += readthefuckingimage.show;
-                
-                mwo.Procedure.Insert(cm.Position + 1, p);
-                mwo.Object.Insert(cm.Position + 1, readthefuckingimage.getObject());
-
+                Camrea[0].Procedure.Insert(cm.Position + 1, p);
+                Camrea[0].Object.Insert(cm.Position + 1, readthefuckingimage.getObject());
                 clk++;
             }
-
-            for (int i = 0; i < mwo.Procedure.Count; i++)
+            //重新排序Procedure編號
+            for (int i = 0; i < Camrea[0].Procedure.Count; i++)
             {
-
-                p = (procedure)mwo.Procedure[i];
-                p.Num = i;
-                mwo.Procedure[i] = p;
+                Camrea[0].Procedure[i].Num = i;
             }
 
+            //更新表格
             if (cm != null)
             {
                 cm.Refresh();
             }
         }
-
-
-
-
-        public class ReadImage
-        {
-            ImageBase imagebase = new ImageBase();
-            Object O = new Object();
-            HTuple window;
-
-            public void readimageNsetwindow(HTuple win)
-            {
-                window = win;
-                imagebase.ImagefromFile();
-                O.Image = imagebase.GetImage;
-            }
-            public Object getObject()
-            {
-                return O;
-            }
-
-            public void show()
-            {
-                HOperatorSet.SetPart(window, 0, 0, imagebase.GetHeight - 1, imagebase.GetWidth - 1);
-                HOperatorSet.ClearWindow(window);
-                HOperatorSet.DispObj(imagebase.GetImage, window);
-            }
-            
-        }
-
-        public Bitmap minipicture(HObject obj) {
-
-            HObject obj_temp;
-            HOperatorSet.ZoomImageSize(obj,out obj_temp, 100,100, "constant");
-            return HObject_Bitmap.HObject2Bitmap(obj_temp);
-        }
         
-
         private void DO_Click(object sender, EventArgs e)
         {
-            MainWindowObject mwo;
-            mwo = (MainWindowObject)Camrea[0];
-            procedure p = new procedure();
-
-            for (int i = 0; i < mwo.Procedure.Count; i++)
+            for (int i = 0; i < Camrea[0].Procedure.Count; i++)
             {
-                p = (procedure)mwo.Procedure[i];
-                p.procedurefunction.dofunction();
+                Camrea[0].Procedure[i].procedurefunction.dofunction();
             }
             BindObjectToGrid(MainWindowObjectTable, 0);
+        }
+
+        private void MainWindowObjectTable_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            CurrencyManager cm = (CurrencyManager)this.BindingContext[MainWindowObjectTable.DataSource];
+            ImageBase imgbs = new ImageBase();
+
+            imgbs.SetImage = Camrea[0].Object[cm.Position+1].Image;
+            imgbs.ShowImage_autosize(MainWindow.HalconWindow);
+
+        }
+
+        private void ProcedureTable_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+
         }
     }
 }

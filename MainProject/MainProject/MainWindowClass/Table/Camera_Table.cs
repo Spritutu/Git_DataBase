@@ -12,9 +12,9 @@ namespace MainProject
     /// 主視窗的物件
     /// 目前包括：Object、Procedure
     /// </summary>
-    public class MainWindowObject
+    public class Camera_Table
     {
-        public ArrayList Object = new ArrayList();
-        public ArrayList Procedure = new ArrayList();
+        public List<Object_Table> Object = new List<Object_Table>();
+        public List<Procedure_Table> Procedure = new List<Procedure_Table>();
     }
 }

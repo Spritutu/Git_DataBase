@@ -28,16 +28,16 @@ namespace MainProject
     /// 主視窗的物件中的procedure
     /// 目前包括：num、procedureName
     /// </summary>
-    public class procedure
+    public class Procedure_Table
     {
         private double num;
         private string procedureName;
-        public procedure() { }
-        public procedure(int i) { num = i; }
-        public procedure(string s) { procedureName = s; }
-        public procedure(int i, string s) { num = i; procedureName = s; }
+        public Procedure_Table() { }
+        public Procedure_Table(int i) { num = i; }
+        public Procedure_Table(string s) { procedureName = s; }
+        public Procedure_Table(int i, string s) { num = i; procedureName = s; }
         public double Num { get { return num; } set { num = value; } }
-        public string Procedure { get { return procedureName; } set { procedureName = value; } }
+        public string ProcedureName { get { return procedureName; } set { procedureName = value; } }
         public Procedurefunction procedurefunction = new Procedurefunction();
     }
 }

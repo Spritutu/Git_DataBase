@@ -59,19 +59,17 @@
     <Compile Include="MainFrom.Designer.cs">
       <DependentUpon>MainFrom.cs</DependentUpon>
     </Compile>
-    <Compile Include="MainWindowClass\Camera.cs" />
+    <Compile Include="Procedure\AccessImage.cs" />
+    <Compile Include="ST_Base\Camera.cs" />
     <Compile Include="MainWindowClass\HObject_Bitmap.cs" />
-    <Compile Include="MainWindowClass\ImageBase.cs" />
-    <Compile Include="MainWindowClass\MainWindowObject.cs" />
-    <Compile Include="MainWindowClass\MaskBase.cs" />
-    <Compile Include="MainWindowClass\MiniImage.cs" />
-    <Compile Include="MainWindowClass\Object.cs" />
-    <Compile Include="MainWindowClass\PointBase.cs" />
-    <Compile Include="MainWindowClass\procedure.cs" />
-    <Compile Include="MainWindowClass\RegionBase.cs" />
-    <Compile Include="MainWindowPartial\Windowctrl.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="ST_Base\ImageBase.cs" />
+    <Compile Include="MainWindowClass\Table\Camera_Table.cs" />
+    <Compile Include="ST_Base\MaskBase.cs" />
+    <Compile Include="MainWindowClass\Table\MiniImage_Table.cs" />
+    <Compile Include="MainWindowClass\Table\Object_Table.cs" />
+    <Compile Include="ST_Base\PointBase.cs" />
+    <Compile Include="MainWindowClass\Table\Procedure_Table.cs" />
+    <Compile Include="ST_Base\RegionBase.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="MainFrom.resx">
