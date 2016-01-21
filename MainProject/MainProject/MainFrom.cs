@@ -72,12 +72,21 @@ namespace MainProject
         {
             MainWindowObject mwo;
             mwo = (MainWindowObject)Camrea[whichcamera];
+            Object O = new Object(); 
 
             string str = System.Windows.Forms.Application.StartupPath;
-            List<Images> L = new List<Images>();
+            List<MiniImages> L = new List<MiniImages>();
+
             for (int i = 0; i < mwo.Object.Count; i++)
             {
-                L.Add(new Images() { Im = Image.FromFile(str +"\\MinimizingChart\\1.bmp") });
+                
+                O = (Object)mwo.Object[i];
+                if (O.Image != null)
+                {
+                    MiniImages mini = new MiniImages();
+                    mini.Bitmap = minipicture(O.Image);
+                    L.Add(mini);
+                }
             }
 
             Table.DataSource = L;//繫結到圖片集合
@@ -86,7 +95,7 @@ namespace MainProject
             Table.Columns[0].Width =100;//設定列寬度
             for (int i = 0; i < Table.Rows.Count; i++)
             {
-                Table.Rows[i].Height = 70;//設定行高度
+                Table.Rows[i].Height = 100;//設定行高度
             }
 
         }
@@ -161,7 +170,10 @@ namespace MainProject
             MainWindowObject mwo;
             mwo = (MainWindowObject)Camrea[0];
             mwo.Procedure.RemoveAt(cm.Position);
+            mwo.Object.RemoveAt(cm.Position);
             procedure p = new procedure();
+
+
 
             for (int i = 0; i < mwo.Procedure.Count; i++)
             {
@@ -176,23 +188,31 @@ namespace MainProject
             }
         }
 
-        Imagefucker fucker = new Imagefucker();
 
 
+        int clk = 0;
         private void 載入圖片ToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            
+            ReadImage readthefuckingimage = new ReadImage();
             CurrencyManager cm = (CurrencyManager)this.BindingContext[ProcedureTable.DataSource];
 
             MainWindowObject mwo;
             mwo = (MainWindowObject)Camrea[0];
             procedure p = new procedure();
 
+            readthefuckingimage.readimageNsetwindow(MainWindow.HalconWindow);
 
+            if (readthefuckingimage.getObject().Image != null)
+            {
+                p.Procedure = "載入圖片" + clk;
+                p.procedurefunction.doprocedurefunction += readthefuckingimage.show;
+                
+                mwo.Procedure.Insert(cm.Position + 1, p);
+                mwo.Object.Insert(cm.Position + 1, readthefuckingimage.getObject());
 
-            p.procedurefunction.doprocedurefunction += fucker.readimage;
-            p.Procedure = "載入圖片";
-
-            mwo.Procedure.Insert(cm.Position + 1, p);
+                clk++;
+            }
 
             for (int i = 0; i < mwo.Procedure.Count; i++)
             {
@@ -209,39 +229,41 @@ namespace MainProject
         }
 
 
-        public class Imagefucker
-        {
-            //--------------Image物件，讀寫函式------------------------------
-            protected HObject Image = null;
-            public HObject GetImage { get { return Image; } }
-            public HObject SetImage { set { Image = value; } }
-            //-------------Image物件長寬，讀取函式---------------------------
-            protected HTuple hv_Width = null;
-            public HTuple GetWidth { get { return hv_Width; } }
-            protected HTuple hv_Height = null;
-            public HTuple GetHeight { get { return hv_Height; } }
 
-            public void readimage()
+
+        public class ReadImage
+        {
+            ImageBase imagebase = new ImageBase();
+            Object O = new Object();
+            HTuple window;
+
+            public void readimageNsetwindow(HTuple win)
             {
-                HOperatorSet.ReadImage(out Image, "C:/Users/User/Desktop/images.jpg");
-                HOperatorSet.GetImageSize(Image, out hv_Width, out hv_Height);
-                HOperatorSet.SetSystem("width", hv_Width);
-                HOperatorSet.SetSystem("height", hv_Height);
+                window = win;
+                imagebase.ImagefromFile();
+                O.Image = imagebase.GetImage;
             }
+            public Object getObject()
+            {
+                return O;
+            }
+
+            public void show()
+            {
+                HOperatorSet.SetPart(window, 0, 0, imagebase.GetHeight - 1, imagebase.GetWidth - 1);
+                HOperatorSet.ClearWindow(window);
+                HOperatorSet.DispObj(imagebase.GetImage, window);
+            }
+            
         }
 
+        public Bitmap minipicture(HObject obj) {
 
-
-
-
-
-        public void show()
-        {
-
-            HOperatorSet.SetPart(MainWindow.HalconWindow, 0, 0, fucker.GetHeight - 1, fucker.GetWidth - 1);
-            HOperatorSet.ClearWindow(MainWindow.HalconWindow);
-            HOperatorSet.DispObj(fucker.GetImage, MainWindow.HalconWindow);
+            HObject obj_temp;
+            HOperatorSet.ZoomImageSize(obj,out obj_temp, 100,100, "constant");
+            return HObject_Bitmap.HObject2Bitmap(obj_temp);
         }
+        
 
         private void DO_Click(object sender, EventArgs e)
         {
@@ -254,7 +276,7 @@ namespace MainProject
                 p = (procedure)mwo.Procedure[i];
                 p.procedurefunction.dofunction();
             }
-            show();
+            BindObjectToGrid(MainWindowObjectTable, 0);
         }
     }
 }

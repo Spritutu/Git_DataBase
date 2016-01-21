@@ -67,7 +67,7 @@
     <Compile Include="MainWindowClass\MiniImage.cs" />
     <Compile Include="MainWindowClass\Object.cs" />
     <Compile Include="MainWindowClass\PointBase.cs" />
-    <Compile Include="MainWindowClass\Procedure.cs" />
+    <Compile Include="MainWindowClass\procedure.cs" />
     <Compile Include="MainWindowClass\RegionBase.cs" />
     <Compile Include="MainWindowPartial\Windowctrl.cs">
       <SubType>Form</SubType>
@@ -99,9 +99,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ProcedureWindow\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

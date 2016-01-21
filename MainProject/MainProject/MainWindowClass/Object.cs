@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using HalconDotNet;
 using System.Drawing.Imaging;
 using System.Drawing;
+
 namespace MainProject
 {
     /// <summary>
@@ -18,5 +19,6 @@ namespace MainProject
         public HObject Image { get { return image; }set { image = value; } }
         private Bitmap bitmap;
         public Bitmap Bitmap { get { return bitmap; } set { bitmap = value; } }
+
     }
 }

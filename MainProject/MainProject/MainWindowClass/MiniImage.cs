@@ -7,8 +7,8 @@ using System.Drawing;
 
 namespace MainProject
 {
-    class Images
+    public class MiniImages
     {
-        public Bitmap Im { get; set; }
+        public Bitmap Bitmap { get; set; }
     }
 }

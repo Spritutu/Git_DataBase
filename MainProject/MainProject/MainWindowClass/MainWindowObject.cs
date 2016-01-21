@@ -14,7 +14,7 @@ namespace MainProject
     /// </summary>
     public class MainWindowObject
     {
-        public List<Object> Object = new List<Object>();
-        public List<Procedure> Procedure = new List<Procedure>();
+        public ArrayList Object = new ArrayList();
+        public ArrayList Procedure = new ArrayList();
     }
 }
