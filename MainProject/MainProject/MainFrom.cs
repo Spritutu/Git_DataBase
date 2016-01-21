@@ -172,13 +172,19 @@ namespace MainProject
             if (cm != null)
             {
                 cm.Refresh();
+                ProcedureTable.ClearSelection();
+                ProcedureTable.Rows[cm.Position].Selected = true;
             }
         }
 
         int clk = 0;//載入圖片序數
         private void 載入圖片ToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            //控制項目前cell位置
             CurrencyManager cm = (CurrencyManager)this.BindingContext[ProcedureTable.DataSource];
+            //設定Procedure_Table顯示字串
+            Procedure_Table p = new Procedure_Table();
+            p.ProcedureName = "載入圖片" + clk;
 
             //載入圖片函式
             AccessImage readthefuckingimage = new AccessImage();
@@ -186,12 +192,6 @@ namespace MainProject
             readthefuckingimage.ImagefromFile();
             //設定顯示視窗
             readthefuckingimage.setwindow(MainWindow.HalconWindow);
-
-            //設定Procedure_Table顯示字串
-            Procedure_Table p = new Procedure_Table();
-            p.ProcedureName = "載入圖片" + clk;
-
-
             if (readthefuckingimage.getObject().Image != null)
             {
                 p.procedurefunction.doprocedurefunction += readthefuckingimage.show;
@@ -199,6 +199,7 @@ namespace MainProject
                 Camrea[0].Object.Insert(cm.Position + 1, readthefuckingimage.getObject());
                 clk++;
             }
+
             //重新排序Procedure編號
             for (int i = 0; i < Camrea[0].Procedure.Count; i++)
             {
@@ -209,6 +210,8 @@ namespace MainProject
             if (cm != null)
             {
                 cm.Refresh();
+                ProcedureTable.ClearSelection();
+                ProcedureTable.Rows[cm.Position+1].Selected = true;
             }
         }
         
