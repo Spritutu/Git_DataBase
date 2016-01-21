@@ -22,7 +22,6 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -60,7 +59,6 @@
       <DependentUpon>MainFrom.cs</DependentUpon>
     </Compile>
     <Compile Include="MainWindowClass\Camera.cs" />
-    <Compile Include="MainWindowClass\HObject_Bitmap.cs" />
     <Compile Include="MainWindowClass\ImageBase.cs" />
     <Compile Include="MainWindowClass\MainWindowObject.cs" />
     <Compile Include="MainWindowClass\MaskBase.cs" />

@@ -9,6 +9,6 @@ namespace MainProject
 {
     class Images
     {
-        public Bitmap Im { get; set; }
+        public Image Im { get; set; }
     }
 }
