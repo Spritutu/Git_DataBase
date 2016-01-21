@@ -28,6 +28,10 @@ namespace MainProject
         {
             return O;
         }
+        public ImageBase getimagebase()
+        {
+            return imagebase;
+        }
 
         public void show()
         {

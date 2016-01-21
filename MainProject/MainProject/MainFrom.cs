@@ -18,9 +18,11 @@ namespace MainProject
         #region //介面參數
         //相機陣列
         List<Camera_Table> Camrea = new List<Camera_Table>();
+
         private ImageBase window_image = new ImageBase();
         PointBase mousePosition_pre = new PointBase();
         PointBase mousePosition = new PointBase();
+
         #endregion
 
         #region //介面雜亂功能
@@ -211,7 +213,12 @@ namespace MainProject
             {
                 cm.Refresh();
                 ProcedureTable.ClearSelection();
-                ProcedureTable.Rows[cm.Position+1].Selected = true;
+                if(ProcedureTable.RowCount< cm.Position + 1)
+                    ProcedureTable.Rows[cm.Position+1].Selected = true;
+                else
+                    ProcedureTable.Rows[cm.Position].Selected = true;
+
+
             }
         }
         
@@ -220,6 +227,12 @@ namespace MainProject
             for (int i = 0; i < Camrea[0].Procedure.Count; i++)
             {
                 Camrea[0].Procedure[i].procedurefunction.dofunction();
+                
+            }
+            for (int i = 0; i < Camrea[0].Object.Count; i++)
+            {
+                window_image.SetImage = Camrea[0].Object[i].Image;
+
             }
             BindObjectToGrid(MainWindowObjectTable, 0);
         }
@@ -231,6 +244,7 @@ namespace MainProject
 
             imgbs.SetImage = Camrea[0].Object[cm.Position+1].Image;
             imgbs.ShowImage_autosize(MainWindow.HalconWindow);
+            window_image = imgbs;
 
         }
 
