@@ -32,12 +32,15 @@ namespace MainProject
     {
         private double num;
         private string procedureName;
+        private bool setornot = true;
         public Procedure_Table() { }
         public Procedure_Table(int i) { num = i; }
         public Procedure_Table(string s) { procedureName = s; }
         public Procedure_Table(int i, string s) { num = i; procedureName = s; }
         public double Num { get { return num; } set { num = value; } }
         public string ProcedureName { get { return procedureName; } set { procedureName = value; } }
+        public bool Setornot { get { return setornot; } set { setornot = value; } }
         public Procedurefunction procedurefunction = new Procedurefunction();
+        
     }
 }

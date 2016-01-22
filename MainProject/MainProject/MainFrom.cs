@@ -24,7 +24,6 @@ namespace MainProject
         PointBase mousePosition = new PointBase();
 
         #endregion
-
         #region //介面雜亂功能
         public MainFrom()
         {
@@ -47,6 +46,7 @@ namespace MainProject
         }
 
         #endregion
+
         private void Form1_Load(object sender, EventArgs e)
         {
             CreateCamrea(1);
@@ -187,6 +187,7 @@ namespace MainProject
             //設定Procedure_Table顯示字串
             Procedure_Table p = new Procedure_Table();
             p.ProcedureName = "載入圖片" + clk;
+            p.Setornot = false;
 
             //載入圖片函式
             AccessImage readthefuckingimage = new AccessImage();
@@ -201,25 +202,36 @@ namespace MainProject
                 Camrea[0].Object.Insert(cm.Position + 1, readthefuckingimage.getObject());
                 clk++;
             }
-
             //重新排序Procedure編號
             for (int i = 0; i < Camrea[0].Procedure.Count; i++)
             {
                 Camrea[0].Procedure[i].Num = i;
             }
-
+            
             //更新表格
             if (cm != null)
             {
                 cm.Refresh();
                 ProcedureTable.ClearSelection();
-                if(ProcedureTable.RowCount< cm.Position + 1)
-                    ProcedureTable.Rows[cm.Position+1].Selected = true;
+
+                if (ProcedureTable.RowCount < cm.Position + 1)
+                {
+                    ProcedureTable.Rows[cm.Position + 1].Selected = true;
+                }
                 else
+                {
                     ProcedureTable.Rows[cm.Position].Selected = true;
-
-
+                }
             }
+
+            for (int i = 0; i < Camrea[0].Procedure.Count; i++)
+            {
+                if (Camrea[0].Procedure[i].Setornot == false)
+                {
+                    ProcedureTable.Rows[i].DefaultCellStyle.BackColor = System.Drawing.Color.Red;
+                }
+            }
+
         }
         
         private void DO_Click(object sender, EventArgs e)
@@ -227,12 +239,10 @@ namespace MainProject
             for (int i = 0; i < Camrea[0].Procedure.Count; i++)
             {
                 Camrea[0].Procedure[i].procedurefunction.dofunction();
-                
             }
             for (int i = 0; i < Camrea[0].Object.Count; i++)
             {
                 window_image.SetImage = Camrea[0].Object[i].Image;
-
             }
             BindObjectToGrid(MainWindowObjectTable, 0);
         }
@@ -245,7 +255,6 @@ namespace MainProject
             imgbs.SetImage = Camrea[0].Object[cm.Position+1].Image;
             imgbs.ShowImage_autosize(MainWindow.HalconWindow);
             window_image = imgbs;
-
         }
 
         private void ProcedureTable_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
