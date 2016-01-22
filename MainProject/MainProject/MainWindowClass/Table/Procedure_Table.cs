@@ -20,7 +20,6 @@ namespace MainProject
             if (handler != null)
             {
                 handler();
-
             }
         }
     }

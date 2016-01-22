@@ -24,6 +24,7 @@ namespace MainProject
         PointBase mousePosition = new PointBase();
 
         #endregion
+
         #region //介面雜亂功能
         public MainFrom()
         {
@@ -44,7 +45,6 @@ namespace MainProject
             pixelvalue.Text = "pixelvalue =" + window_image.PiexlGrayval(mousePosition).ToString();
 
         }
-
         #endregion
 
         private void Form1_Load(object sender, EventArgs e)
@@ -252,8 +252,6 @@ namespace MainProject
 
         private void ProcedureTable_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            
-            
             CurrencyManager cm = (CurrencyManager)this.BindingContext[ProcedureTable.DataSource];
             Procedure_Table p = new Procedure_Table();
 
@@ -285,13 +283,16 @@ namespace MainProject
                             ProcedureTable.Rows[i].DefaultCellStyle.BackColor = System.Drawing.Color.White;
                         }
                     }
-                    break;
-
-
+                break;
             }
+
+
         }
 
+        private void 建立ModelToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CurrencyManager cm = (CurrencyManager)this.BindingContext[ProcedureTable.DataSource];
 
-        
+        }
     }
 }
