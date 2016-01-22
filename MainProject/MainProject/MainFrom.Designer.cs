@@ -67,9 +67,11 @@
             // 
             // ProcedureTable
             // 
+            this.ProcedureTable.AllowUserToResizeColumns = false;
             this.ProcedureTable.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.ProcedureTable.Location = new System.Drawing.Point(1021, 41);
             this.ProcedureTable.Name = "ProcedureTable";
+            this.ProcedureTable.ReadOnly = true;
             this.ProcedureTable.RowTemplate.Height = 24;
             this.ProcedureTable.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.ProcedureTable.Size = new System.Drawing.Size(386, 669);
@@ -80,9 +82,12 @@
             // 
             // MainWindowObjectTable
             // 
+            this.MainWindowObjectTable.AllowUserToResizeColumns = false;
+            this.MainWindowObjectTable.AllowUserToResizeRows = false;
             this.MainWindowObjectTable.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.MainWindowObjectTable.Location = new System.Drawing.Point(819, 41);
             this.MainWindowObjectTable.Name = "MainWindowObjectTable";
+            this.MainWindowObjectTable.ReadOnly = true;
             this.MainWindowObjectTable.RowTemplate.Height = 24;
             this.MainWindowObjectTable.Size = new System.Drawing.Size(196, 669);
             this.MainWindowObjectTable.TabIndex = 2;

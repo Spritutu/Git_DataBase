@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Collections;
 using HalconDotNet;//測試用 不應該存在於使用者介面
-
+enum procedure_M { readimage = 1 };
 
 namespace MainProject
 {
@@ -186,22 +186,15 @@ namespace MainProject
             CurrencyManager cm = (CurrencyManager)this.BindingContext[ProcedureTable.DataSource];
             //設定Procedure_Table顯示字串
             Procedure_Table p = new Procedure_Table();
+            Object_Table O = new Object_Table();
             p.ProcedureName = "載入圖片" + clk;
             p.Setornot = false;
+            p.ProcedureMethod = (int)procedure_M.readimage;
 
-            //載入圖片函式
-            AccessImage readthefuckingimage = new AccessImage();
-            //由檔案載入圖片
-            readthefuckingimage.ImagefromFile();
-            //設定顯示視窗
-            readthefuckingimage.setwindow(MainWindow.HalconWindow);
-            if (readthefuckingimage.getObject().Image != null)
-            {
-                p.procedurefunction.doprocedurefunction += readthefuckingimage.show;
-                Camrea[0].Procedure.Insert(cm.Position + 1, p);
-                Camrea[0].Object.Insert(cm.Position + 1, readthefuckingimage.getObject());
-                clk++;
-            }
+            Camrea[0].Procedure.Insert(cm.Position + 1, p);
+            Camrea[0].Object.Insert(cm.Position + 1, O);
+            clk++;
+
             //重新排序Procedure編號
             for (int i = 0; i < Camrea[0].Procedure.Count; i++)
             {
@@ -259,7 +252,46 @@ namespace MainProject
 
         private void ProcedureTable_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
+            
+            
+            CurrencyManager cm = (CurrencyManager)this.BindingContext[ProcedureTable.DataSource];
+            Procedure_Table p = new Procedure_Table();
 
+            switch (Camrea[0].Procedure[cm.Position].ProcedureMethod)
+            {
+                case (int)procedure_M.readimage:
+                    //載入圖片函式
+                    AccessImage readthefuckingimage = new AccessImage();
+                    //由檔案載入圖片
+                    readthefuckingimage.ImagefromFile();
+                    //設定顯示視窗
+                    readthefuckingimage.setwindow(MainWindow.HalconWindow);
+
+                    if (readthefuckingimage.getObject().Image != null)
+                    {
+                        p.procedurefunction.doprocedurefunction += readthefuckingimage.show;
+                        Camrea[0].Object[cm.Position] = readthefuckingimage.getObject();
+                        Camrea[0].Procedure[cm.Position].Setornot = true;
+                    }
+
+                    for (int i = 0; i < Camrea[0].Procedure.Count; i++)
+                    {
+                        if (Camrea[0].Procedure[i].Setornot == false)
+                        {
+                            ProcedureTable.Rows[i].DefaultCellStyle.BackColor = System.Drawing.Color.Red;
+                        }
+                        else if (Camrea[0].Procedure[i].Setornot == true)
+                        {
+                            ProcedureTable.Rows[i].DefaultCellStyle.BackColor = System.Drawing.Color.White;
+                        }
+                    }
+                    break;
+
+
+            }
         }
+
+
+        
     }
 }
