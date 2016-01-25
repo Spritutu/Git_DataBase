@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
+using HalconDotNet;
 
 namespace MainProject
 {
+
     public delegate void Procedurefunctionhandler();
     public class Procedurefunction
     {
@@ -23,6 +26,7 @@ namespace MainProject
             }
         }
     }
+
     /// <summary>
     /// 主視窗的物件中的procedure
     /// 目前包括：num、procedureName
@@ -33,15 +37,13 @@ namespace MainProject
         private string procedureName;
         private bool setornot = true;
         private int proceduremethod ;
-        public Procedure_Table() { }
-        public Procedure_Table(int i) { num = i; }
-        public Procedure_Table(string s) { procedureName = s; }
-        public Procedure_Table(int i, string s) { num = i; procedureName = s; }
         public double Num { get { return num; } set { num = value; } }
         public string ProcedureName { get { return procedureName; } set { procedureName = value; } }
         public bool Setornot { get { return setornot; } set { setornot = value; } }
         public int ProcedureMethod { get { return proceduremethod; } set { proceduremethod = value; } }
+
         public Procedurefunction procedurefunction = new Procedurefunction();
-        
+        public Form SettingForm ;
+
     }
 }

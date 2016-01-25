@@ -9,7 +9,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Collections;
 using HalconDotNet;//測試用 不應該存在於使用者介面
-enum procedure_M { readimage = 1 };
+
+enum procedure_M { readimage = 1 ,test};
 
 namespace MainProject
 {
@@ -229,25 +230,47 @@ namespace MainProject
         
         private void DO_Click(object sender, EventArgs e)
         {
+            bool whethersettedornot =true;
             for (int i = 0; i < Camrea[0].Procedure.Count; i++)
             {
-                Camrea[0].Procedure[i].procedurefunction.dofunction();
+                if (Camrea[0].Procedure[i].Setornot == false) {
+                    whethersettedornot = false;
+                }
             }
-            for (int i = 0; i < Camrea[0].Object.Count; i++)
+
+            if (whethersettedornot == true)
             {
-                window_image.SetImage = Camrea[0].Object[i].Image;
+                for (int i = 0; i < Camrea[0].Procedure.Count; i++)
+                {
+                    Camrea[0].Procedure[i].procedurefunction.dofunction();
+                }
+                BindObjectToGrid(MainWindowObjectTable, 0);
             }
-            BindObjectToGrid(MainWindowObjectTable, 0);
+            else
+                MessageBox.Show("還有參數沒有設定喔");
         }
 
         private void MainWindowObjectTable_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             CurrencyManager cm = (CurrencyManager)this.BindingContext[MainWindowObjectTable.DataSource];
             ImageBase imgbs = new ImageBase();
+            List<Object_Table> O_temp = new List<Object_Table>();
 
-            imgbs.SetImage = Camrea[0].Object[cm.Position+1].Image;
+            for (int i = 0; i < Camrea[0].Object.Count; i++)
+            {
+                if (Camrea[0].Object[i].Image != null)
+                {
+                    O_temp.Add(Camrea[0].Object[i]);
+                }
+            }
+
+
+            imgbs.SetImage = O_temp[cm.Position].Image;
+
+
             imgbs.ShowImage_autosize(MainWindow.HalconWindow);
             window_image = imgbs;
+
         }
 
         private void ProcedureTable_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
@@ -271,19 +294,23 @@ namespace MainProject
                         Camrea[0].Object[cm.Position] = readthefuckingimage.getObject();
                         Camrea[0].Procedure[cm.Position].Setornot = true;
                     }
-
-                    for (int i = 0; i < Camrea[0].Procedure.Count; i++)
-                    {
-                        if (Camrea[0].Procedure[i].Setornot == false)
-                        {
-                            ProcedureTable.Rows[i].DefaultCellStyle.BackColor = System.Drawing.Color.Red;
-                        }
-                        else if (Camrea[0].Procedure[i].Setornot == true)
-                        {
-                            ProcedureTable.Rows[i].DefaultCellStyle.BackColor = System.Drawing.Color.White;
-                        }
-                    }
-                break;
+                    break;
+                case (int)procedure_M.test:
+                    Camrea[0].Procedure[cm.Position].SettingForm.ShowDialog();
+                    Camrea[0].Procedure[cm.Position].Setornot = true;
+                    break;
+                    
+            }
+            for (int i = 0; i < Camrea[0].Procedure.Count; i++)
+            {
+                if (Camrea[0].Procedure[i].Setornot == false)
+                {
+                    ProcedureTable.Rows[i].DefaultCellStyle.BackColor = System.Drawing.Color.Red;
+                }
+                else if (Camrea[0].Procedure[i].Setornot == true)
+                {
+                    ProcedureTable.Rows[i].DefaultCellStyle.BackColor = System.Drawing.Color.White;
+                }
             }
 
 
@@ -291,7 +318,51 @@ namespace MainProject
 
         private void 建立ModelToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            //控制項目前cell位置
             CurrencyManager cm = (CurrencyManager)this.BindingContext[ProcedureTable.DataSource];
+            //設定Procedure_Table顯示字串
+            Procedure_Table p = new Procedure_Table();
+            Object_Table O = new Object_Table();
+
+            p.ProcedureName = "creatMatchModel";
+            p.Setornot = false;
+            p.ProcedureMethod = (int)procedure_M.test;
+            
+            Camrea[0].Procedure.Insert(cm.Position + 1, p);
+            Camrea[0].Object.Insert(cm.Position + 1, O);
+            Measure M = new Measure();
+            M.MeasureImage = Camrea[0].Object[1].Image;
+            p.SettingForm = M;
+
+            //重新排序Procedure編號
+            for (int i = 0; i < Camrea[0].Procedure.Count; i++)
+            {
+                Camrea[0].Procedure[i].Num = i;
+            }
+
+            //更新表格
+            if (cm != null)
+            {
+                cm.Refresh();
+                ProcedureTable.ClearSelection();
+
+                if (ProcedureTable.RowCount < cm.Position + 1)
+                {
+                    ProcedureTable.Rows[cm.Position + 1].Selected = true;
+                }
+                else
+                {
+                    ProcedureTable.Rows[cm.Position].Selected = true;
+                }
+            }
+
+            for (int i = 0; i < Camrea[0].Procedure.Count; i++)
+            {
+                if (Camrea[0].Procedure[i].Setornot == false)
+                {
+                    ProcedureTable.Rows[i].DefaultCellStyle.BackColor = System.Drawing.Color.Red;
+                }
+            }
 
         }
     }

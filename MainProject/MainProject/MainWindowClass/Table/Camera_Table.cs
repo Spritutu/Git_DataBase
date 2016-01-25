@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Collections;
 using HalconDotNet;
+using System.Windows.Forms;
 
 namespace MainProject
 {
@@ -16,5 +17,6 @@ namespace MainProject
     {
         public List<Object_Table> Object = new List<Object_Table>();
         public List<Procedure_Table> Procedure = new List<Procedure_Table>();
+
     }
 }

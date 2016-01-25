@@ -17,6 +17,5 @@ namespace MainProject
     {
         private HObject image ;
         public HObject Image { get { return image; }set { image = value; } }
-        
     }
 }
