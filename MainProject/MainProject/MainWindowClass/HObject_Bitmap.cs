@@ -59,6 +59,7 @@ namespace MainProject
 
         public static HObject Bitmap2HObject(Bitmap myBitmap)
         {
+
             int iwidth = myBitmap.Width;
             int iHeight = myBitmap.Height;
 
@@ -73,6 +74,7 @@ namespace MainProject
             HOperatorSet.GenImageInterleaved(out img, bitmapData.Scan0, "bgrx", myBitmap_New.Width, myBitmap_New.Height, -1, "byte", 0, 0, 0, 0, -1, 0);
             myBitmap_New.UnlockBits(bitmapData);
             return img;
+
         }
     }
 }

@@ -17,7 +17,7 @@ namespace MainProject
     {
         #region //介面參數
         //相機陣列
-        List<Camera_Table> Camrea = new List<Camera_Table>();
+         List<Camera_Table> Camrea = new List<Camera_Table>();
 
         private ImageBase window_image = new ImageBase();
         PointBase mousePosition_pre = new PointBase();
