@@ -53,22 +53,21 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DrawlinetoRectangle2.cs" />
-    <Compile Include="GenMesure_point.cs" />
+    <Compile Include="MeasureForm\DrawlinetoRectangle2.cs" />
+    <Compile Include="MeasureForm\GenMesure_point.cs" />
     <Compile Include="MainFrom.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="MainFrom.Designer.cs">
       <DependentUpon>MainFrom.cs</DependentUpon>
     </Compile>
-    <Compile Include="Measure.cs">
+    <Compile Include="MeasureForm\Measure.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Measure.Designer.cs">
+    <Compile Include="MeasureForm\Measure.Designer.cs">
       <DependentUpon>Measure.cs</DependentUpon>
     </Compile>
-    <Compile Include="Procedure\AccessImage.cs" />
-    <Compile Include="setlist.cs" />
+    <Compile Include="ProcedureForm\AccessImage.cs" />
     <Compile Include="ST_Base\Camera.cs" />
     <Compile Include="MainWindowClass\HObject_Bitmap.cs" />
     <Compile Include="ST_Base\ImageBase.cs" />
@@ -84,7 +83,7 @@
     <EmbeddedResource Include="MainFrom.resx">
       <DependentUpon>MainFrom.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Measure.resx">
+    <EmbeddedResource Include="MeasureForm\Measure.resx">
       <DependentUpon>Measure.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">

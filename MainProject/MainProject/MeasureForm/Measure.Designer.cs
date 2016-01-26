@@ -43,12 +43,16 @@
             this.reset = new System.Windows.Forms.Button();
             this.drawline = new System.Windows.Forms.Button();
             this.measure_window = new HalconDotNet.HWindowControl();
+            this.MainWindowStatusStrip = new System.Windows.Forms.StatusStrip();
+            this.MouseXY = new System.Windows.Forms.ToolStripStatusLabel();
+            this.pixelvalue = new System.Windows.Forms.ToolStripStatusLabel();
             ((System.ComponentModel.ISupportInitialize)(this.ROIWeight)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.sigma)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.MaxEdge)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ROIWeight_trackBar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Sigma_trackBar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.MaxEage_trackBar)).BeginInit();
+            this.MainWindowStatusStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // OK
@@ -223,12 +227,37 @@
             this.measure_window.Size = new System.Drawing.Size(725, 607);
             this.measure_window.TabIndex = 31;
             this.measure_window.WindowSize = new System.Drawing.Size(725, 607);
+            this.measure_window.HMouseMove += new HalconDotNet.HMouseEventHandler(this.measure_window_HMouseMove);
+            // 
+            // MainWindowStatusStrip
+            // 
+            this.MainWindowStatusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.MouseXY,
+            this.pixelvalue});
+            this.MainWindowStatusStrip.Location = new System.Drawing.Point(0, 659);
+            this.MainWindowStatusStrip.Name = "MainWindowStatusStrip";
+            this.MainWindowStatusStrip.Size = new System.Drawing.Size(1268, 22);
+            this.MainWindowStatusStrip.TabIndex = 46;
+            this.MainWindowStatusStrip.Text = "MainWindowStatusStrip";
+            // 
+            // MouseXY
+            // 
+            this.MouseXY.Name = "MouseXY";
+            this.MouseXY.Size = new System.Drawing.Size(98, 17);
+            this.MouseXY.Text = "Mouse(null,null)";
+            // 
+            // pixelvalue
+            // 
+            this.pixelvalue.Name = "pixelvalue";
+            this.pixelvalue.Size = new System.Drawing.Size(100, 17);
+            this.pixelvalue.Text = "pixelvalue = null";
             // 
             // Measure
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1268, 655);
+            this.ClientSize = new System.Drawing.Size(1268, 681);
+            this.Controls.Add(this.MainWindowStatusStrip);
             this.Controls.Add(this.OK);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.listView);
@@ -254,6 +283,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.ROIWeight_trackBar)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Sigma_trackBar)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.MaxEage_trackBar)).EndInit();
+            this.MainWindowStatusStrip.ResumeLayout(false);
+            this.MainWindowStatusStrip.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -276,5 +307,8 @@
         private System.Windows.Forms.Button reset;
         private System.Windows.Forms.Button drawline;
         private HalconDotNet.HWindowControl measure_window;
+        private System.Windows.Forms.StatusStrip MainWindowStatusStrip;
+        private System.Windows.Forms.ToolStripStatusLabel MouseXY;
+        private System.Windows.Forms.ToolStripStatusLabel pixelvalue;
     }
 }

@@ -78,6 +78,8 @@ namespace MainProject
             HOperatorSet.DispObj(ho_line, hv_ExpDefaultWinHandle);                                      //顯示線段
         }
 
+       
+
         //--------------------輸出-----------------------------------------------------------------------
         public HTuple get_rectangle_Row { set { hv_Rectangle_Row = value; } get { return hv_Rectangle_Row; } }
         public HTuple get_rectangle_Column { set { hv_Rectangle_Column = value; } get { return hv_Rectangle_Column; } }

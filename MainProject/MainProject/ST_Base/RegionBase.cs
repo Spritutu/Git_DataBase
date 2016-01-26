@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using HalconDotNet;
 
-namespace ST_Base
+namespace MainProject
 {
     public class RegionBase
     {
@@ -62,10 +62,10 @@ namespace ST_Base
             HOperatorSet.GenEmptyObj(out ROI);
             SetLine(hwindows, "yellow", "margin", 2);
 
-            HOperatorSet.DrawLine(hwindows, out line_Row1, out line_Column1,        //畫線
+            HOperatorSet.DrawLine(hwindows, out line_Row1, out line_Column1,                //畫線
                 out line_Row2, out line_Column2);
 
-            Row = (line_Row1 + line_Row2) / 2;                                        //線段轉換成矩形(Row、colum)
+            Row = (line_Row1 + line_Row2) / 2;                                              //線段轉換成矩形(Row、colum)
             Column = (line_Column1 + line_Column2) / 2;
 
             HOperatorSet.AngleLx(line_Row1, line_Column1, line_Row2, line_Column2,          //線段與垂直線的夾角為何  此角度也是矩形參數理的角度
@@ -74,13 +74,15 @@ namespace ST_Base
             HOperatorSet.DistancePp(line_Row1, line_Column1, line_Row2, line_Column2,       //兩點之間的距離運算
                 out line_Distance);
 
-            Length1Rectangle = line_Distance / 2;                                                //線段轉換成矩形(length1)
+            Length1Rectangle = line_Distance / 2;                                           //線段轉換成矩形(length1)
 
-            HOperatorSet.GenRectangle2(out ROI, Row, Column,         //產生一個矩形ROI區域(ho_Rectangle)
+            HOperatorSet.GenRectangle2(out ROI, Row, Column,                                //產生一個矩形ROI區域(ho_Rectangle)
                 Phi, Length1Rectangle, 0);
 
             HOperatorSet.DispObj(ROI, hwindows);
         }
+
+
         public void DrawROIRectangle(HTuple hwindows)//方形
         {
             emptyallparameter();
@@ -224,6 +226,7 @@ namespace ST_Base
                 ROI = null;
             }
         }
+
         public void showROI(HTuple hwindows)
         {
             if (ROI != null)

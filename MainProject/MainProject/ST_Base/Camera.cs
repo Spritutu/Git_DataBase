@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using HalconDotNet;
 using System.Windows.Forms;
-using ST_Base;
 
 namespace MainProject
 {
