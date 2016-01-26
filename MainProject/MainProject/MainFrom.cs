@@ -375,10 +375,10 @@ namespace MainProject
             Procedure_Table p = new Procedure_Table();
             Object_Table O = new Object_Table();
 
-            p.ProcedureName = "CreateMatchingModel";
+            p.ProcedureName = "Measure";
             p.Setornot = false;
-            p.ProcedureMethod = (int)procedure_M.CreateMatchingModel;
-            p.SettingForm = new CreateMatchingModel();
+            p.ProcedureMethod = (int)procedure_M.Measure;
+            p.SettingForm = new Measure();
 
             Camera[0].Procedure.Insert(cm.Position + 1, p);
             Camera[0].Object.Insert(cm.Position + 1, O);
@@ -434,7 +434,7 @@ namespace MainProject
             Procedure_Table p = new Procedure_Table();
             Object_Table O = new Object_Table();
 
-            p.ProcedureName = "creatMatchModel";
+            p.ProcedureName = "CreateMatchingModel";
             p.Setornot = false;
             p.ProcedureMethod = (int)procedure_M.CreateMatchingModel;
             p.SettingForm = new CreateMatchingModel();
