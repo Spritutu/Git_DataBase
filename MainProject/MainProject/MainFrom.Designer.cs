@@ -47,6 +47,7 @@
             this.ObjectXY = new System.Windows.Forms.Label();
             this.ProcedureXY = new System.Windows.Forms.Label();
             this.DO = new System.Windows.Forms.Button();
+            this.建立匹配ModelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.ProcedureTable)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.MainWindowObjectTable)).BeginInit();
             this.PrcedureMenuStrip.SuspendLayout();
@@ -108,7 +109,8 @@
             // 
             this.插入程序ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.載入圖片ToolStripMenuItem,
-            this.一維測量ToolStripMenuItem});
+            this.一維測量ToolStripMenuItem,
+            this.建立匹配ModelToolStripMenuItem});
             this.插入程序ToolStripMenuItem.Name = "插入程序ToolStripMenuItem";
             this.插入程序ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.插入程序ToolStripMenuItem.Text = "插入程序";
@@ -116,14 +118,14 @@
             // 載入圖片ToolStripMenuItem
             // 
             this.載入圖片ToolStripMenuItem.Name = "載入圖片ToolStripMenuItem";
-            this.載入圖片ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.載入圖片ToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
             this.載入圖片ToolStripMenuItem.Text = "載入圖片";
             this.載入圖片ToolStripMenuItem.Click += new System.EventHandler(this.載入圖片ToolStripMenuItem_Click);
             // 
             // 一維測量ToolStripMenuItem
             // 
             this.一維測量ToolStripMenuItem.Name = "一維測量ToolStripMenuItem";
-            this.一維測量ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.一維測量ToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
             this.一維測量ToolStripMenuItem.Text = "一維測量";
             this.一維測量ToolStripMenuItem.Click += new System.EventHandler(this.一維測量ToolStripMenuItem_Click);
             // 
@@ -216,6 +218,13 @@
             this.DO.UseVisualStyleBackColor = true;
             this.DO.Click += new System.EventHandler(this.DO_Click);
             // 
+            // 建立匹配ModelToolStripMenuItem
+            // 
+            this.建立匹配ModelToolStripMenuItem.Name = "建立匹配ModelToolStripMenuItem";
+            this.建立匹配ModelToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
+            this.建立匹配ModelToolStripMenuItem.Text = "建立匹配Model";
+            this.建立匹配ModelToolStripMenuItem.Click += new System.EventHandler(this.建立匹配ModelToolStripMenuItem_Click);
+            // 
             // MainFrom
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -264,6 +273,7 @@
         private System.Windows.Forms.ToolStripMenuItem 載入圖片ToolStripMenuItem;
         private System.Windows.Forms.Button DO;
         private System.Windows.Forms.ToolStripMenuItem 一維測量ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 建立匹配ModelToolStripMenuItem;
     }
 }
 

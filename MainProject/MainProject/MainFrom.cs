@@ -10,7 +10,7 @@ using System.Windows.Forms;
 using System.Collections;
 using HalconDotNet;//測試用 不應該存在於使用者介面
 
-enum procedure_M { readimage = 1 ,test};
+enum procedure_M { readimage = 1 , Measure , CreateMatchingModel };
 
 namespace MainProject
 {
@@ -22,8 +22,9 @@ namespace MainProject
         //主視窗圖片(ImageBase)
         private ImageBase window_image = new ImageBase();
         //視窗滑鼠位置
-        private PointBase mousePosition = new PointBase();
-        
+        PointBase mousePosition = new PointBase();
+
+
         public MainFrom()
         {
             InitializeComponent();
@@ -42,6 +43,7 @@ namespace MainProject
         //滑鼠位置PiexlGrayval
         private void MainWindow_HMouseMove(object sender, HMouseEventArgs e)
         {
+             
             //取得滑鼠在視窗上的位置
             mousePosition.GetMposition(MainWindow.HalconWindow);
             //顯示位置
@@ -329,7 +331,7 @@ namespace MainProject
                     }
                     break;
 
-                case (int)procedure_M.test:
+                case (int)procedure_M.Measure:
 
                     Measure M_temp = (Measure)Camera[0].Procedure[cm.Position].SettingForm;
                     if (cm.Position != 0)
@@ -342,8 +344,21 @@ namespace MainProject
                     Camera[0].Procedure[cm.Position].Setornot = M_temp.setornot;
 
                     break;
+                case (int)procedure_M.CreateMatchingModel:
 
-                    
+                    CreateMatchingModel C_temp = (CreateMatchingModel)Camera[0].Procedure[cm.Position].SettingForm;
+                    //if (cm.Position != 0)
+                    //{
+                    //    C_temp.MeasureImage = Camera[0].Object[cm.Position - 1].Image;
+                    //}
+                    C_temp.ShowDialog();
+
+                    C_temp = (CreateMatchingModel)Camera[0].Procedure[cm.Position].SettingForm;
+                    Camera[0].Procedure[cm.Position].Setornot = C_temp.setornot;
+
+                    break;
+
+
             }
             setProcedurecolor(0);
 
@@ -359,12 +374,12 @@ namespace MainProject
             //設定Procedure_Table顯示字串
             Procedure_Table p = new Procedure_Table();
             Object_Table O = new Object_Table();
-            Measure M = new Measure();
 
-            p.ProcedureName = "creatMatchModel";
+            p.ProcedureName = "CreateMatchingModel";
             p.Setornot = false;
-            p.ProcedureMethod = (int)procedure_M.test;
-            p.SettingForm = new Measure();
+            p.ProcedureMethod = (int)procedure_M.CreateMatchingModel;
+            p.SettingForm = new CreateMatchingModel();
+
             Camera[0].Procedure.Insert(cm.Position + 1, p);
             Camera[0].Object.Insert(cm.Position + 1, O);
 
@@ -409,6 +424,44 @@ namespace MainProject
                 }
             }
 
+        }
+
+        private void 建立匹配ModelToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //控制項目前cell位置
+            CurrencyManager cm = (CurrencyManager)this.BindingContext[ProcedureTable.DataSource];
+            //設定Procedure_Table顯示字串
+            Procedure_Table p = new Procedure_Table();
+            Object_Table O = new Object_Table();
+
+            p.ProcedureName = "creatMatchModel";
+            p.Setornot = false;
+            p.ProcedureMethod = (int)procedure_M.CreateMatchingModel;
+            p.SettingForm = new CreateMatchingModel();
+
+            Camera[0].Procedure.Insert(cm.Position + 1, p);
+            Camera[0].Object.Insert(cm.Position + 1, O);
+
+            //重新排序Procedure編號
+            remarkProcedure(0);
+
+            //更新表格
+            if (cm != null)
+            {
+                cm.Refresh();
+                ProcedureTable.ClearSelection();
+
+                if (ProcedureTable.RowCount < cm.Position + 1)
+                {
+                    ProcedureTable.Rows[cm.Position + 1].Selected = true;
+                }
+                else
+                {
+                    ProcedureTable.Rows[cm.Position].Selected = true;
+                }
+            }
+
+            setProcedurecolor(0);
         }
     }
 }

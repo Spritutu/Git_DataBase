@@ -53,6 +53,12 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CreateMatchingModel\CreateMatchingModel.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CreateMatchingModel\CreateMatchingModel.Designer.cs">
+      <DependentUpon>CreateMatchingModel.cs</DependentUpon>
+    </Compile>
     <Compile Include="MeasureForm\DrawlinetoRectangle2.cs" />
     <Compile Include="MeasureForm\GenMesure_point.cs" />
     <Compile Include="MainFrom.cs">
@@ -80,6 +86,9 @@
     <Compile Include="ST_Base\RegionBase.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="CreateMatchingModel\CreateMatchingModel.resx">
+      <DependentUpon>CreateMatchingModel.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MainFrom.resx">
       <DependentUpon>MainFrom.cs</DependentUpon>
     </EmbeddedResource>
