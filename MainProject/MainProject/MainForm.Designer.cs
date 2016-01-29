@@ -1,6 +1,6 @@
 ﻿namespace MainProject
 {
-    partial class MainFrom
+    partial class MainForm
     {
         /// <summary>
         /// 設計工具所需的變數。
@@ -29,17 +29,15 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.MainWindow = new HalconDotNet.HWindowControl();
+            ST_Base.ImageBase imageBase2 = new ST_Base.ImageBase();
             this.ProcedureTable = new System.Windows.Forms.DataGridView();
             this.MainWindowObjectTable = new System.Windows.Forms.DataGridView();
             this.PrcedureMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.插入程序ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.載入圖片ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.一維測量ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.建立匹配ModelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.刪除程序ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.MainWindowStatusStrip = new System.Windows.Forms.StatusStrip();
-            this.MouseXY = new System.Windows.Forms.ToolStripStatusLabel();
-            this.pixelvalue = new System.Windows.Forms.ToolStripStatusLabel();
             this.Object = new System.Windows.Forms.Label();
             this.Procedure = new System.Windows.Forms.Label();
             this.ObjectMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -47,31 +45,25 @@
             this.ObjectXY = new System.Windows.Forms.Label();
             this.ProcedureXY = new System.Windows.Forms.Label();
             this.DO = new System.Windows.Forms.Button();
-            this.建立匹配ModelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolWindow = new ToolWindow.ToolWindow();
+            this.mainTabControl = new System.Windows.Forms.TabControl();
+            this.Camera_1 = new System.Windows.Forms.TabPage();
+            this.Camera_2 = new System.Windows.Forms.TabPage();
+            this.Camera_3 = new System.Windows.Forms.TabPage();
+            this.Camera_4 = new System.Windows.Forms.TabPage();
             ((System.ComponentModel.ISupportInitialize)(this.ProcedureTable)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.MainWindowObjectTable)).BeginInit();
             this.PrcedureMenuStrip.SuspendLayout();
-            this.MainWindowStatusStrip.SuspendLayout();
             this.ObjectMenuStrip.SuspendLayout();
+            this.mainTabControl.SuspendLayout();
+            this.Camera_1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // MainWindow
-            // 
-            this.MainWindow.BackColor = System.Drawing.Color.Black;
-            this.MainWindow.BorderColor = System.Drawing.Color.Black;
-            this.MainWindow.ImagePart = new System.Drawing.Rectangle(0, 0, 640, 480);
-            this.MainWindow.Location = new System.Drawing.Point(12, 41);
-            this.MainWindow.Name = "MainWindow";
-            this.MainWindow.Size = new System.Drawing.Size(801, 669);
-            this.MainWindow.TabIndex = 0;
-            this.MainWindow.WindowSize = new System.Drawing.Size(801, 669);
-            this.MainWindow.HMouseMove += new HalconDotNet.HMouseEventHandler(this.MainWindow_HMouseMove);
             // 
             // ProcedureTable
             // 
             this.ProcedureTable.AllowUserToResizeColumns = false;
             this.ProcedureTable.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.ProcedureTable.Location = new System.Drawing.Point(976, 41);
+            this.ProcedureTable.Location = new System.Drawing.Point(968, 25);
             this.ProcedureTable.Name = "ProcedureTable";
             this.ProcedureTable.ReadOnly = true;
             this.ProcedureTable.RowTemplate.Height = 24;
@@ -87,7 +79,7 @@
             this.MainWindowObjectTable.AllowUserToResizeColumns = false;
             this.MainWindowObjectTable.AllowUserToResizeRows = false;
             this.MainWindowObjectTable.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.MainWindowObjectTable.Location = new System.Drawing.Point(819, 41);
+            this.MainWindowObjectTable.Location = new System.Drawing.Point(813, 25);
             this.MainWindowObjectTable.Name = "MainWindowObjectTable";
             this.MainWindowObjectTable.ReadOnly = true;
             this.MainWindowObjectTable.RowTemplate.Height = 24;
@@ -103,7 +95,7 @@
             this.插入程序ToolStripMenuItem,
             this.刪除程序ToolStripMenuItem});
             this.PrcedureMenuStrip.Name = "PrcedureStrip";
-            this.PrcedureMenuStrip.Size = new System.Drawing.Size(153, 70);
+            this.PrcedureMenuStrip.Size = new System.Drawing.Size(125, 48);
             // 
             // 插入程序ToolStripMenuItem
             // 
@@ -112,7 +104,7 @@
             this.一維測量ToolStripMenuItem,
             this.建立匹配ModelToolStripMenuItem});
             this.插入程序ToolStripMenuItem.Name = "插入程序ToolStripMenuItem";
-            this.插入程序ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.插入程序ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
             this.插入程序ToolStripMenuItem.Text = "插入程序";
             // 
             // 載入圖片ToolStripMenuItem
@@ -129,40 +121,24 @@
             this.一維測量ToolStripMenuItem.Text = "一維測量";
             this.一維測量ToolStripMenuItem.Click += new System.EventHandler(this.一維測量ToolStripMenuItem_Click);
             // 
+            // 建立匹配ModelToolStripMenuItem
+            // 
+            this.建立匹配ModelToolStripMenuItem.Name = "建立匹配ModelToolStripMenuItem";
+            this.建立匹配ModelToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
+            this.建立匹配ModelToolStripMenuItem.Text = "建立匹配Model";
+            this.建立匹配ModelToolStripMenuItem.Click += new System.EventHandler(this.建立匹配ModelToolStripMenuItem_Click);
+            // 
             // 刪除程序ToolStripMenuItem
             // 
             this.刪除程序ToolStripMenuItem.Name = "刪除程序ToolStripMenuItem";
-            this.刪除程序ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.刪除程序ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
             this.刪除程序ToolStripMenuItem.Text = "刪除程序";
             this.刪除程序ToolStripMenuItem.Click += new System.EventHandler(this.刪除程序ToolStripMenuItem_Click);
-            // 
-            // MainWindowStatusStrip
-            // 
-            this.MainWindowStatusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.MouseXY,
-            this.pixelvalue});
-            this.MainWindowStatusStrip.Location = new System.Drawing.Point(0, 713);
-            this.MainWindowStatusStrip.Name = "MainWindowStatusStrip";
-            this.MainWindowStatusStrip.Size = new System.Drawing.Size(1570, 22);
-            this.MainWindowStatusStrip.TabIndex = 4;
-            this.MainWindowStatusStrip.Text = "MainWindowStatusStrip";
-            // 
-            // MouseXY
-            // 
-            this.MouseXY.Name = "MouseXY";
-            this.MouseXY.Size = new System.Drawing.Size(98, 17);
-            this.MouseXY.Text = "Mouse(null,null)";
-            // 
-            // pixelvalue
-            // 
-            this.pixelvalue.Name = "pixelvalue";
-            this.pixelvalue.Size = new System.Drawing.Size(100, 17);
-            this.pixelvalue.Text = "pixelvalue = null";
             // 
             // Object
             // 
             this.Object.AutoSize = true;
-            this.Object.Location = new System.Drawing.Point(819, 23);
+            this.Object.Location = new System.Drawing.Point(813, 10);
             this.Object.Name = "Object";
             this.Object.Size = new System.Drawing.Size(35, 12);
             this.Object.TabIndex = 6;
@@ -171,7 +147,7 @@
             // Procedure
             // 
             this.Procedure.AutoSize = true;
-            this.Procedure.Location = new System.Drawing.Point(974, 23);
+            this.Procedure.Location = new System.Drawing.Point(966, 10);
             this.Procedure.Name = "Procedure";
             this.Procedure.Size = new System.Drawing.Size(52, 12);
             this.Procedure.TabIndex = 7;
@@ -193,7 +169,7 @@
             // ObjectXY
             // 
             this.ObjectXY.AutoSize = true;
-            this.ObjectXY.Location = new System.Drawing.Point(860, 23);
+            this.ObjectXY.Location = new System.Drawing.Point(854, 10);
             this.ObjectXY.Name = "ObjectXY";
             this.ObjectXY.Size = new System.Drawing.Size(52, 12);
             this.ObjectXY.TabIndex = 9;
@@ -202,7 +178,7 @@
             // ProcedureXY
             // 
             this.ProcedureXY.AutoSize = true;
-            this.ProcedureXY.Location = new System.Drawing.Point(1032, 23);
+            this.ProcedureXY.Location = new System.Drawing.Point(1024, 10);
             this.ProcedureXY.Name = "ProcedureXY";
             this.ProcedureXY.Size = new System.Drawing.Size(52, 12);
             this.ProcedureXY.TabIndex = 10;
@@ -218,48 +194,99 @@
             this.DO.UseVisualStyleBackColor = true;
             this.DO.Click += new System.EventHandler(this.DO_Click);
             // 
-            // 建立匹配ModelToolStripMenuItem
+            // toolWindow
             // 
-            this.建立匹配ModelToolStripMenuItem.Name = "建立匹配ModelToolStripMenuItem";
-            this.建立匹配ModelToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
-            this.建立匹配ModelToolStripMenuItem.Text = "建立匹配Model";
-            this.建立匹配ModelToolStripMenuItem.Click += new System.EventHandler(this.建立匹配ModelToolStripMenuItem_Click);
+            this.toolWindow.Location = new System.Drawing.Point(6, 10);
+            this.toolWindow.Name = "toolWindow";
+            this.toolWindow.Size = new System.Drawing.Size(801, 684);
+            this.toolWindow.TabIndex = 12;
+            this.toolWindow.WindowImage = imageBase2;
             // 
-            // MainFrom
+            // mainTabControl
+            // 
+            this.mainTabControl.Controls.Add(this.Camera_1);
+            this.mainTabControl.Controls.Add(this.Camera_2);
+            this.mainTabControl.Controls.Add(this.Camera_3);
+            this.mainTabControl.Controls.Add(this.Camera_4);
+            this.mainTabControl.Location = new System.Drawing.Point(12, 41);
+            this.mainTabControl.Name = "mainTabControl";
+            this.mainTabControl.SelectedIndex = 0;
+            this.mainTabControl.Size = new System.Drawing.Size(1566, 726);
+            this.mainTabControl.TabIndex = 13;
+            // 
+            // Camera_1
+            // 
+            this.Camera_1.Controls.Add(this.toolWindow);
+            this.Camera_1.Controls.Add(this.MainWindowObjectTable);
+            this.Camera_1.Controls.Add(this.ProcedureTable);
+            this.Camera_1.Controls.Add(this.Procedure);
+            this.Camera_1.Controls.Add(this.ProcedureXY);
+            this.Camera_1.Controls.Add(this.Object);
+            this.Camera_1.Controls.Add(this.ObjectXY);
+            this.Camera_1.Location = new System.Drawing.Point(4, 22);
+            this.Camera_1.Name = "Camera_1";
+            this.Camera_1.Padding = new System.Windows.Forms.Padding(3);
+            this.Camera_1.Size = new System.Drawing.Size(1558, 700);
+            this.Camera_1.TabIndex = 1;
+            this.Camera_1.Text = "Camera No.1";
+            this.Camera_1.UseVisualStyleBackColor = true;
+            // 
+            // Camera_2
+            // 
+            this.Camera_2.Location = new System.Drawing.Point(4, 22);
+            this.Camera_2.Name = "Camera_2";
+            this.Camera_2.Padding = new System.Windows.Forms.Padding(3);
+            this.Camera_2.Size = new System.Drawing.Size(1558, 700);
+            this.Camera_2.TabIndex = 2;
+            this.Camera_2.Text = "Camera No.2";
+            this.Camera_2.UseVisualStyleBackColor = true;
+            // 
+            // Camera_3
+            // 
+            this.Camera_3.Location = new System.Drawing.Point(4, 22);
+            this.Camera_3.Name = "Camera_3";
+            this.Camera_3.Padding = new System.Windows.Forms.Padding(3);
+            this.Camera_3.Size = new System.Drawing.Size(1558, 700);
+            this.Camera_3.TabIndex = 3;
+            this.Camera_3.Text = "Camera No.3";
+            this.Camera_3.UseVisualStyleBackColor = true;
+            // 
+            // Camera_4
+            // 
+            this.Camera_4.Location = new System.Drawing.Point(4, 22);
+            this.Camera_4.Name = "Camera_4";
+            this.Camera_4.Padding = new System.Windows.Forms.Padding(3);
+            this.Camera_4.Size = new System.Drawing.Size(1294, 636);
+            this.Camera_4.TabIndex = 4;
+            this.Camera_4.Text = "Camera No.4";
+            this.Camera_4.UseVisualStyleBackColor = true;
+            // 
+            // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1570, 735);
+            this.BackColor = System.Drawing.Color.LemonChiffon;
+            this.ClientSize = new System.Drawing.Size(1587, 781);
+            this.Controls.Add(this.mainTabControl);
             this.Controls.Add(this.DO);
-            this.Controls.Add(this.ProcedureXY);
-            this.Controls.Add(this.ObjectXY);
-            this.Controls.Add(this.Procedure);
-            this.Controls.Add(this.Object);
-            this.Controls.Add(this.MainWindowStatusStrip);
-            this.Controls.Add(this.MainWindowObjectTable);
-            this.Controls.Add(this.ProcedureTable);
-            this.Controls.Add(this.MainWindow);
-            this.Name = "MainFrom";
+            this.Name = "MainForm";
             this.Text = "MainFrom";
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.ProcedureTable)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.MainWindowObjectTable)).EndInit();
             this.PrcedureMenuStrip.ResumeLayout(false);
-            this.MainWindowStatusStrip.ResumeLayout(false);
-            this.MainWindowStatusStrip.PerformLayout();
             this.ObjectMenuStrip.ResumeLayout(false);
+            this.mainTabControl.ResumeLayout(false);
+            this.Camera_1.ResumeLayout(false);
+            this.Camera_1.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
-
-        private HalconDotNet.HWindowControl MainWindow;
         private System.Windows.Forms.DataGridView ProcedureTable;
         private System.Windows.Forms.DataGridView MainWindowObjectTable;
         private System.Windows.Forms.ContextMenuStrip PrcedureMenuStrip;
-        private System.Windows.Forms.StatusStrip MainWindowStatusStrip;
         private System.Windows.Forms.ToolStripMenuItem 插入程序ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 刪除程序ToolStripMenuItem;
         private System.Windows.Forms.Label Object;
@@ -268,12 +295,16 @@
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem3;
         private System.Windows.Forms.Label ObjectXY;
         private System.Windows.Forms.Label ProcedureXY;
-        private System.Windows.Forms.ToolStripStatusLabel MouseXY;
-        private System.Windows.Forms.ToolStripStatusLabel pixelvalue;
         private System.Windows.Forms.ToolStripMenuItem 載入圖片ToolStripMenuItem;
         private System.Windows.Forms.Button DO;
         private System.Windows.Forms.ToolStripMenuItem 一維測量ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 建立匹配ModelToolStripMenuItem;
+        private ToolWindow.ToolWindow toolWindow;
+        private System.Windows.Forms.TabControl mainTabControl;
+        private System.Windows.Forms.TabPage Camera_1;
+        private System.Windows.Forms.TabPage Camera_2;
+        private System.Windows.Forms.TabPage Camera_3;
+        private System.Windows.Forms.TabPage Camera_4;
     }
 }
 

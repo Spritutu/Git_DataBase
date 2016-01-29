@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using HalconDotNet;
 using System.Windows.Forms;
 
-namespace MainProject
+namespace ST_Base
 {
     public class Camera
     {

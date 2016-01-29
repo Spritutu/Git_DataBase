@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using HalconDotNet;
 using ST_Base;
-namespace MainProject
+namespace CameraProcedure
 {
     public class AccessImage
     {

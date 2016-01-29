@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using HalconDotNet;
 
-namespace MainProject
+namespace ST_Base
 {
     public class PointBase
     {

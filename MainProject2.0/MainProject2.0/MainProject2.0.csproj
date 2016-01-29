@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{4C5BD4D1-F801-4BF6-8A75-26D7A1012F57}</ProjectGuid>
+    <ProjectGuid>{BF16438C-6DEB-4CF5-9E90-2796D6E11A04}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MainProject</RootNamespace>
-    <AssemblyName>MainProject</AssemblyName>
+    <RootNamespace>MainProject2._0</RootNamespace>
+    <AssemblyName>MainProject2.0</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -37,16 +37,15 @@
     <Reference Include="CameraProcedure">
       <HintPath>..\..\CameraProcedure\CameraProcedure\bin\Debug\CameraProcedure.dll</HintPath>
     </Reference>
-    <Reference Include="halcondotnet">
-      <HintPath>C:\Program Files\MVTec\HALCON-12.0\bin\dotnet35\halcondotnet.dll</HintPath>
+    <Reference Include="halcondotnet, Version=12.0.0.0, Culture=neutral, PublicKeyToken=4973bed59ddbf2b8, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\CameraProcedure\CameraProcedure\bin\Debug\halcondotnet.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
-    <Reference Include="ST_Base">
+    <Reference Include="ST_Base, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\ST_ClassLibrary\ST_Base\ST_Base\bin\Debug\ST_Base.dll</HintPath>
-    </Reference>
-    <Reference Include="ST_Window">
-      <HintPath>..\..\..\GOOGLE雲端\公司資料\ST_ClassLibrary\ST_Window\ST_Window\bin\Debug\ST_Window.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -59,57 +58,32 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
-    <Reference Include="ToolWindow">
-      <HintPath>..\..\ToolWindow\ToolWindow\bin\Debug\ToolWindow.dll</HintPath>
+    <Reference Include="ToolWindow, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\CameraProcedure\CameraProcedure\bin\Debug\ToolWindow.dll</HintPath>
     </Reference>
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CreateMatchingModel\CreateMatchingModel.cs">
+    <Compile Include="CameraProcedureForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="CreateMatchingModel\CreateMatchingModel.Designer.cs">
-      <DependentUpon>CreateMatchingModel.cs</DependentUpon>
+    <Compile Include="CameraProcedureForm.Designer.cs">
+      <DependentUpon>CameraProcedureForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="MainForm_test.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="MainForm_test.Designer.cs">
-      <DependentUpon>MainForm_test.cs</DependentUpon>
-    </Compile>
-    <Compile Include="MeasureForm\DrawlinetoRectangle2.cs" />
-    <Compile Include="MeasureForm\GenMesure_point.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="MeasureForm\Measure.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="MeasureForm\Measure.Designer.cs">
-      <DependentUpon>Measure.cs</DependentUpon>
-    </Compile>
-    <Compile Include="ProcedureForm\AccessImage.cs" />
-    <Compile Include="MainWindowClass\HObject_Bitmap.cs" />
-    <Compile Include="MainWindowClass\Table\Camera_Table.cs" />
-    <Compile Include="MainWindowClass\Table\MiniImage_Table.cs" />
-    <Compile Include="MainWindowClass\Table\Object_Table.cs" />
-    <Compile Include="MainWindowClass\Table\Procedure_Table.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="CreateMatchingModel\CreateMatchingModel.resx">
-      <DependentUpon>CreateMatchingModel.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MainForm_test.resx">
-      <DependentUpon>MainForm_test.cs</DependentUpon>
+    <EmbeddedResource Include="CameraProcedureForm.resx">
+      <DependentUpon>CameraProcedureForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MeasureForm\Measure.resx">
-      <DependentUpon>Measure.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -133,7 +107,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

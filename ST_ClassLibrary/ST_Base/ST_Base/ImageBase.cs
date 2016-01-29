@@ -7,7 +7,7 @@ using System.Windows.Forms;
 using HalconDotNet;
 
 
-namespace MainProject
+namespace ST_Base
 {
     public class ImageBase
     {

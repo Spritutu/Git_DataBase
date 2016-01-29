@@ -9,23 +9,23 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Collections;
 using HalconDotNet;//測試用 不應該存在於使用者介面
-
+using ST_Base;
 enum procedure_M { readimage = 1 , Measure , CreateMatchingModel };
 
 namespace MainProject
 {
-    public partial class MainFrom : Form
+    public partial class MainForm : Form
     {
-        
+
         //相機陣列
-         List<Camera_Table> Camera = new List<Camera_Table>();
+        private List<Camera_Table> Camera = new List<Camera_Table>();
         //主視窗圖片(ImageBase)
         private ImageBase window_image = new ImageBase();
         //視窗滑鼠位置
-        PointBase mousePosition = new PointBase();
+        private PointBase mousePosition = new PointBase();
 
 
-        public MainFrom()
+        public MainForm()
         {
             InitializeComponent();
         }
@@ -39,17 +39,6 @@ namespace MainProject
         private void ProcedureTable_CellMouseMove(object sender, DataGridViewCellMouseEventArgs e)
         {
             ProcedureXY.Text = "(" + e.ColumnIndex + "," + e.RowIndex + ")";
-        }
-        //滑鼠位置PiexlGrayval
-        private void MainWindow_HMouseMove(object sender, HMouseEventArgs e)
-        {
-             
-            //取得滑鼠在視窗上的位置
-            mousePosition.GetMposition(MainWindow.HalconWindow);
-            //顯示位置
-            MouseXY.Text = "Mouse(" + mousePosition.col.ToString() + "," + mousePosition.row.ToString() + ")";
-            //顯示滑鼠位置的灰階值
-            pixelvalue.Text = "pixelvalue =" + window_image.PiexlGrayval(mousePosition).ToString();
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -302,7 +291,9 @@ namespace MainProject
                 }
             }
             imgbs.SetImage = O_temp[cm.Position].Image;
-            imgbs.ShowImage_autosize(MainWindow.HalconWindow);
+            toolWindow.WindowImage = imgbs;
+
+            toolWindow.showImage();
             window_image = imgbs;
 
         }
@@ -321,7 +312,7 @@ namespace MainProject
                     //由檔案載入圖片
                     readthefuckingimage.ImagefromFile();
                     //設定顯示視窗
-                    readthefuckingimage.setwindow(MainWindow.HalconWindow);
+                    //readthefuckingimage.setwindow(MainWindow.HalconWindow);
 
                     if (readthefuckingimage.getObject().Image != null)
                     {
