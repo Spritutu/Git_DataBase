@@ -180,7 +180,7 @@ namespace ST_Base
                                     Radius2Ellipse);
             HOperatorSet.DispObj(ROI, hwindows);
         }
-        public void setROIline(HTuple hwindows, HTuple line_Row1, HTuple line_Column1, HTuple line_Row2, HTuple line_Column2)//方形
+        public void setROIline_twopoint(HTuple hwindows, HTuple line_Row1, HTuple line_Column1, HTuple line_Row2, HTuple line_Column2)//方形
         {
             emptyallparameter();
             HOperatorSet.GenEmptyObj(out ROI);
@@ -204,7 +204,23 @@ namespace ST_Base
             HOperatorSet.DispObj(ROI, hwindows);
         }
 
-        private void SetLine(HTuple hwindows, HTuple color, HTuple Draw, HTuple LineWidth)//線條參數
+        public void setROIline_rec(HTuple hwindows, HTuple Row, HTuple Column, HTuple Phi, HTuple Length1Rectangle)//方形
+        {
+            emptyallparameter();
+            HOperatorSet.GenEmptyObj(out ROI);
+            SetLine(hwindows, "yellow", "margin", 2);
+            HOperatorSet.GenRectangle2(out ROI,
+                                       Row,
+                                       Column,
+                                       Phi,
+                                       Length1Rectangle,
+                                       0);
+            HOperatorSet.DispObj(ROI, hwindows);
+        }
+
+
+
+        public void SetLine(HTuple hwindows, HTuple color, HTuple Draw, HTuple LineWidth)//線條參數
         {
             HOperatorSet.SetColor(hwindows, color);
             HOperatorSet.SetDraw(hwindows, Draw);

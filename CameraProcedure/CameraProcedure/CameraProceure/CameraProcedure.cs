@@ -355,7 +355,7 @@ namespace CameraProcedure
                     Measure M_temp = (Measure)Camera.Procedure[cm.Position].SettingForm;
                     if (cm.Position != 0)
                     {
-                        M_temp.MeasureImage = Camera.Object[cm.Position - 1].Image;
+                        M_temp.MeasureImage = Camera.Object[cm.Position - 1].Image;           //暫時使用前一個程序的圖片(載入圖片)
                     }
                     M_temp.ShowDialog();
 
