@@ -79,8 +79,6 @@ namespace CameraProcedure
                 region_line.DrawLine(toolWindow.Window.HalconWindow);
                 region_line.showROI(toolWindow.Window.HalconWindow, (int)Shape.Line_rec, "yellow", "margin", 2);
 
-
-
                 HOperatorSet.GenEmptyObj(out MP.ho_Cross);
                 HOperatorSet.GenMeasureRectangle2(region_line.line_rec.row,
                     region_line.line_rec.column, region_line.line_rec.phi,
@@ -136,25 +134,19 @@ namespace CameraProcedure
             this.MaxEage_trackBar.Value = (int)this.MaxEdge.Value;
             MP.threshold = (int)this.MaxEdge.Value;
 
-            //if (region_rec.GetROI != null)
-            //{
-            //    toolWindow.WindowImage.ShowImage_autosize(toolWindow.Window.HalconWindow);
+            if (region_line.line_rec.ROI != null)
+            {
+                toolWindow.WindowImage.ShowImage_autosize(toolWindow.Window.HalconWindow);
+                HOperatorSet.GenMeasureRectangle2(region_line.line_rec.row, region_line.line_rec.column, region_line.line_rec.phi, region_line.line_rec.length1, MP.ROIweight,
+                    toolWindow.WindowImage.GetWidth, toolWindow.WindowImage.GetHeight, "nearest_neighbor", out MP.hv_MeasureHandle);
+                HOperatorSet.MeasurePos(toolWindow.WindowImage.GetImage, MP.hv_MeasureHandle, MP.sigma, MP.threshold,
+                  MP.transition, MP.select, out MP.hv_RowEdge, out MP.hv_ColumnEdge, out MP.hv_Amplitude, out MP.hv_Distance);
 
-            //    HOperatorSet.GenMeasureRectangle2(region_rec.GetRow, region_rec.GetColumn, region_rec.GetPhi, region_rec.GetLength1Rectangle, MP.ROIweight,
-            //        toolWindow.WindowImage.GetWidth, toolWindow.WindowImage.GetHeight, "nearest_neighbor", out MP.hv_MeasureHandle);
-            //    HOperatorSet.MeasurePos(toolWindow.WindowImage.GetImage, MP.hv_MeasureHandle, MP.sigma, MP.threshold,
-            //      MP.transition, MP.select, out MP.hv_RowEdge, out MP.hv_ColumnEdge, out MP.hv_Amplitude, out MP.hv_Distance);
-
-
-            //    region_line.SetLine(toolWindow.Window.HalconWindow, "yellow", "margin", 3);
-            //    HOperatorSet.GenCrossContourXld(out MP.ho_Cross, MP.hv_RowEdge, MP.hv_ColumnEdge, MP.ROIweight * 2, region_rec.GetPhi);
-            //    HOperatorSet.DispObj(toolWindow.WindowImage.GetImage, toolWindow.Window.HalconWindow);
-            //    HOperatorSet.DispObj(MP.ho_Cross, toolWindow.Window.HalconWindow);
-            //    HOperatorSet.CloseMeasure(MP.hv_MeasureHandle);
-
-            //    region_line.setROIline_rec(toolWindow.Window.HalconWindow, region_rec.GetRow, region_rec.GetColumn, region_rec.GetPhi,
-            //        region_rec.GetLength1Rectangle);
-            //}
+                HOperatorSet.GenCrossContourXld(out MP.ho_Cross, MP.hv_RowEdge, MP.hv_ColumnEdge, MP.ROIweight * 2, region_line.line_rec.phi);
+                HOperatorSet.DispObj(toolWindow.WindowImage.GetImage, toolWindow.Window.HalconWindow);
+                HOperatorSet.DispObj(MP.ho_Cross, toolWindow.Window.HalconWindow);
+                HOperatorSet.CloseMeasure(MP.hv_MeasureHandle);
+            }
         }
 
         private void sigma_ValueChanged(object sender, EventArgs e)
@@ -162,25 +154,19 @@ namespace CameraProcedure
 
             this.Sigma_trackBar.Value = (int)this.sigma.Value;
             MP.sigma = (int)this.sigma.Value;
-            //if (region_rec.GetROI != null)
-            //{
-            //    toolWindow.WindowImage.ShowImage_autosize(toolWindow.Window.HalconWindow);
+            if (region_line.line_rec.ROI != null)
+            {
+                toolWindow.WindowImage.ShowImage_autosize(toolWindow.Window.HalconWindow);
+                HOperatorSet.GenMeasureRectangle2(region_line.line_rec.row, region_line.line_rec.column, region_line.line_rec.phi, region_line.line_rec.length1, MP.ROIweight,
+                    toolWindow.WindowImage.GetWidth, toolWindow.WindowImage.GetHeight, "nearest_neighbor", out MP.hv_MeasureHandle);
+                HOperatorSet.MeasurePos(toolWindow.WindowImage.GetImage, MP.hv_MeasureHandle, MP.sigma, MP.threshold,
+                  MP.transition, MP.select, out MP.hv_RowEdge, out MP.hv_ColumnEdge, out MP.hv_Amplitude, out MP.hv_Distance);
 
-            //    HOperatorSet.GenMeasureRectangle2(region_rec.GetRow, region_rec.GetColumn, region_rec.GetPhi, region_rec.GetLength1Rectangle, MP.ROIweight,
-            //        toolWindow.WindowImage.GetWidth, toolWindow.WindowImage.GetHeight, "nearest_neighbor", out MP.hv_MeasureHandle);
-            //    HOperatorSet.MeasurePos(toolWindow.WindowImage.GetImage, MP.hv_MeasureHandle, MP.sigma, MP.threshold,
-            //      MP.transition, MP.select, out MP.hv_RowEdge, out MP.hv_ColumnEdge, out MP.hv_Amplitude, out MP.hv_Distance);
-
-
-            //    region_line.SetLine(toolWindow.Window.HalconWindow, "yellow", "margin", 3);
-            //    HOperatorSet.GenCrossContourXld(out MP.ho_Cross, MP.hv_RowEdge, MP.hv_ColumnEdge,MP.ROIweight * 2, region_rec.GetPhi);
-            //    HOperatorSet.DispObj(toolWindow.WindowImage.GetImage, toolWindow.Window.HalconWindow);
-            //    HOperatorSet.DispObj(MP.ho_Cross, toolWindow.Window.HalconWindow);
-            //    HOperatorSet.CloseMeasure(MP.hv_MeasureHandle);
-
-            //    region_line.setROIline_rec(toolWindow.Window.HalconWindow, region_rec.GetRow, region_rec.GetColumn, region_rec.GetPhi,
-            //        region_rec.GetLength1Rectangle);
-            //}
+                HOperatorSet.GenCrossContourXld(out MP.ho_Cross, MP.hv_RowEdge, MP.hv_ColumnEdge, MP.ROIweight * 2, region_line.line_rec.phi);
+                HOperatorSet.DispObj(toolWindow.WindowImage.GetImage, toolWindow.Window.HalconWindow);
+                HOperatorSet.DispObj(MP.ho_Cross, toolWindow.Window.HalconWindow);
+                HOperatorSet.CloseMeasure(MP.hv_MeasureHandle);
+            }
         }
 
         private void ROIWeight_ValueChanged(object sender, EventArgs e)
@@ -188,26 +174,19 @@ namespace CameraProcedure
 
             this.ROIWeight_trackBar.Value = (int)this.ROIWeight.Value;
             MP.ROIweight = (int)this.ROIWeight.Value;
-            //if (region_rec.GetROI != null)
-            //{
-            //    toolWindow.WindowImage.ShowImage_autosize(toolWindow.Window.HalconWindow);
+            if (region_line.line_rec.ROI != null)
+            {
+                toolWindow.WindowImage.ShowImage_autosize(toolWindow.Window.HalconWindow);
+                HOperatorSet.GenMeasureRectangle2(region_line.line_rec.row, region_line.line_rec.column, region_line.line_rec.phi, region_line.line_rec.length1, MP.ROIweight,
+                    toolWindow.WindowImage.GetWidth, toolWindow.WindowImage.GetHeight, "nearest_neighbor", out MP.hv_MeasureHandle);
+                HOperatorSet.MeasurePos(toolWindow.WindowImage.GetImage, MP.hv_MeasureHandle, MP.sigma, MP.threshold,
+                  MP.transition, MP.select, out MP.hv_RowEdge, out MP.hv_ColumnEdge, out MP.hv_Amplitude, out MP.hv_Distance);
 
-            //    HOperatorSet.GenMeasureRectangle2(region_rec.GetRow, region_rec.GetColumn, region_rec.GetPhi, region_rec.GetLength1Rectangle, MP.ROIweight,
-            //        toolWindow.WindowImage.GetWidth, toolWindow.WindowImage.GetHeight, "nearest_neighbor", out MP.hv_MeasureHandle);
-            //    HOperatorSet.MeasurePos(toolWindow.WindowImage.GetImage, MP.hv_MeasureHandle, MP.sigma, MP.threshold,
-            //      MP.transition, MP.select, out MP.hv_RowEdge, out MP.hv_ColumnEdge, out MP.hv_Amplitude, out MP.hv_Distance);
-
-            //    region_line.SetLine(toolWindow.Window.HalconWindow, "yellow", "margin", 3);
-            //    HOperatorSet.GenCrossContourXld(out MP.ho_Cross, MP.hv_RowEdge, MP.hv_ColumnEdge,
-            //        MP.ROIweight * 2, region_rec.GetPhi);
-            //    HOperatorSet.DispObj(toolWindow.WindowImage.GetImage, toolWindow.Window.HalconWindow);
-            //    HOperatorSet.DispObj(MP.ho_Cross, toolWindow.Window.HalconWindow);
-            //    HOperatorSet.CloseMeasure(MP.hv_MeasureHandle);
-
-                
-            //    region_line.setROIline_rec(toolWindow.Window.HalconWindow, region_rec.GetRow, region_rec.GetColumn, region_rec.GetPhi,
-            //        region_rec.GetLength1Rectangle);
-            //}
+                HOperatorSet.GenCrossContourXld(out MP.ho_Cross, MP.hv_RowEdge, MP.hv_ColumnEdge, MP.ROIweight * 2, region_line.line_rec.phi);
+                HOperatorSet.DispObj(toolWindow.WindowImage.GetImage, toolWindow.Window.HalconWindow);
+                HOperatorSet.DispObj(MP.ho_Cross, toolWindow.Window.HalconWindow);
+                HOperatorSet.CloseMeasure(MP.hv_MeasureHandle);
+            }
         }
     }
 }
