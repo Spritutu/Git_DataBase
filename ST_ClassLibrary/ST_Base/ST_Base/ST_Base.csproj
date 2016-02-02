@@ -31,7 +31,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="halcondotnet">
-      <HintPath>..\..\..\..\..\Program Files\MVTec\HALCON-12.0\bin\dotnet35\halcondotnet.dll</HintPath>
+      <HintPath>C:\Program Files\MVTec\HALCON-12.0\bin\dotnet35\halcondotnet.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -47,13 +47,9 @@
     <Compile Include="Camera.cs" />
     <Compile Include="Eages.cs" />
     <Compile Include="Enhancenment.cs" />
-    <Compile Include="Matching.cs" />
     <Compile Include="GeometricTransformations.cs" />
     <Compile Include="ImageBase.cs" />
-    <Compile Include="ImagewithRegion.cs" />
     <Compile Include="MaskBase.cs" />
-    <Compile Include="MatchModel.cs" />
-    <Compile Include="Measure.cs" />
     <Compile Include="Metrology.cs" />
     <Compile Include="Morphology.cs" />
     <Compile Include="PointBase.cs" />
