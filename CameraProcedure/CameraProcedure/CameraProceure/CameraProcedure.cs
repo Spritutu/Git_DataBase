@@ -8,10 +8,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using ST_Base;
-enum procedure_M { readimage = 1, Measure, CreateMatchingModel };
 
 namespace CameraProcedure
 {
+    enum procedure_M { readimage = 1, Measure , CreateMatchingModel };
     public partial class CameraProcedure : UserControl
     {
         private Camera_Table Camera = new Camera_Table();
@@ -202,6 +202,7 @@ namespace CameraProcedure
             p.ProcedureName = "載入圖片" + clk;
             p.Setornot = false;
             p.ProcedureMethod = (int)procedure_M.readimage;
+            
 
             Camera.Procedure.Insert(cm.Position + 1, p);
             Camera.Object.Insert(cm.Position + 1, O);
@@ -262,6 +263,7 @@ namespace CameraProcedure
             p.ProcedureMethod = (int)procedure_M.Measure;
             p.SettingForm = new Measure();
             
+
 
             Camera.Procedure.Insert(cm.Position + 1, p);
             Camera.Object.Insert(cm.Position + 1, O);
@@ -356,13 +358,16 @@ namespace CameraProcedure
                     if (cm.Position != 0)
                     {
                         M_temp.MeasureImage = Camera.Object[cm.Position - 1].Image;           //暫時使用前一個程序的圖片(載入圖片)
+                        
                     }
-                    M_temp.ShowDialog();
 
-                    M_temp = (Measure)Camera.Procedure[cm.Position].SettingForm;
+                    M_temp.ShowDialog();
+                    Camera.Procedure[cm.Position].procedurefunction.doprocedurefunction += M_temp.run;
+                    Camera.Procedure[cm.Position].SettingForm = M_temp;
                     Camera.Procedure[cm.Position].Setornot = M_temp.setornot;
 
                     break;
+
                 case (int)procedure_M.CreateMatchingModel:
 
                     CreateMatchingModel C_temp = (CreateMatchingModel)Camera.Procedure[cm.Position].SettingForm;

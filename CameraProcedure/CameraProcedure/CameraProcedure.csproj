@@ -70,10 +70,10 @@
       <DependentUpon>CreateMatchingModel.cs</DependentUpon>
     </Compile>
     <Compile Include="CameraProceure\HObject_Bitmap.cs" />
-    <Compile Include="ProcedureForm\Measure.cs">
+    <Compile Include="ProcedureForm\Measure\Measure.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ProcedureForm\Measure.Designer.cs">
+    <Compile Include="ProcedureForm\Measure\Measure.Designer.cs">
       <DependentUpon>Measure.cs</DependentUpon>
     </Compile>
     <Compile Include="CameraProceure\Table\MiniImage_Table.cs" />
@@ -94,7 +94,7 @@
     <EmbeddedResource Include="ProcedureForm\CreateMatchingModel.resx">
       <DependentUpon>CreateMatchingModel.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ProcedureForm\Measure.resx">
+    <EmbeddedResource Include="ProcedureForm\Measure\Measure.resx">
       <DependentUpon>Measure.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
