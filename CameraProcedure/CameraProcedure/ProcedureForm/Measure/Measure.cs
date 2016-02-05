@@ -1,0 +1,389 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using HalconDotNet;
+using ST_Base;
+
+namespace CameraProcedure
+{
+    enum MeasureType { pos,pair }
+    enum MeasureTransition_pair { all, all_strongest, negative, negative_strongest, positive, positive_strongest }
+    enum MeasureTransition_pos { all, negative, positive}
+    enum MeasureSelect { all, first, last }
+    
+    public struct MeasureParameter
+    {
+        public HObject ho_CrossFirst;
+        public HObject ho_CrossSecond;
+
+        public HTuple hv_MeasureHandle;
+        public HTuple sigma;
+        public HTuple threshold;
+        public HTuple transition_pair;
+        public HTuple transition_pos;
+        public HTuple select;
+
+        public HTuple hv_RowEdgeFirst;
+        public HTuple hv_ColumnEdgeFirst;
+        public HTuple hv_AmplitudeFirst;
+        public HTuple hv_RowEdgeSecond;
+        public HTuple hv_ColumnEdgeSecond;
+        public HTuple hv_AmplitudeSecond;
+
+        public HTuple hv_Distance;
+        public HTuple hv_PinWidth;
+        public HTuple hv_PinDistance;
+        public HTuple ROIweight;
+        
+    }
+
+    public partial class Measure : Form
+    {
+        private MeasureParameter MP;
+        List<string> TransitionData_pair = new List<string>();
+        List<string> TransitionData_pos = new List<string>();
+        List<string> SelectData = new List<string>();
+
+        private ImageBase Measure_Image = new ImageBase();
+        public HObject MeasureImage { set { Measure_Image.SetImage = value; } }
+        private PointBase mousePosition = new PointBase();
+        private RegionBase region_line = new RegionBase();
+        int measuretype = 0;
+        
+        public bool setornot = false;
+        public Measure()
+        {
+            InitializeComponent();
+        }
+        
+        private void Measure_Activated(object sender, EventArgs e)
+        {
+            //如果有圖片則載入圖片至toolWindow視窗裡
+            if (Measure_Image.GetImage != null)
+            {
+                toolWindow.WindowImage = Measure_Image;
+                toolWindow.Window.Focus();
+                toolWindow.showImage();
+            }
+            //表格參數預載
+            this.MaxEdge.Value = 40;
+            this.sigma.Value = 1;
+            this.ROIWeight.Value = 30;
+            this.MaxEage_trackBar.Value = 40;
+            this.Sigma_trackBar.Value = 1;
+            this.ROIWeight_trackBar.Value = 30;
+
+            MP.transition_pair = MeasureTransition_pair.all.ToString();
+            MP.transition_pos = MeasureTransition_pos.all.ToString();
+            MP.select = MeasureSelect.all.ToString();
+            MP.sigma = 1;
+            MP.threshold = 40;
+
+            TransitionData_pair.Add(MeasureTransition_pair.all.ToString());
+            TransitionData_pair.Add(MeasureTransition_pair.all_strongest.ToString());
+            TransitionData_pair.Add(MeasureTransition_pair.negative.ToString());
+            TransitionData_pair.Add(MeasureTransition_pair.negative_strongest.ToString());
+            TransitionData_pair.Add(MeasureTransition_pair.positive.ToString());
+            TransitionData_pair.Add(MeasureTransition_pair.positive_strongest.ToString());
+
+            TransitionData_pos.Add(MeasureTransition_pos.all.ToString());
+            TransitionData_pos.Add(MeasureTransition_pos.negative.ToString());
+            TransitionData_pos.Add(MeasureTransition_pos.positive.ToString());
+
+            SelectData.Add(MeasureSelect.all.ToString());
+            SelectData.Add(MeasureSelect.first.ToString());
+            SelectData.Add(MeasureSelect.last.ToString());
+
+
+            result_list.Clear();
+            
+            result_list.View = View.Details;
+            result_list.Columns.Add("編號");
+            result_list.Columns.Add("行");
+            result_list.Columns.Add("列");
+            result_list.Columns.Add("振幅");
+            result_list.Columns.Add("距離");
+            this.result_list.EndUpdate();
+            
+            SelectBox.DataSource = SelectData;
+            posButton.Checked = true;
+        }
+
+        private void DrawROI_button_Click(object sender, EventArgs e)
+        {
+            switch (measuretype) {
+                case (int)MeasureType.pos:
+                    //如果toolWindow視窗裡有影像才執行
+                    if (toolWindow.WindowImage.GetImage != null)
+                    {
+                        toolWindow.Window.Focus();
+
+                        toolWindow.WindowImage.ShowImage_autosize(toolWindow.Window.HalconWindow);
+
+                        region_line.DrawLine(toolWindow.Window.HalconWindow);
+                        region_line.showROI(toolWindow.Window.HalconWindow, (int)Shape.Line_rec, "yellow", "margin", 1);
+
+                        HOperatorSet.GenEmptyObj(out MP.ho_CrossFirst);
+                        HOperatorSet.GenMeasureRectangle2(region_line.line_rec.row,
+                            region_line.line_rec.column, region_line.line_rec.phi,
+                            region_line.line_rec.length1, ROIWeight_trackBar.Value,
+                            toolWindow.WindowImage.GetWidth, toolWindow.WindowImage.GetHeight, "nearest_neighbor", out MP.hv_MeasureHandle);
+                        HOperatorSet.MeasurePos(toolWindow.WindowImage.GetImage, MP.hv_MeasureHandle, MP.sigma, MP.threshold,
+                          MP.transition_pos, MP.select, out MP.hv_RowEdgeFirst, out MP.hv_ColumnEdgeFirst, out MP.hv_AmplitudeFirst, out MP.hv_Distance);
+                        MP.ho_CrossFirst.Dispose();
+
+
+                        HOperatorSet.ClearWindow(toolWindow.Window.HalconWindow);
+                        HOperatorSet.DispObj(toolWindow.WindowImage.GetImage, toolWindow.Window.HalconWindow);
+                        region_line.showROI(toolWindow.Window.HalconWindow, (int)Shape.Line_rec, "yellow", "margin", 1);
+
+                        HOperatorSet.GenCrossContourXld(out MP.ho_CrossFirst, MP.hv_RowEdgeFirst, MP.hv_ColumnEdgeFirst,
+                            ROIWeight_trackBar.Value * 2, region_line.line_rec.phi);
+                        HOperatorSet.DispObj(MP.ho_CrossFirst, toolWindow.Window.HalconWindow);
+                        HOperatorSet.CloseMeasure(MP.hv_MeasureHandle);
+
+                        set_list(MP.hv_RowEdgeFirst, MP.hv_ColumnEdgeFirst, MP.hv_AmplitudeFirst, MP.hv_Distance, result_list);
+
+
+                    }
+                    else
+                    {
+                        MessageBox.Show("toolWindow.WindowImage是空的!");
+                    }
+                    break;
+
+                case (int)MeasureType.pair:
+
+                    if (toolWindow.WindowImage.GetImage != null)
+                    {
+                        toolWindow.Window.Focus();
+                        toolWindow.WindowImage.ShowImage_autosize(toolWindow.Window.HalconWindow);
+
+                        region_line.DrawLine(toolWindow.Window.HalconWindow);
+                        region_line.showROI(toolWindow.Window.HalconWindow, (int)Shape.Line_rec, "yellow", "margin", 1);
+
+                        HOperatorSet.GenEmptyObj(out MP.ho_CrossFirst);
+                        HOperatorSet.GenEmptyObj(out MP.ho_CrossSecond);
+                        HOperatorSet.GenMeasureRectangle2(region_line.line_rec.row,
+                            region_line.line_rec.column, region_line.line_rec.phi,
+                            region_line.line_rec.length1, ROIWeight_trackBar.Value,
+                            toolWindow.WindowImage.GetWidth, toolWindow.WindowImage.GetHeight, "nearest_neighbor", out MP.hv_MeasureHandle);
+
+                                             
+
+                        HOperatorSet.MeasurePairs(toolWindow.WindowImage.GetImage, MP.hv_MeasureHandle, MP.sigma, MP.threshold, MP.transition_pair, MP.select,
+                            out MP.hv_RowEdgeFirst, out MP.hv_ColumnEdgeFirst, out MP.hv_AmplitudeFirst, out MP.hv_RowEdgeSecond,
+                            out MP.hv_ColumnEdgeSecond, out MP.hv_AmplitudeSecond, out MP.hv_PinWidth, out MP.hv_PinDistance);
+
+                        MP.ho_CrossFirst.Dispose();
+                        MP.ho_CrossSecond.Dispose();
+
+
+                        HOperatorSet.ClearWindow(toolWindow.Window.HalconWindow);
+                        HOperatorSet.DispObj(toolWindow.WindowImage.GetImage, toolWindow.Window.HalconWindow);
+                        region_line.showROI(toolWindow.Window.HalconWindow, (int)Shape.Line_rec, "yellow", "margin", 1);
+
+                        HOperatorSet.GenCrossContourXld(out MP.ho_CrossFirst, MP.hv_RowEdgeFirst, MP.hv_ColumnEdgeFirst,
+                            ROIWeight_trackBar.Value * 2, region_line.line_rec.phi);
+                        HOperatorSet.GenCrossContourXld(out MP.ho_CrossSecond, MP.hv_RowEdgeSecond, MP.hv_ColumnEdgeSecond,
+                            ROIWeight_trackBar.Value * 2, region_line.line_rec.phi);
+
+
+                        HOperatorSet.DispObj(MP.ho_CrossFirst, toolWindow.Window.HalconWindow);
+                        HOperatorSet.DispObj(MP.ho_CrossSecond, toolWindow.Window.HalconWindow);
+                        HOperatorSet.CloseMeasure(MP.hv_MeasureHandle);
+
+
+                    }
+                    else
+                    {
+                        MessageBox.Show("toolWindow.WindowImage是空的!");
+                    }
+
+                    break;
+
+            }
+            
+
+        }
+
+        private void OK_Click(object sender, EventArgs e)
+        {
+            setornot = true;
+            Hide();
+        }
+
+        private void MaxEage_trackBar_ValueChanged(object sender, EventArgs e)
+        {
+            this.MaxEdge.Value = this.MaxEage_trackBar.Value;
+            MP.threshold = (int)this.MaxEage_trackBar.Value;
+        }
+
+        private void Sigma_trackBar_ValueChanged(object sender, EventArgs e)
+        {
+            this.sigma.Value = this.Sigma_trackBar.Value;
+            MP.sigma = (int)this.Sigma_trackBar.Value;
+        }
+
+        private void ROIWeight_trackBar_ValueChanged(object sender, EventArgs e)
+        {
+            this.ROIWeight.Value = this.ROIWeight_trackBar.Value;
+            MP.ROIweight = (int)this.ROIWeight_trackBar.Value;
+        }
+
+        private void MaxEdge_ValueChanged(object sender, EventArgs e)
+        {
+            this.MaxEage_trackBar.Value = (int)this.MaxEdge.Value;
+            MP.threshold = (int)this.MaxEdge.Value;
+            Showresult();
+
+        }
+
+        private void sigma_ValueChanged(object sender, EventArgs e)
+        {
+
+            this.Sigma_trackBar.Value = (int)this.sigma.Value;
+            MP.sigma = (int)this.sigma.Value;
+            Showresult();
+        }
+
+        private void ROIWeight_ValueChanged(object sender, EventArgs e)
+        {
+
+            this.ROIWeight_trackBar.Value = (int)this.ROIWeight.Value;
+            MP.ROIweight = (int)this.ROIWeight.Value;
+            Showresult();
+
+
+        }
+
+        private void posButton_CheckedChanged(object sender, EventArgs e)
+        {
+            measuretype = 0;
+            region_line.ClearALL();
+            TransitionBox.DataSource = TransitionData_pos;
+            if(toolWindow.WindowImage.GetImage != null)
+                HOperatorSet.DispObj(toolWindow.WindowImage.GetImage, toolWindow.Window.HalconWindow);
+        }
+
+        private void pairButton_CheckedChanged(object sender, EventArgs e)
+        {
+            measuretype = 1;
+            region_line.ClearALL();
+            TransitionBox.DataSource = TransitionData_pair;
+            if (toolWindow.WindowImage.GetImage != null)
+                HOperatorSet.DispObj(toolWindow.WindowImage.GetImage, toolWindow.Window.HalconWindow);
+        }
+
+        private void TransitionBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (measuretype == (int)MeasureType.pos)
+                MP.transition_pos = (string)TransitionBox.SelectedValue;
+            else if (measuretype == (int)MeasureType.pair)
+                MP.transition_pair = (string)TransitionBox.SelectedValue;
+
+            Showresult();
+
+        }
+
+        private void SelectBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            MP.select = (string)SelectBox.SelectedValue;
+            
+                Showresult();
+        }
+
+
+
+        private void Showresult() {
+            switch (measuretype)
+            {
+                case (int)MeasureType.pos:
+                    if (region_line.line_rec.ROI != null)
+                    {
+                        toolWindow.WindowImage.ShowImage_autosize(toolWindow.Window.HalconWindow);
+                        HOperatorSet.GenMeasureRectangle2(region_line.line_rec.row, region_line.line_rec.column, region_line.line_rec.phi, region_line.line_rec.length1, MP.ROIweight,
+                            toolWindow.WindowImage.GetWidth, toolWindow.WindowImage.GetHeight, "nearest_neighbor", out MP.hv_MeasureHandle);
+                        HOperatorSet.MeasurePos(toolWindow.WindowImage.GetImage, MP.hv_MeasureHandle, MP.sigma, MP.threshold,
+                          MP.transition_pos, MP.select, out MP.hv_RowEdgeFirst, out MP.hv_ColumnEdgeFirst, out MP.hv_AmplitudeFirst, out MP.hv_Distance);
+                        HOperatorSet.GenCrossContourXld(out MP.ho_CrossFirst, MP.hv_RowEdgeFirst, MP.hv_ColumnEdgeFirst, MP.ROIweight * 2, region_line.line_rec.phi);
+                        HOperatorSet.DispObj(toolWindow.WindowImage.GetImage, toolWindow.Window.HalconWindow);
+                        HOperatorSet.DispObj(MP.ho_CrossFirst, toolWindow.Window.HalconWindow);
+                        HOperatorSet.CloseMeasure(MP.hv_MeasureHandle);
+                        set_list(MP.hv_RowEdgeFirst, MP.hv_ColumnEdgeFirst, MP.hv_AmplitudeFirst, MP.hv_Distance, result_list);
+                    }
+                    break;
+
+                case (int)MeasureType.pair:
+
+                    if (region_line.line_rec.ROI != null)
+                    {
+                        toolWindow.WindowImage.ShowImage_autosize(toolWindow.Window.HalconWindow);
+                        HOperatorSet.GenMeasureRectangle2(region_line.line_rec.row, region_line.line_rec.column, region_line.line_rec.phi, region_line.line_rec.length1, MP.ROIweight,
+                            toolWindow.WindowImage.GetWidth, toolWindow.WindowImage.GetHeight, "nearest_neighbor", out MP.hv_MeasureHandle);
+                        HOperatorSet.MeasurePairs(toolWindow.WindowImage.GetImage, MP.hv_MeasureHandle, MP.sigma, MP.threshold, MP.transition_pair, MP.select,
+                            out MP.hv_RowEdgeFirst, out MP.hv_ColumnEdgeFirst, out MP.hv_AmplitudeFirst, out MP.hv_RowEdgeSecond,
+                            out MP.hv_ColumnEdgeSecond, out MP.hv_AmplitudeSecond, out MP.hv_PinWidth, out MP.hv_PinDistance);
+
+                        HOperatorSet.GenCrossContourXld(out MP.ho_CrossFirst, MP.hv_RowEdgeFirst, MP.hv_ColumnEdgeFirst, MP.ROIweight * 2, region_line.line_rec.phi);
+                        HOperatorSet.GenCrossContourXld(out MP.ho_CrossSecond, MP.hv_RowEdgeSecond, MP.hv_ColumnEdgeSecond, MP.ROIweight * 2, region_line.line_rec.phi);
+
+                        HOperatorSet.DispObj(toolWindow.WindowImage.GetImage, toolWindow.Window.HalconWindow);
+                        HOperatorSet.DispObj(MP.ho_CrossFirst, toolWindow.Window.HalconWindow);
+                        HOperatorSet.DispObj(MP.ho_CrossSecond, toolWindow.Window.HalconWindow);
+                        HOperatorSet.CloseMeasure(MP.hv_MeasureHandle);
+                    }
+                    break;
+            }
+        }
+
+        private void set_list(HTuple hv_RowEdge, HTuple hv_ColumnEdge, HTuple hv_Amplitude, HTuple hv_Distance, System.Windows.Forms.ListView listView)
+        {
+
+            listView.BeginUpdate();   //数据更新，UI暂时挂起，直到EndUpdate绘制控件，可以有效避免闪烁并大大提高加载速度  
+            listView.Items.Clear();
+            for (int i = 0; i < hv_RowEdge.Length; i++)
+            {
+
+                string i_string = Convert.ToString(i);
+
+                HTuple hv_RowEdge_string;
+                HTuple hv_ColumnEdge_string;
+                HTuple hv_Amplitude_string;
+                HTuple hv_Distance_string;
+
+                HOperatorSet.TupleString(hv_RowEdge, ".7f", out hv_RowEdge_string);
+                HOperatorSet.TupleString(hv_ColumnEdge, ".7f", out hv_ColumnEdge_string);
+                HOperatorSet.TupleString(hv_Amplitude, ".7f", out hv_Amplitude_string);
+                HOperatorSet.TupleString(hv_Distance, ".7f", out hv_Distance_string);
+
+                listView.Items.Add(i_string, i_string, 0);
+                listView.Items[i_string].SubItems.Add(hv_RowEdge_string[i]);
+                listView.Items[i_string].SubItems.Add(hv_ColumnEdge_string[i]);
+                listView.Items[i_string].SubItems.Add(hv_Amplitude_string[i]);
+
+                if (i != hv_RowEdge.Length - 1)
+                    listView.Items[i_string].SubItems.Add(hv_Distance_string[i]);
+
+            }
+            listView.EndUpdate();  //结束数据处理，UI界面一次性绘制。  
+        }
+
+
+        public void run() {
+
+            HOperatorSet.GenMeasureRectangle2(region_line.line_rec.row, region_line.line_rec.column, region_line.line_rec.phi, region_line.line_rec.length1, MP.ROIweight,
+                            toolWindow.WindowImage.GetWidth, toolWindow.WindowImage.GetHeight, "nearest_neighbor", out MP.hv_MeasureHandle);
+            HOperatorSet.MeasurePos(toolWindow.WindowImage.GetImage, MP.hv_MeasureHandle, MP.sigma, MP.threshold,
+                          MP.transition_pos, MP.select, out MP.hv_RowEdgeFirst, out MP.hv_ColumnEdgeFirst, out MP.hv_AmplitudeFirst, out MP.hv_Distance);
+        }
+
+       
+    }
+}
