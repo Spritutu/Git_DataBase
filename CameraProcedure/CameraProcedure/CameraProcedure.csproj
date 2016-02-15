@@ -55,7 +55,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ProcedureForm\AccessImage.cs" />
+    <Compile Include="ProcedureForm\AccessImage\AccessImage.cs" />
     <Compile Include="CameraProceure\CameraProcedure.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -63,17 +63,17 @@
       <DependentUpon>CameraProcedure.cs</DependentUpon>
     </Compile>
     <Compile Include="CameraProceure\Table\Camera_Table.cs" />
-    <Compile Include="ProcedureForm\CreateMatchingModel.cs">
+    <Compile Include="ProcedureForm\CreateMatchingModel\CreateMatchingModel.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ProcedureForm\CreateMatchingModel.Designer.cs">
+    <Compile Include="ProcedureForm\CreateMatchingModel\CreateMatchingModel.Designer.cs">
       <DependentUpon>CreateMatchingModel.cs</DependentUpon>
     </Compile>
     <Compile Include="CameraProceure\HObject_Bitmap.cs" />
-    <Compile Include="ProcedureForm\Measure\Measure.cs">
+    <Compile Include="ProcedureForm\Measure_1D\Measure.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ProcedureForm\Measure\Measure.Designer.cs">
+    <Compile Include="ProcedureForm\Measure_1D\Measure.Designer.cs">
       <DependentUpon>Measure.cs</DependentUpon>
     </Compile>
     <Compile Include="CameraProceure\Table\MiniImage_Table.cs" />
@@ -91,16 +91,19 @@
     <EmbeddedResource Include="CameraProceure\CameraProcedure.resx">
       <DependentUpon>CameraProcedure.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ProcedureForm\CreateMatchingModel.resx">
+    <EmbeddedResource Include="ProcedureForm\CreateMatchingModel\CreateMatchingModel.resx">
       <DependentUpon>CreateMatchingModel.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ProcedureForm\Measure\Measure.resx">
+    <EmbeddedResource Include="ProcedureForm\Measure_1D\Measure.resx">
       <DependentUpon>Measure.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="ProcedureForm\Measure_2D\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
