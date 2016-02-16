@@ -82,6 +82,7 @@ namespace CameraProcedure
                     miniImage_Tabl.Add(mini);
                 }
             }
+
             //表格物件
             Table.DataSource = miniImage_Tabl;//繫結到圖片集合
             //Columns[0]的標頭文字

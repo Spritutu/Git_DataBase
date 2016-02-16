@@ -16,6 +16,8 @@ namespace CameraProcedure
     enum MeasureTransition_pair { all, all_strongest, negative, negative_strongest, positive, positive_strongest }
     enum MeasureTransition_pos { all, negative, positive}
     enum MeasureSelect { all, first, last }
+
+
     
     public struct MeasureParameter
     {
@@ -45,6 +47,12 @@ namespace CameraProcedure
 
     public partial class Measure : Form
     {
+        HObject temp1;
+        HObject temp2;
+        HObject temp3;
+
+
+
         private MeasureParameter MP;
         List<string> TransitionData_pair = new List<string>();
         List<string> TransitionData_pos = new List<string>();
@@ -78,6 +86,7 @@ namespace CameraProcedure
             this.MaxEage_trackBar.Value = 40;
             this.Sigma_trackBar.Value = 1;
             this.ROIWeight_trackBar.Value = 30;
+            
 
             MP.transition_pair = MeasureTransition_pair.all.ToString();
             MP.transition_pos = MeasureTransition_pos.all.ToString();
@@ -117,6 +126,11 @@ namespace CameraProcedure
 
         private void DrawROI_button_Click(object sender, EventArgs e)
         {
+            HOperatorSet.ClearWindow(EageWindow.HalconWindow);
+            toolWindow.Remove_Object_disp(temp1);
+            toolWindow.Remove_Object_disp(temp2);
+            toolWindow.Remove_Object_disp(temp3);
+
             switch (measuretype) {
                 case (int)MeasureType.pos:
                     //如果toolWindow視窗裡有影像才執行
@@ -138,7 +152,6 @@ namespace CameraProcedure
                           MP.transition_pos, MP.select, out MP.hv_RowEdgeFirst, out MP.hv_ColumnEdgeFirst, out MP.hv_AmplitudeFirst, out MP.hv_Distance);
                         MP.ho_CrossFirst.Dispose();
 
-
                         HOperatorSet.ClearWindow(toolWindow.Window.HalconWindow);
                         HOperatorSet.DispObj(toolWindow.WindowImage.GetImage, toolWindow.Window.HalconWindow);
                         region_line.showROI(toolWindow.Window.HalconWindow, (int)Shape.Line_rec, "yellow", "margin", 1);
@@ -147,10 +160,13 @@ namespace CameraProcedure
                             ROIWeight_trackBar.Value * 2, region_line.line_rec.phi);
                         HOperatorSet.DispObj(MP.ho_CrossFirst, toolWindow.Window.HalconWindow);
                         HOperatorSet.CloseMeasure(MP.hv_MeasureHandle);
+                                                
+                        temp1 = region_line.line_rec.ROI.Clone();
+                        temp2 = MP.ho_CrossFirst.Clone();
+                        toolWindow.Add_Object_disp(temp1);
+                        toolWindow.Add_Object_disp(temp2);
 
                         set_list(MP.hv_RowEdgeFirst, MP.hv_ColumnEdgeFirst, MP.hv_AmplitudeFirst, MP.hv_Distance, result_list);
-
-
                     }
                     else
                     {
@@ -175,15 +191,12 @@ namespace CameraProcedure
                             region_line.line_rec.length1, ROIWeight_trackBar.Value,
                             toolWindow.WindowImage.GetWidth, toolWindow.WindowImage.GetHeight, "nearest_neighbor", out MP.hv_MeasureHandle);
 
-                                             
-
                         HOperatorSet.MeasurePairs(toolWindow.WindowImage.GetImage, MP.hv_MeasureHandle, MP.sigma, MP.threshold, MP.transition_pair, MP.select,
                             out MP.hv_RowEdgeFirst, out MP.hv_ColumnEdgeFirst, out MP.hv_AmplitudeFirst, out MP.hv_RowEdgeSecond,
                             out MP.hv_ColumnEdgeSecond, out MP.hv_AmplitudeSecond, out MP.hv_PinWidth, out MP.hv_PinDistance);
 
                         MP.ho_CrossFirst.Dispose();
                         MP.ho_CrossSecond.Dispose();
-
 
                         HOperatorSet.ClearWindow(toolWindow.Window.HalconWindow);
                         HOperatorSet.DispObj(toolWindow.WindowImage.GetImage, toolWindow.Window.HalconWindow);
@@ -194,12 +207,18 @@ namespace CameraProcedure
                         HOperatorSet.GenCrossContourXld(out MP.ho_CrossSecond, MP.hv_RowEdgeSecond, MP.hv_ColumnEdgeSecond,
                             ROIWeight_trackBar.Value * 2, region_line.line_rec.phi);
 
+                        temp1 = region_line.line_rec.ROI.Clone();
+                        temp2 = MP.ho_CrossFirst.Clone();
+                        temp3 = MP.ho_CrossSecond.Clone();
+
+                        toolWindow.Add_Object_disp(temp1);
+                        toolWindow.Add_Object_disp(temp2);
+                        toolWindow.Add_Object_disp(temp3);
 
                         HOperatorSet.DispObj(MP.ho_CrossFirst, toolWindow.Window.HalconWindow);
                         HOperatorSet.DispObj(MP.ho_CrossSecond, toolWindow.Window.HalconWindow);
+
                         HOperatorSet.CloseMeasure(MP.hv_MeasureHandle);
-
-
                     }
                     else
                     {
@@ -210,6 +229,8 @@ namespace CameraProcedure
 
             }
             
+                Eage_num.Value = 1;
+                Eage_num.Value = 0;
 
         }
 
@@ -247,7 +268,6 @@ namespace CameraProcedure
 
         private void sigma_ValueChanged(object sender, EventArgs e)
         {
-
             this.Sigma_trackBar.Value = (int)this.sigma.Value;
             MP.sigma = (int)this.sigma.Value;
             Showresult();
@@ -255,12 +275,9 @@ namespace CameraProcedure
 
         private void ROIWeight_ValueChanged(object sender, EventArgs e)
         {
-
             this.ROIWeight_trackBar.Value = (int)this.ROIWeight.Value;
             MP.ROIweight = (int)this.ROIWeight.Value;
             Showresult();
-
-
         }
 
         private void posButton_CheckedChanged(object sender, EventArgs e)
@@ -302,6 +319,10 @@ namespace CameraProcedure
 
 
         private void Showresult() {
+
+            toolWindow.Remove_Object_disp(temp1);
+            toolWindow.Remove_Object_disp(temp2);
+            toolWindow.Remove_Object_disp(temp3);
             switch (measuretype)
             {
                 case (int)MeasureType.pos:
@@ -340,6 +361,17 @@ namespace CameraProcedure
                         HOperatorSet.CloseMeasure(MP.hv_MeasureHandle);
                     }
                     break;
+            }
+            if (region_line.line_rec.ROI!=null && MP.ho_CrossFirst != null) {
+                temp1 = region_line.line_rec.ROI.Clone();
+                temp2 = MP.ho_CrossFirst.Clone();
+                toolWindow.Add_Object_disp(temp1);
+                toolWindow.Add_Object_disp(temp2);
+            }
+            if (MP.ho_CrossSecond != null)
+            {
+                temp3 = MP.ho_CrossSecond.Clone();
+                toolWindow.Add_Object_disp(temp3);
             }
         }
 
@@ -384,6 +416,50 @@ namespace CameraProcedure
                           MP.transition_pos, MP.select, out MP.hv_RowEdgeFirst, out MP.hv_ColumnEdgeFirst, out MP.hv_AmplitudeFirst, out MP.hv_Distance);
         }
 
-       
+        private void Eage_num_ValueChanged(object sender, EventArgs e)
+        {
+            if (MP.hv_RowEdgeFirst.Length != 0)
+                Eage_num.Maximum = MP.hv_RowEdgeFirst.Length - 1;
+            else
+                Eage_num.Maximum = 1;
+
+            HTuple hv_Width, hv_Height;
+            HObject Temp;
+
+            HOperatorSet.GetImageSize(Measure_Image.GetImage, out hv_Width, out hv_Height);
+            HOperatorSet.SetSystem("width", hv_Width);
+            HOperatorSet.SetSystem("height", hv_Height);
+
+
+            if ((int)Eage_num.Value < MP.hv_RowEdgeFirst.Length)
+            {
+                hv_Height = MP.hv_RowEdgeFirst[(int)Eage_num.Value];
+                hv_Width = MP.hv_ColumnEdgeFirst[(int)Eage_num.Value];
+
+                HOperatorSet.SetPart(EageWindow.HalconWindow, hv_Height - 100, hv_Width - 100, hv_Height + 100, hv_Width + 100);
+                HOperatorSet.ClearWindow(EageWindow.HalconWindow);
+
+                HOperatorSet.GenCrossContourXld(out Temp, hv_Height, hv_Width, ROIWeight_trackBar.Value * 2, region_line.line_rec.phi);
+
+                HOperatorSet.SetColor(EageWindow.HalconWindow, "yellow");
+                HOperatorSet.SetDraw(EageWindow.HalconWindow, "margin");
+                HOperatorSet.SetLineWidth(EageWindow.HalconWindow, 1);
+
+                HOperatorSet.DispObj(Measure_Image.GetImage, EageWindow.HalconWindow);
+                HOperatorSet.DispObj(Temp, EageWindow.HalconWindow);
+            }
+            else
+            {
+                hv_Height = 0;
+                hv_Width = 0;
+                HOperatorSet.ClearWindow(EageWindow.HalconWindow);
+            }
+
+
+            
+        }
+        
+
+
     }
 }

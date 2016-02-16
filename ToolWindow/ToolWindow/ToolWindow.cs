@@ -16,7 +16,6 @@ namespace ToolWindow
 {
     public partial class ToolWindow: UserControl
     {
-        
         // 建立事件和事件觸發函數
         public event HMouseEventHandler Toolwindow_UP;
         public event HMouseEventHandler Toolwindow_DWON;
@@ -46,6 +45,27 @@ namespace ToolWindow
         
         private ImageBase windowImage = new ImageBase();
         public ImageBase WindowImage{get { return windowImage; }set { windowImage = value; }}
+
+
+
+
+
+
+        private List<HObject> Object_disp = new List<HObject>();
+        public void Add_Object_disp(HObject obj)
+        {
+            Object_disp.Add(obj);
+        }
+        public void Remove_Object_disp(HObject obj)
+        {
+            Object_disp.Remove(obj);
+        }
+
+
+
+
+
+
 
         private PointBase mousePosition_pre = new PointBase();
         private PointBase mousePosition = new PointBase();
@@ -97,6 +117,14 @@ namespace ToolWindow
                     break;
             }
             ToolwindowMOVE(e);
+
+            for (int i =0; i < Object_disp.Count;i++)
+            {
+                if (Object_disp[i] != null)
+                {
+                    HOperatorSet.DispObj(Object_disp[i], this.window.HalconWindow);
+                }
+            }
 
         }
 
@@ -184,6 +212,13 @@ namespace ToolWindow
                     break;
             }
             ToolwindowWHEEL(e);
+            for (int i = 0; i < Object_disp.Count; i++)
+            {
+                if (Object_disp[i] != null)
+                {
+                    HOperatorSet.DispObj(Object_disp[i], this.window.HalconWindow);
+                }
+            }
         }
 
         private void fitButton_Click(object sender, EventArgs e)
@@ -229,6 +264,13 @@ namespace ToolWindow
                     break;
             }
             ToolwindowDWON(e);
+            for (int i = 0; i < Object_disp.Count; i++)
+            {
+                if (Object_disp[i] != null)
+                {
+                    HOperatorSet.DispObj(Object_disp[i], this.window.HalconWindow);
+                }
+            }
         }
 
         private void Window_HMouseUp(object sender, HMouseEventArgs e)
@@ -247,6 +289,14 @@ namespace ToolWindow
 
             // 觸發 ToolwindowUP Event
             ToolwindowUP(e);
+
+            for (int i = 0; i < Object_disp.Count; i++)
+            {
+                if (Object_disp[i] != null)
+                {
+                    HOperatorSet.DispObj(Object_disp[i], window.HalconWindow);
+                }
+            }
         }
 
         public void DispImageFit(HTuple window)
@@ -284,6 +334,14 @@ namespace ToolWindow
                 HOperatorSet.ClearWindow(this.window.HalconWindow);
                 HOperatorSet.SetPart(this.window.HalconWindow, _beginRow, _begin_Col, _endRow, _endCol);
                 HOperatorSet.DispObj(windowImage.GetImage, this.window.HalconWindow);
+            }
+
+            for (int i = 0; i < Object_disp.Count; i++)
+            {
+                if (Object_disp[i] != null)
+                {
+                    HOperatorSet.DispObj(Object_disp[i], this.window.HalconWindow);
+                }
             }
         }
     }

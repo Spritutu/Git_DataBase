@@ -51,13 +51,16 @@
             this.MaxEage_trackBar = new System.Windows.Forms.TrackBar();
             this.EageWindow = new HalconDotNet.HWindowControl();
             this.Page_result = new System.Windows.Forms.TabPage();
+            this.result_list = new System.Windows.Forms.ListView();
             this.DrawROI_button = new System.Windows.Forms.Button();
             this.OK = new System.Windows.Forms.Button();
             this.toolWindow = new ToolWindow.ToolWindow();
             this.pairButton = new System.Windows.Forms.RadioButton();
             this.posButton = new System.Windows.Forms.RadioButton();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.result_list = new System.Windows.Forms.ListView();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.radioButton1 = new System.Windows.Forms.RadioButton();
+            this.radioButton2 = new System.Windows.Forms.RadioButton();
             this.tabControl1.SuspendLayout();
             this.Page_1DMeasure.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -71,6 +74,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.MaxEage_trackBar)).BeginInit();
             this.Page_result.SuspendLayout();
             this.panel1.SuspendLayout();
+            this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -146,6 +150,7 @@
             // 
             // parameter
             // 
+            this.parameter.Controls.Add(this.panel2);
             this.parameter.Controls.Add(this.label1);
             this.parameter.Controls.Add(this.Eage_num);
             this.parameter.Controls.Add(this.ROIWeight_label);
@@ -185,6 +190,7 @@
             this.Eage_num.Name = "Eage_num";
             this.Eage_num.Size = new System.Drawing.Size(52, 22);
             this.Eage_num.TabIndex = 52;
+            this.Eage_num.ValueChanged += new System.EventHandler(this.Eage_num_ValueChanged);
             // 
             // ROIWeight_label
             // 
@@ -320,6 +326,17 @@
             this.Page_result.Text = "測量結果";
             this.Page_result.UseVisualStyleBackColor = true;
             // 
+            // result_list
+            // 
+            this.result_list.Activation = System.Windows.Forms.ItemActivation.TwoClick;
+            this.result_list.GridLines = true;
+            this.result_list.LabelEdit = true;
+            this.result_list.Location = new System.Drawing.Point(6, 6);
+            this.result_list.Name = "result_list";
+            this.result_list.Size = new System.Drawing.Size(570, 637);
+            this.result_list.TabIndex = 29;
+            this.result_list.UseCompatibleStateImageBehavior = false;
+            // 
             // DrawROI_button
             // 
             this.DrawROI_button.Image = ((System.Drawing.Image)(resources.GetObject("DrawROI_button.Image")));
@@ -381,16 +398,36 @@
             this.panel1.Size = new System.Drawing.Size(51, 45);
             this.panel1.TabIndex = 8;
             // 
-            // result_list
+            // panel2
             // 
-            this.result_list.Activation = System.Windows.Forms.ItemActivation.TwoClick;
-            this.result_list.GridLines = true;
-            this.result_list.LabelEdit = true;
-            this.result_list.Location = new System.Drawing.Point(6, 6);
-            this.result_list.Name = "result_list";
-            this.result_list.Size = new System.Drawing.Size(570, 637);
-            this.result_list.TabIndex = 29;
-            this.result_list.UseCompatibleStateImageBehavior = false;
+            this.panel2.Controls.Add(this.radioButton1);
+            this.panel2.Controls.Add(this.radioButton2);
+            this.panel2.Location = new System.Drawing.Point(123, 12);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(51, 44);
+            this.panel2.TabIndex = 9;
+            // 
+            // radioButton1
+            // 
+            this.radioButton1.AutoSize = true;
+            this.radioButton1.Location = new System.Drawing.Point(3, 3);
+            this.radioButton1.Name = "radioButton1";
+            this.radioButton1.Size = new System.Drawing.Size(39, 16);
+            this.radioButton1.TabIndex = 7;
+            this.radioButton1.TabStop = true;
+            this.radioButton1.Text = "pos";
+            this.radioButton1.UseVisualStyleBackColor = true;
+            // 
+            // radioButton2
+            // 
+            this.radioButton2.AutoSize = true;
+            this.radioButton2.Location = new System.Drawing.Point(3, 23);
+            this.radioButton2.Name = "radioButton2";
+            this.radioButton2.Size = new System.Drawing.Size(41, 16);
+            this.radioButton2.TabIndex = 6;
+            this.radioButton2.TabStop = true;
+            this.radioButton2.Text = "pair";
+            this.radioButton2.UseVisualStyleBackColor = true;
             // 
             // Measure
             // 
@@ -421,6 +458,8 @@
             this.Page_result.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            this.panel2.ResumeLayout(false);
+            this.panel2.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -455,5 +494,8 @@
         private System.Windows.Forms.RadioButton posButton;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.ListView result_list;
+        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.RadioButton radioButton1;
+        private System.Windows.Forms.RadioButton radioButton2;
     }
 }

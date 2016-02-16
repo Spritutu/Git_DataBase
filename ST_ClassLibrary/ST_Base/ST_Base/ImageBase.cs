@@ -26,7 +26,7 @@ namespace ST_Base
         //---------------------------------------------------------------
         public ImageBase()//建構函式
         {
-
+             
         }
 
         public void ShowImage_autosize(HTuple Window)//將圖片顯示在指定的halcon視窗上  輸入變數：HTuple Window(視窗)

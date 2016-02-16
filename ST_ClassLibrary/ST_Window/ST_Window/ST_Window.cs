@@ -70,6 +70,7 @@ namespace ST_Window
                 HOperatorSet.SetPaint(Window.HalconWindow, new HTuple("default"));//保持图像显示比例
                 HOperatorSet.SetPart(Window.HalconWindow, current_beginRow- diff_row, current_beginCol-diff_col, current_endRow- diff_row, current_endCol-diff_col);
                 HOperatorSet.DispObj(window_image.GetImage, Window.HalconWindow);
+
             }
             mousePosition_pre.GetMposition(Window.HalconWindow);
 
