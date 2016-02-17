@@ -48,12 +48,15 @@
             this.Camera_4 = new System.Windows.Forms.TabPage();
             this.Camerawindow4 = new HalconDotNet.HWindowControl();
             this.MainstatusStrip = new System.Windows.Forms.StatusStrip();
+            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.MainmenuStrip.SuspendLayout();
             this.Camerawindow2.SuspendLayout();
             this.Camera_1.SuspendLayout();
             this.Camera_2.SuspendLayout();
             this.Camera_3.SuspendLayout();
             this.Camera_4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
+            this.splitContainer1.SuspendLayout();
             this.SuspendLayout();
             // 
             // infoButton
@@ -148,6 +151,7 @@
             // 
             // Camera_1
             // 
+            this.Camera_1.Controls.Add(this.splitContainer1);
             this.Camera_1.Controls.Add(this.Camerawindow1);
             this.Camera_1.Location = new System.Drawing.Point(4, 22);
             this.Camera_1.Name = "Camera_1";
@@ -243,6 +247,13 @@
             this.MainstatusStrip.TabIndex = 11;
             this.MainstatusStrip.Text = "MainstatusStrip";
             // 
+            // splitContainer1
+            // 
+            this.splitContainer1.Location = new System.Drawing.Point(514, 163);
+            this.splitContainer1.Name = "splitContainer1";
+            this.splitContainer1.Size = new System.Drawing.Size(150, 100);
+            this.splitContainer1.TabIndex = 2;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -265,6 +276,8 @@
             this.Camera_2.ResumeLayout(false);
             this.Camera_3.ResumeLayout(false);
             this.Camera_4.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
+            this.splitContainer1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -291,6 +304,7 @@
         private HalconDotNet.HWindowControl hWindowControl3;
         private HalconDotNet.HWindowControl Camerawindow3;
         private HalconDotNet.HWindowControl Camerawindow4;
+        private System.Windows.Forms.SplitContainer splitContainer1;
     }
 }
 

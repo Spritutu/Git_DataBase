@@ -12,116 +12,153 @@ using ST_Base;
 
 namespace CameraProcedure
 {
+    //測量模式
     enum MeasureType { pos,pair }
+    //測量結果模式_pair
     enum MeasureTransition_pair { all, all_strongest, negative, negative_strongest, positive, positive_strongest }
-    enum MeasureTransition_pos { all, negative, positive}
+    //測量結果模式_pos
+    enum MeasureTransition_pos { all, negative, positive }
+    //測量結果選擇
     enum MeasureSelect { all, first, last }
 
 
-    
+    /// <summary>
+    /// MeasureParameter
+    /// </summary>
     public struct MeasureParameter
     {
+        //pair的前標點(ho_CrossFirst)and後標點(ho_CrossSecond)  其中ho_CrossFirst與pos模式下的標點共用
         public HObject ho_CrossFirst;
         public HObject ho_CrossSecond;
-
+        //測量控制器
         public HTuple hv_MeasureHandle;
+
+        //********測量參數(in)**********
         public HTuple sigma;
         public HTuple threshold;
         public HTuple transition_pair;
         public HTuple transition_pos;
         public HTuple select;
-
+        //********測量參數(out)**********
         public HTuple hv_RowEdgeFirst;
         public HTuple hv_ColumnEdgeFirst;
         public HTuple hv_AmplitudeFirst;
         public HTuple hv_RowEdgeSecond;
         public HTuple hv_ColumnEdgeSecond;
         public HTuple hv_AmplitudeSecond;
-
         public HTuple hv_Distance;
         public HTuple hv_PinWidth;
         public HTuple hv_PinDistance;
         public HTuple ROIweight;
-        
     }
 
     public partial class Measure : Form
     {
+
+        //***********暫存未整理區域***********
         HObject temp1;
         HObject temp2;
         HObject temp3;
+        //***********暫存未整理區域***********
 
-
-
+        /// <summary>
+        /// MeasureParameter 測量參數
+        /// </summary>
         private MeasureParameter MP;
+        /// <summary>
+        /// TransitionData_pair下拉式表單參數
+        /// </summary>
         List<string> TransitionData_pair = new List<string>();
+        /// <summary>
+        /// TransitionData_pos下拉式表單參數
+        /// </summary>
         List<string> TransitionData_pos = new List<string>();
+        /// <summary>
+        /// SelectData下拉式表單參數
+        /// </summary>
         List<string> SelectData = new List<string>();
-
+        /// <summary>
+        /// 待測圖片
+        /// </summary>
         private ImageBase Measure_Image = new ImageBase();
         public HObject MeasureImage { set { Measure_Image.SetImage = value; } }
-        private PointBase mousePosition = new PointBase();
+        /// <summary>
+        /// line的ROI
+        /// </summary>
         private RegionBase region_line = new RegionBase();
+
+        /// <summary>
+        /// 測量模式
+        /// </summary>
         int measuretype = 0;
-        
+        /// <summary>
+        /// 是否設定完成->按下OK鈕
+        /// </summary>
         public bool setornot = false;
         public Measure()
         {
             InitializeComponent();
         }
-        
+
+        bool ifopenfromornot = true;
+
         private void Measure_Activated(object sender, EventArgs e)
         {
-            //如果有圖片則載入圖片至toolWindow視窗裡
-            if (Measure_Image.GetImage != null)
+            if (ifopenfromornot)
             {
-                toolWindow.WindowImage = Measure_Image;
-                toolWindow.Window.Focus();
-                toolWindow.showImage();
+                //如果有圖片則載入圖片至toolWindow視窗裡
+                if (Measure_Image.GetImage != null)
+                {
+                    toolWindow.WindowImage = Measure_Image;
+                    toolWindow.Window.Focus();
+                    toolWindow.showImage();
+                }
+                //表格參數預載
+                this.MaxEdge.Value = 40;
+                this.sigma.Value = 1;
+                this.ROIWeight.Value = 30;
+                this.MaxEage_trackBar.Value = 40;
+                this.Sigma_trackBar.Value = 1;
+                this.ROIWeight_trackBar.Value = 30;
+
+
+                MP.transition_pair = MeasureTransition_pair.all.ToString();
+                MP.transition_pos = MeasureTransition_pos.all.ToString();
+                MP.select = MeasureSelect.all.ToString();
+                MP.sigma = 1;
+                MP.threshold = 40;
+
+                TransitionData_pair.Add(MeasureTransition_pair.all.ToString());
+                TransitionData_pair.Add(MeasureTransition_pair.all_strongest.ToString());
+                TransitionData_pair.Add(MeasureTransition_pair.negative.ToString());
+                TransitionData_pair.Add(MeasureTransition_pair.negative_strongest.ToString());
+                TransitionData_pair.Add(MeasureTransition_pair.positive.ToString());
+                TransitionData_pair.Add(MeasureTransition_pair.positive_strongest.ToString());
+
+                TransitionData_pos.Add(MeasureTransition_pos.all.ToString());
+                TransitionData_pos.Add(MeasureTransition_pos.negative.ToString());
+                TransitionData_pos.Add(MeasureTransition_pos.positive.ToString());
+
+                SelectData.Add(MeasureSelect.all.ToString());
+                SelectData.Add(MeasureSelect.first.ToString());
+                SelectData.Add(MeasureSelect.last.ToString());
+
+                result_list.Clear();
+
+                result_list.View = View.Details;
+                result_list.Columns.Add("編號");
+                result_list.Columns.Add("行");
+                result_list.Columns.Add("列");
+                result_list.Columns.Add("振幅");
+                result_list.Columns.Add("距離");
+                this.result_list.EndUpdate();
+
+                SelectBox.DataSource = SelectData;
+                posButton.Checked = true;
+                ifopenfromornot = false;
             }
-            //表格參數預載
-            this.MaxEdge.Value = 40;
-            this.sigma.Value = 1;
-            this.ROIWeight.Value = 30;
-            this.MaxEage_trackBar.Value = 40;
-            this.Sigma_trackBar.Value = 1;
-            this.ROIWeight_trackBar.Value = 30;
-            
-
-            MP.transition_pair = MeasureTransition_pair.all.ToString();
-            MP.transition_pos = MeasureTransition_pos.all.ToString();
-            MP.select = MeasureSelect.all.ToString();
-            MP.sigma = 1;
-            MP.threshold = 40;
-
-            TransitionData_pair.Add(MeasureTransition_pair.all.ToString());
-            TransitionData_pair.Add(MeasureTransition_pair.all_strongest.ToString());
-            TransitionData_pair.Add(MeasureTransition_pair.negative.ToString());
-            TransitionData_pair.Add(MeasureTransition_pair.negative_strongest.ToString());
-            TransitionData_pair.Add(MeasureTransition_pair.positive.ToString());
-            TransitionData_pair.Add(MeasureTransition_pair.positive_strongest.ToString());
-
-            TransitionData_pos.Add(MeasureTransition_pos.all.ToString());
-            TransitionData_pos.Add(MeasureTransition_pos.negative.ToString());
-            TransitionData_pos.Add(MeasureTransition_pos.positive.ToString());
-
-            SelectData.Add(MeasureSelect.all.ToString());
-            SelectData.Add(MeasureSelect.first.ToString());
-            SelectData.Add(MeasureSelect.last.ToString());
-
-
-            result_list.Clear();
-            
-            result_list.View = View.Details;
-            result_list.Columns.Add("編號");
-            result_list.Columns.Add("行");
-            result_list.Columns.Add("列");
-            result_list.Columns.Add("振幅");
-            result_list.Columns.Add("距離");
-            this.result_list.EndUpdate();
-            
-            SelectBox.DataSource = SelectData;
-            posButton.Checked = true;
+            else
+                Showresult();
         }
 
         private void DrawROI_button_Click(object sender, EventArgs e)
@@ -237,6 +274,7 @@ namespace CameraProcedure
         private void OK_Click(object sender, EventArgs e)
         {
             setornot = true;
+            ifopenfromornot = false;
             Hide();
         }
 
@@ -454,12 +492,8 @@ namespace CameraProcedure
                 hv_Width = 0;
                 HOperatorSet.ClearWindow(EageWindow.HalconWindow);
             }
-
-
             
         }
         
-
-
     }
 }

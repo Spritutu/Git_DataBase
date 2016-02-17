@@ -23,5 +23,8 @@ namespace MainProject2._0
             CameraProcedureForm CPF = new CameraProcedureForm();
             CPF.ShowDialog();
         }
+
+       
+
     }
 }

@@ -35,13 +35,9 @@
             this.Camera_4 = new System.Windows.Forms.TabPage();
             this.cameraProcedure1 = new CameraProcedure.CameraProcedure();
             this.cameraProcedure2 = new CameraProcedure.CameraProcedure();
-            this.cameraProcedure3 = new CameraProcedure.CameraProcedure();
-            this.cameraProcedure4 = new CameraProcedure.CameraProcedure();
             this.Camerawindow2.SuspendLayout();
             this.Camera_1.SuspendLayout();
             this.Camera_2.SuspendLayout();
-            this.Camera_3.SuspendLayout();
-            this.Camera_4.SuspendLayout();
             this.SuspendLayout();
             // 
             // Camerawindow2
@@ -80,7 +76,6 @@
             // 
             // Camera_3
             // 
-            this.Camera_3.Controls.Add(this.cameraProcedure3);
             this.Camera_3.Location = new System.Drawing.Point(4, 22);
             this.Camera_3.Name = "Camera_3";
             this.Camera_3.Padding = new System.Windows.Forms.Padding(3);
@@ -91,7 +86,6 @@
             // 
             // Camera_4
             // 
-            this.Camera_4.Controls.Add(this.cameraProcedure4);
             this.Camera_4.Location = new System.Drawing.Point(4, 22);
             this.Camera_4.Name = "Camera_4";
             this.Camera_4.Padding = new System.Windows.Forms.Padding(3);
@@ -102,31 +96,17 @@
             // 
             // cameraProcedure1
             // 
-            this.cameraProcedure1.Location = new System.Drawing.Point(6, 6);
+            this.cameraProcedure1.Location = new System.Drawing.Point(6, 5);
             this.cameraProcedure1.Name = "cameraProcedure1";
             this.cameraProcedure1.Size = new System.Drawing.Size(1502, 733);
             this.cameraProcedure1.TabIndex = 0;
             // 
             // cameraProcedure2
             // 
-            this.cameraProcedure2.Location = new System.Drawing.Point(6, 6);
+            this.cameraProcedure2.Location = new System.Drawing.Point(3, 6);
             this.cameraProcedure2.Name = "cameraProcedure2";
-            this.cameraProcedure2.Size = new System.Drawing.Size(1502, 733);
+            this.cameraProcedure2.Size = new System.Drawing.Size(1502, 722);
             this.cameraProcedure2.TabIndex = 1;
-            // 
-            // cameraProcedure3
-            // 
-            this.cameraProcedure3.Location = new System.Drawing.Point(6, 6);
-            this.cameraProcedure3.Name = "cameraProcedure3";
-            this.cameraProcedure3.Size = new System.Drawing.Size(1502, 733);
-            this.cameraProcedure3.TabIndex = 1;
-            // 
-            // cameraProcedure4
-            // 
-            this.cameraProcedure4.Location = new System.Drawing.Point(6, 6);
-            this.cameraProcedure4.Name = "cameraProcedure4";
-            this.cameraProcedure4.Size = new System.Drawing.Size(1502, 733);
-            this.cameraProcedure4.TabIndex = 1;
             // 
             // CameraProcedureForm
             // 
@@ -139,8 +119,6 @@
             this.Camerawindow2.ResumeLayout(false);
             this.Camera_1.ResumeLayout(false);
             this.Camera_2.ResumeLayout(false);
-            this.Camera_3.ResumeLayout(false);
-            this.Camera_4.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -150,11 +128,9 @@
         private System.Windows.Forms.TabControl Camerawindow2;
         private System.Windows.Forms.TabPage Camera_1;
         private System.Windows.Forms.TabPage Camera_2;
-        private CameraProcedure.CameraProcedure cameraProcedure2;
         private System.Windows.Forms.TabPage Camera_3;
-        private CameraProcedure.CameraProcedure cameraProcedure3;
         private System.Windows.Forms.TabPage Camera_4;
-        private CameraProcedure.CameraProcedure cameraProcedure4;
         private CameraProcedure.CameraProcedure cameraProcedure1;
+        private CameraProcedure.CameraProcedure cameraProcedure2;
     }
 }
