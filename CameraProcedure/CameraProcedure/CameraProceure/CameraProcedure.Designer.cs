@@ -43,6 +43,7 @@
             this.ObjectMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
             this.startButton = new System.Windows.Forms.Button();
+            this.二維量測ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.MainWindowObjectTable)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ProcedureTable)).BeginInit();
             this.PrcedureMenuStrip.SuspendLayout();
@@ -91,16 +92,17 @@
             this.插入程序ToolStripMenuItem,
             this.刪除程序ToolStripMenuItem});
             this.PrcedureMenuStrip.Name = "PrcedureStrip";
-            this.PrcedureMenuStrip.Size = new System.Drawing.Size(125, 48);
+            this.PrcedureMenuStrip.Size = new System.Drawing.Size(153, 70);
             // 
             // 插入程序ToolStripMenuItem
             // 
             this.插入程序ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.載入圖片ToolStripMenuItem,
             this.一維測量ToolStripMenuItem,
+            this.二維量測ToolStripMenuItem,
             this.建立匹配ModelToolStripMenuItem});
             this.插入程序ToolStripMenuItem.Name = "插入程序ToolStripMenuItem";
-            this.插入程序ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.插入程序ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.插入程序ToolStripMenuItem.Text = "插入程序";
             // 
             // 載入圖片ToolStripMenuItem
@@ -127,7 +129,7 @@
             // 刪除程序ToolStripMenuItem
             // 
             this.刪除程序ToolStripMenuItem.Name = "刪除程序ToolStripMenuItem";
-            this.刪除程序ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.刪除程序ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.刪除程序ToolStripMenuItem.Text = "刪除程序";
             this.刪除程序ToolStripMenuItem.Click += new System.EventHandler(this.刪除程序ToolStripMenuItem_Click);
             // 
@@ -155,6 +157,13 @@
             this.startButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.startButton.UseVisualStyleBackColor = true;
             this.startButton.Click += new System.EventHandler(this.startButton_Click);
+            // 
+            // 二維量測ToolStripMenuItem
+            // 
+            this.二維量測ToolStripMenuItem.Name = "二維量測ToolStripMenuItem";
+            this.二維量測ToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
+            this.二維量測ToolStripMenuItem.Text = "二維量測";
+            this.二維量測ToolStripMenuItem.Click += new System.EventHandler(this.二維量測ToolStripMenuItem_Click);
             // 
             // CameraProcedure
             // 
@@ -189,5 +198,6 @@
         private System.Windows.Forms.ContextMenuStrip ObjectMenuStrip;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem3;
         private System.Windows.Forms.Button startButton;
+        private System.Windows.Forms.ToolStripMenuItem 二維量測ToolStripMenuItem;
     }
 }

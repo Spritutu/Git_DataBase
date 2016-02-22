@@ -11,7 +11,7 @@ using ST_Base;
 
 namespace CameraProcedure
 {
-    enum procedure_M { readimage = 1, Measure , CreateMatchingModel };
+    enum procedure_M { readimage = 1, Measure_1D, Measure_2D, CreateMatchingModel };
     public partial class CameraProcedure : UserControl
     {
         private Camera_Table Camera = new Camera_Table();
@@ -255,18 +255,16 @@ namespace CameraProcedure
         {
             //控制項目前cell位置
             CurrencyManager cm = (CurrencyManager)this.BindingContext[ProcedureTable.DataSource];
-            //設定Procedure_Table顯示字串
-            Procedure_Table p = new Procedure_Table();
+            //設定Procedure_Table以及Object_Table
+            Procedure_Table P = new Procedure_Table();
             Object_Table O = new Object_Table();
 
-            p.ProcedureName = "Measure";
-            p.Setornot = false;
-            p.ProcedureMethod = (int)procedure_M.Measure;
-            p.SettingForm = new Measure();
-            
+            P.ProcedureName = "Measure_1D";
+            P.Setornot = false;
+            P.ProcedureMethod = (int)procedure_M.Measure_1D;
+            P.SettingForm = new Measure_1D();
 
-
-            Camera.Procedure.Insert(cm.Position + 1, p);
+            Camera.Procedure.Insert(cm.Position + 1, P);
             Camera.Object.Insert(cm.Position + 1, O);
 
             //重新排序Procedure編號
@@ -353,19 +351,35 @@ namespace CameraProcedure
                     }
                     break;
 
-                case (int)procedure_M.Measure:
+                case (int)procedure_M.Measure_1D:
 
-                    Measure M_temp = (Measure)Camera.Procedure[cm.Position].SettingForm;
+                    Measure_1D M1_temp = (Measure_1D)Camera.Procedure[cm.Position].SettingForm;
                     if (cm.Position != 0)
                     {
-                        M_temp.MeasureImage = Camera.Object[cm.Position - 1].Image;           //暫時使用前一個程序的圖片(載入圖片)
+                        M1_temp.MeasureImage = Camera.Object[cm.Position - 1].Image;           //暫時使用前一個程序的圖片(載入圖片)
                         
                     }
 
-                    M_temp.ShowDialog();
-                    Camera.Procedure[cm.Position].procedurefunction.doprocedurefunction += M_temp.run;
-                    Camera.Procedure[cm.Position].SettingForm = M_temp;
-                    Camera.Procedure[cm.Position].Setornot = M_temp.setornot;
+                    M1_temp.ShowDialog();
+                    Camera.Procedure[cm.Position].procedurefunction.doprocedurefunction += M1_temp.run;
+                    Camera.Procedure[cm.Position].SettingForm = M1_temp;
+                    Camera.Procedure[cm.Position].Setornot = M1_temp.setornot;
+
+                    break;
+
+                case (int)procedure_M.Measure_2D:
+
+                    Measure_2D M2_temp = (Measure_2D)Camera.Procedure[cm.Position].SettingForm;
+                    if (cm.Position != 0)
+                    {
+                        M2_temp.MeasureImage = Camera.Object[cm.Position - 1].Image;           //暫時使用前一個程序的圖片(載入圖片)
+
+                    }
+
+                    M2_temp.ShowDialog();
+                    Camera.Procedure[cm.Position].procedurefunction.doprocedurefunction += M2_temp.run;
+                    Camera.Procedure[cm.Position].SettingForm = M2_temp;
+                    Camera.Procedure[cm.Position].Setornot = M2_temp.setornot;
 
                     break;
 
@@ -382,8 +396,6 @@ namespace CameraProcedure
                     Camera.Procedure[cm.Position].Setornot = C_temp.setornot;
 
                     break;
-
-
             }
             setProcedurecolor();
 
@@ -432,6 +444,45 @@ namespace CameraProcedure
 
             else
                 MessageBox.Show("還有參數沒有設定喔");
+        }
+
+        private void 二維量測ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+            //控制項目前cell位置
+            CurrencyManager cm = (CurrencyManager)this.BindingContext[ProcedureTable.DataSource];
+            //設定Procedure_Table顯示字串
+            Procedure_Table p = new Procedure_Table();
+            Object_Table O = new Object_Table();
+
+            p.ProcedureName = "Measure_2D";
+            p.Setornot = false;
+            p.ProcedureMethod = (int)procedure_M.Measure_2D;
+            p.SettingForm = new Measure_2D();
+
+            Camera.Procedure.Insert(cm.Position + 1, p);
+            Camera.Object.Insert(cm.Position + 1, O);
+
+            //重新排序Procedure編號
+            remarkProcedure(0);
+
+            //更新表格
+            if (cm != null)
+            {
+                cm.Refresh();
+                ProcedureTable.ClearSelection();
+
+                if (ProcedureTable.RowCount < cm.Position + 1)
+                {
+                    ProcedureTable.Rows[cm.Position + 1].Selected = true;
+                }
+                else
+                {
+                    ProcedureTable.Rows[cm.Position].Selected = true;
+                }
+            }
+
+            setProcedurecolor();
         }
     }
 }

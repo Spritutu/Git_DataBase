@@ -88,7 +88,9 @@ namespace ToolWindow
         private void Window_HMouseMove(object sender, HalconDotNet.HMouseEventArgs e)
         {
             //取得滑鼠在視窗上的位置
-            mousePosition.GetMposition(window.HalconWindow);
+            //mousePosition.GetMposition(window.HalconWindow);
+            mousePosition.row = e.X;
+            mousePosition.col = e.Y;
             //顯示位置
             MouseXY.Text = "Mouse(" + mousePosition.col.ToString() + "," + mousePosition.row.ToString() + ")";
             //顯示滑鼠位置的灰階值
@@ -152,7 +154,10 @@ namespace ToolWindow
                     {
                         try
                         {
-                            mousePosition.GetMpositionSubPix(window.HalconWindow);
+                            //mousePosition.GetMpositionSubPix(window.HalconWindow);
+                            mousePosition.row = e.X;
+                            mousePosition.col = e.Y;
+
                             HOperatorSet.GetPart(window.HalconWindow, out current_beginRow, out current_beginCol, out current_endRow, out current_endCol);
                         }
                         catch (Exception ex)

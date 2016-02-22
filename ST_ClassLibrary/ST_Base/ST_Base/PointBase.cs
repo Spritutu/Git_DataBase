@@ -15,6 +15,7 @@ namespace ST_Base
 
         public void GetMposition(HTuple Window)
         {
+
             HOperatorSet.GetMposition(Window, out row, out col, out Button);
         }
         public void GetMpositionSubPix(HTuple Window)
