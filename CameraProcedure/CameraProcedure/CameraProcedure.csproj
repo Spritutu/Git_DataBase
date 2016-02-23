@@ -80,11 +80,23 @@
     <Compile Include="CameraProceure\Table\MiniImage_Table.cs" />
     <Compile Include="CameraProceure\Table\Object_Table.cs" />
     <Compile Include="CameraProceure\Table\Procedure_Table.cs" />
-    <Compile Include="ProcedureForm\Measure_2D\Measure_2D.cs">
+    <Compile Include="ProcedureForm\Measure_2D\Measure_2D_Circle.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ProcedureForm\Measure_2D\Measure_2D.Designer.cs">
-      <DependentUpon>Measure_2D.cs</DependentUpon>
+    <Compile Include="ProcedureForm\Measure_2D\Measure_2D_Circle.Designer.cs">
+      <DependentUpon>Measure_2D_Circle.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ProcedureForm\Measure_2D\Measure_2D_Ellipse.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ProcedureForm\Measure_2D\Measure_2D_Ellipse.Designer.cs">
+      <DependentUpon>Measure_2D_Ellipse.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ProcedureForm\Measure_2D\Measure_2D_Line.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ProcedureForm\Measure_2D\Measure_2D_Line.Designer.cs">
+      <DependentUpon>Measure_2D_Line.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -104,8 +116,14 @@
     <EmbeddedResource Include="ProcedureForm\Measure_1D\Measure_1D.resx">
       <DependentUpon>Measure_1D.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ProcedureForm\Measure_2D\Measure_2D.resx">
-      <DependentUpon>Measure_2D.cs</DependentUpon>
+    <EmbeddedResource Include="ProcedureForm\Measure_2D\Measure_2D_Circle.resx">
+      <DependentUpon>Measure_2D_Circle.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ProcedureForm\Measure_2D\Measure_2D_Ellipse.resx">
+      <DependentUpon>Measure_2D_Ellipse.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ProcedureForm\Measure_2D\Measure_2D_Line.resx">
+      <DependentUpon>Measure_2D_Line.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

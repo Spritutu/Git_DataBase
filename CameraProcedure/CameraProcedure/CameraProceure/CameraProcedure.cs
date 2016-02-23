@@ -11,7 +11,7 @@ using ST_Base;
 
 namespace CameraProcedure
 {
-    enum procedure_M { readimage = 1, Measure_1D, Measure_2D, CreateMatchingModel };
+    enum procedure_M { readimage = 1, Measure_1D, Measure_2D_Circle, Measure_2D_Line, Measure_2D_Ellipse, CreateMatchingModel };
     public partial class CameraProcedure : UserControl
     {
         private Camera_Table Camera = new Camera_Table();
@@ -367,19 +367,48 @@ namespace CameraProcedure
 
                     break;
 
-                case (int)procedure_M.Measure_2D:
+                case (int)procedure_M.Measure_2D_Circle:
 
-                    Measure_2D M2_temp = (Measure_2D)Camera.Procedure[cm.Position].SettingForm;
+                    Measure_2D_Circle M2DC_temp = (Measure_2D_Circle)Camera.Procedure[cm.Position].SettingForm;
                     if (cm.Position != 0)
                     {
-                        M2_temp.MeasureImage = Camera.Object[cm.Position - 1].Image;           //暫時使用前一個程序的圖片(載入圖片)
+                        M2DC_temp.MeasureImage = Camera.Object[cm.Position - 1].Image;           //暫時使用前一個程序的圖片(載入圖片)
 
                     }
 
-                    M2_temp.ShowDialog();
-                    Camera.Procedure[cm.Position].procedurefunction.doprocedurefunction += M2_temp.run;
-                    Camera.Procedure[cm.Position].SettingForm = M2_temp;
-                    Camera.Procedure[cm.Position].Setornot = M2_temp.setornot;
+                    M2DC_temp.ShowDialog();
+                    Camera.Procedure[cm.Position].procedurefunction.doprocedurefunction += M2DC_temp.run;
+                    Camera.Procedure[cm.Position].SettingForm = M2DC_temp;
+                    Camera.Procedure[cm.Position].Setornot = M2DC_temp.setornot;
+
+                    break;
+
+                case (int)procedure_M.Measure_2D_Ellipse:
+
+                    Measure_2D_Ellipse M2DE_temp = (Measure_2D_Ellipse)Camera.Procedure[cm.Position].SettingForm;
+                    if (cm.Position != 0)
+                    {
+                        M2DE_temp.MeasureImage = Camera.Object[cm.Position - 1].Image;           //暫時使用前一個程序的圖片(載入圖片)
+                    }
+                    M2DE_temp.ShowDialog();
+                    Camera.Procedure[cm.Position].procedurefunction.doprocedurefunction += M2DE_temp.run;
+                    Camera.Procedure[cm.Position].SettingForm = M2DE_temp;
+                    Camera.Procedure[cm.Position].Setornot = M2DE_temp.setornot;
+                    break;
+
+                case (int)procedure_M.Measure_2D_Line:
+
+                    Measure_2D_Line M2DL_temp = (Measure_2D_Line)Camera.Procedure[cm.Position].SettingForm;
+                    if (cm.Position != 0)
+                    {
+                        M2DL_temp.MeasureImage = Camera.Object[cm.Position - 1].Image;           //暫時使用前一個程序的圖片(載入圖片)
+
+                    }
+
+                    M2DL_temp.ShowDialog();
+                    Camera.Procedure[cm.Position].procedurefunction.doprocedurefunction += M2DL_temp.run;
+                    Camera.Procedure[cm.Position].SettingForm = M2DL_temp;
+                    Camera.Procedure[cm.Position].Setornot = M2DL_temp.setornot;
 
                     break;
 
@@ -446,19 +475,95 @@ namespace CameraProcedure
                 MessageBox.Show("還有參數沒有設定喔");
         }
 
-        private void 二維量測ToolStripMenuItem_Click(object sender, EventArgs e)
-        {
 
+        private void 二維量測circleToolStripMenuItem_Click(object sender, EventArgs e)
+        {
             //控制項目前cell位置
             CurrencyManager cm = (CurrencyManager)this.BindingContext[ProcedureTable.DataSource];
             //設定Procedure_Table顯示字串
             Procedure_Table p = new Procedure_Table();
             Object_Table O = new Object_Table();
 
-            p.ProcedureName = "Measure_2D";
+            p.ProcedureName = "Measure_2D_Circle";
             p.Setornot = false;
-            p.ProcedureMethod = (int)procedure_M.Measure_2D;
-            p.SettingForm = new Measure_2D();
+            p.ProcedureMethod = (int)procedure_M.Measure_2D_Circle;
+            p.SettingForm = new Measure_2D_Circle();
+
+            Camera.Procedure.Insert(cm.Position + 1, p);
+            Camera.Object.Insert(cm.Position + 1, O);
+
+            //重新排序Procedure編號
+            remarkProcedure(0);
+
+            //更新表格
+            if (cm != null)
+            {
+                cm.Refresh();
+                ProcedureTable.ClearSelection();
+
+                if (ProcedureTable.RowCount < cm.Position + 1)
+                {
+                    ProcedureTable.Rows[cm.Position + 1].Selected = true;
+                }
+                else
+                {
+                    ProcedureTable.Rows[cm.Position].Selected = true;
+                }
+            }
+
+            setProcedurecolor();
+        }
+
+        private void 二維量測LineToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //控制項目前cell位置
+            CurrencyManager cm = (CurrencyManager)this.BindingContext[ProcedureTable.DataSource];
+            //設定Procedure_Table顯示字串
+            Procedure_Table p = new Procedure_Table();
+            Object_Table O = new Object_Table();
+
+            p.ProcedureName = "Measure_2D_Line";
+            p.Setornot = false;
+            p.ProcedureMethod = (int)procedure_M.Measure_2D_Line;
+            p.SettingForm = new Measure_2D_Line();
+
+            Camera.Procedure.Insert(cm.Position + 1, p);
+            Camera.Object.Insert(cm.Position + 1, O);
+
+            //重新排序Procedure編號
+            remarkProcedure(0);
+
+            //更新表格
+            if (cm != null)
+            {
+                cm.Refresh();
+                ProcedureTable.ClearSelection();
+
+                if (ProcedureTable.RowCount < cm.Position + 1)
+                {
+                    ProcedureTable.Rows[cm.Position + 1].Selected = true;
+                }
+                else
+                {
+                    ProcedureTable.Rows[cm.Position].Selected = true;
+                }
+            }
+
+            setProcedurecolor();
+        }
+
+        private void 二維量測EllipseToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //控制項目前cell位置
+            CurrencyManager cm = (CurrencyManager)this.BindingContext[ProcedureTable.DataSource];
+            //設定Procedure_Table顯示字串
+            Procedure_Table p = new Procedure_Table();
+            Object_Table O = new Object_Table();
+
+            p.ProcedureName = "Measure_2D_Eillpse";
+            p.Setornot = false;
+            p.ProcedureMethod = (int)procedure_M.Measure_2D_Ellipse;
+            p.SettingForm = new Measure_2D_Ellipse();
 
             Camera.Procedure.Insert(cm.Position + 1, p);
             Camera.Object.Insert(cm.Position + 1, O);
