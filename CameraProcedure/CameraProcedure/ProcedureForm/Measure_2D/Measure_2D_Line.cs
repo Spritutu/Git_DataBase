@@ -176,5 +176,11 @@ namespace CameraProcedure
             M2DP.Threshold = (int)this.Threshold_trackBar.Value;
         }
 
+        private void OK_Click(object sender, EventArgs e)
+        {
+            setornot = true;
+            ifopenfromornot = false;
+            Hide();
+        }
     }
 }

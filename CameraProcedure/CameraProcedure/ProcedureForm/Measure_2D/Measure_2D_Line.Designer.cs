@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            ST_Base.ImageBase imageBase2 = new ST_Base.ImageBase();
+            ST_Base.ImageBase imageBase1 = new ST_Base.ImageBase();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Measure_2D_Line));
             this.toolWindow = new ToolWindow.ToolWindow();
             this.OK = new System.Windows.Forms.Button();
@@ -68,7 +68,7 @@
             this.toolWindow.Name = "toolWindow";
             this.toolWindow.Size = new System.Drawing.Size(715, 625);
             this.toolWindow.TabIndex = 3;
-            this.toolWindow.WindowImage = imageBase2;
+            this.toolWindow.WindowImage = imageBase1;
             // 
             // OK
             // 
@@ -78,6 +78,7 @@
             this.OK.Size = new System.Drawing.Size(46, 45);
             this.OK.TabIndex = 6;
             this.OK.UseVisualStyleBackColor = true;
+            this.OK.Click += new System.EventHandler(this.OK_Click);
             // 
             // DrawROI_button
             // 
@@ -297,7 +298,7 @@
             this.Page_result.Text = "測量結果";
             this.Page_result.UseVisualStyleBackColor = true;
             // 
-            // Measure_2D
+            // Measure_2D_Line
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -306,7 +307,7 @@
             this.Controls.Add(this.OK);
             this.Controls.Add(this.DrawROI_button);
             this.Controls.Add(this.toolWindow);
-            this.Name = "Measure_2D";
+            this.Name = "Measure_2D_Line";
             this.Text = "Measure_2D";
             this.Activated += new System.EventHandler(this.Measure_2D_Activated);
             this.tabControl1.ResumeLayout(false);

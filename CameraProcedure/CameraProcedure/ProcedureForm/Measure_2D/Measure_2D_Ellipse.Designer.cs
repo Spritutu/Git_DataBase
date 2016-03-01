@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Measure_2D_Ellipse));
-            ST_Base.ImageBase imageBase10 = new ST_Base.ImageBase();
+            ST_Base.ImageBase imageBase1 = new ST_Base.ImageBase();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.Page_2DMeasure = new System.Windows.Forms.TabPage();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -278,6 +278,7 @@
             this.OK.Size = new System.Drawing.Size(46, 45);
             this.OK.TabIndex = 14;
             this.OK.UseVisualStyleBackColor = true;
+            this.OK.Click += new System.EventHandler(this.OK_Click);
             // 
             // DrawROI_button
             // 
@@ -295,7 +296,7 @@
             this.toolWindow.Name = "toolWindow";
             this.toolWindow.Size = new System.Drawing.Size(715, 625);
             this.toolWindow.TabIndex = 12;
-            this.toolWindow.WindowImage = imageBase10;
+            this.toolWindow.WindowImage = imageBase1;
             // 
             // Measure_2D_Ellipse
             // 

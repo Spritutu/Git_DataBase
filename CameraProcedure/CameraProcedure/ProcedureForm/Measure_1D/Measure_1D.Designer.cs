@@ -412,6 +412,8 @@
             this.whichpicture.Name = "whichpicture";
             this.whichpicture.Size = new System.Drawing.Size(121, 20);
             this.whichpicture.TabIndex = 56;
+            this.whichpicture.SelectedIndexChanged += new System.EventHandler(this.whichpicture_SelectedIndexChanged);
+            this.whichpicture.SelectedValueChanged += new System.EventHandler(this.whichpicture_SelectedValueChanged);
             // 
             // label4
             // 

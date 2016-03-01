@@ -158,6 +158,12 @@ namespace CameraProcedure
             Showresult();
         }
 
+        private void OK_Click(object sender, EventArgs e)
+        {
 
+            setornot = true;
+            ifopenfromornot = false;
+            Hide();
+        }
     }
 }

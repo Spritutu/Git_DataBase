@@ -164,5 +164,13 @@ namespace CameraProcedure
             HOperatorSet.CreateMetrologyModel(out M2DCP.hv_MetrologyHandle);
             Showresult();
         }
+
+        private void OK_Click(object sender, EventArgs e)
+        {
+
+            setornot = true;
+            ifopenfromornot = false;
+            Hide();
+        }
     }
 }

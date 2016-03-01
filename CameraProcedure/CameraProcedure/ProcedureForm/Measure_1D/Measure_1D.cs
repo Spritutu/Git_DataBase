@@ -78,6 +78,10 @@ namespace CameraProcedure
         /// </summary>
         List<string> SelectData = new List<string>();
         /// <summary>
+        /// SelectImage下拉式表單參數
+        /// </summary>
+        List<Object_Table> SelectImage = new List<Object_Table>();
+        /// <summary>
         /// 待測圖片
         /// </summary>
         private ImageBase Measure_Image = new ImageBase();
@@ -86,6 +90,9 @@ namespace CameraProcedure
         /// line的ROI
         /// </summary>
         private RegionBase region_line = new RegionBase();
+
+
+        public List<Object_Table> O_T = new List<Object_Table>();
 
         /// <summary>
         /// 測量模式
@@ -101,7 +108,7 @@ namespace CameraProcedure
         }
 
         bool ifopenfromornot = true;
-
+        bool loadfinish = false;
         private void Measure_Activated(object sender, EventArgs e)
         {
             if (ifopenfromornot)
@@ -143,6 +150,11 @@ namespace CameraProcedure
                 SelectData.Add(MeasureSelect.first.ToString());
                 SelectData.Add(MeasureSelect.last.ToString());
 
+                for (int i = 0; i < O_T.Count; i++)
+                {
+                    if(O_T[i].Image!=null)
+                        SelectImage.Add(O_T[i]);
+                }
                 result_list.Clear();
 
                 result_list.View = View.Details;
@@ -153,6 +165,12 @@ namespace CameraProcedure
                 result_list.Columns.Add("距離");
                 this.result_list.EndUpdate();
 
+                
+                 
+                whichpicture.DataSource = SelectImage;
+                whichpicture.DisplayMember = "Display";
+                whichpicture.ValueMember = "Value";
+                loadfinish = true;
                 SelectBox.DataSource = SelectData;
                 posButton.Checked = true;
                 ifopenfromornot = false;
@@ -500,6 +518,23 @@ namespace CameraProcedure
                 HOperatorSet.ClearWindow(EageWindow.HalconWindow);
             }
         }
-        
+
+        private void whichpicture_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            //Measure_Image.SetImage = (HObject)whichpicture.SelectedValue;
+            //HOperatorSet.DispObj(Measure_Image.GetImage, toolWindow.Window.HalconWindow);
+            //Showresult();
+        }
+
+        private void whichpicture_SelectedValueChanged(object sender, EventArgs e)
+        {
+            if (loadfinish)
+            {
+                Measure_Image.SetImage = (HObject)whichpicture.SelectedValue;
+                Measure_Image.ShowImage_autosize(toolWindow.Window.HalconWindow);
+                Showresult();
+            }
+
+        }
     }
 }

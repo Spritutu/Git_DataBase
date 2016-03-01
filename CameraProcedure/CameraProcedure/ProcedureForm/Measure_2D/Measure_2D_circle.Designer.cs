@@ -278,6 +278,7 @@
             this.OK.Size = new System.Drawing.Size(46, 45);
             this.OK.TabIndex = 10;
             this.OK.UseVisualStyleBackColor = true;
+            this.OK.Click += new System.EventHandler(this.OK_Click);
             // 
             // DrawROI_button
             // 

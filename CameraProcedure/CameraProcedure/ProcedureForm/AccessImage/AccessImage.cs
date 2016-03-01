@@ -11,23 +11,17 @@ namespace CameraProcedure
     {
 
         private ImageBase imagebase = new ImageBase();
-        private Object_Table O = new Object_Table();
         private HTuple window;
 
         public void ImagefromFile()
         {
             imagebase.ImagefromFile();
-            O.Image = imagebase.GetImage;
         }
         public void setwindow(HTuple win)
         {
             window = win;
         }
-
-        public Object_Table getObject()
-        {
-            return O;
-        }
+        
         public ImageBase getimagebase()
         {
             return imagebase;

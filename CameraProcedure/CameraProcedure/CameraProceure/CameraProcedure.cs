@@ -203,7 +203,7 @@ namespace CameraProcedure
             p.ProcedureName = "載入圖片" + clk;
             p.Setornot = false;
             p.ProcedureMethod = (int)procedure_M.readimage;
-            
+            O.ImageName = "載入圖片" + clk;
 
             Camera.Procedure.Insert(cm.Position + 1, p);
             Camera.Object.Insert(cm.Position + 1, O);
@@ -343,10 +343,11 @@ namespace CameraProcedure
                     //設定顯示視窗
                     //readthefuckingimage.setwindow(MainWindow.HalconWindow);
 
-                    if (readthefuckingimage.getObject().Image != null)
+
+                    if (readthefuckingimage.getimagebase().GetImage != null)
                     {
                         p.procedurefunction.doprocedurefunction += readthefuckingimage.show;
-                        Camera.Object[cm.Position] = readthefuckingimage.getObject();
+                        Camera.Object[cm.Position].Image = readthefuckingimage.getimagebase().GetImage;
                         Camera.Procedure[cm.Position].Setornot = true;
                     }
                     break;
@@ -357,7 +358,7 @@ namespace CameraProcedure
                     if (cm.Position != 0)
                     {
                         M1_temp.MeasureImage = Camera.Object[cm.Position - 1].Image;           //暫時使用前一個程序的圖片(載入圖片)
-                        
+                        M1_temp.O_T = Camera.Object;
                     }
 
                     M1_temp.ShowDialog();
@@ -414,15 +415,16 @@ namespace CameraProcedure
 
                 case (int)procedure_M.CreateMatchingModel:
 
-                    CreateMatchingModel C_temp = (CreateMatchingModel)Camera.Procedure[cm.Position].SettingForm;
-                    //if (cm.Position != 0)
-                    //{
-                    //    C_temp.MeasureImage = Camera[0].Object[cm.Position - 1].Image;
-                    //}
-                    C_temp.ShowDialog();
+                    CreateMatchingModel CMM_temp = (CreateMatchingModel)Camera.Procedure[cm.Position].SettingForm;
+                    if (cm.Position != 0)
+                    {
+                        CMM_temp.TemplateImage = Camera.Object[cm.Position - 1].Image;
+                    }
+                    CMM_temp.ShowDialog();
 
-                    C_temp = (CreateMatchingModel)Camera.Procedure[cm.Position].SettingForm;
-                    Camera.Procedure[cm.Position].Setornot = C_temp.setornot;
+                    Camera.Procedure[cm.Position].procedurefunction.doprocedurefunction += CMM_temp.run;
+                    Camera.Procedure[cm.Position].SettingForm = CMM_temp;
+                    Camera.Procedure[cm.Position].Setornot = CMM_temp.setornot;
 
                     break;
             }

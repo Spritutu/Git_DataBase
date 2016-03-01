@@ -17,5 +17,16 @@ namespace CameraProcedure
     {
         private HObject image ;
         public HObject Image { get { return image; }set { image = value; } }
+        public string ImageName;
+        public string Display
+        {
+            get { return this.ImageName; }
+        }
+
+        public HObject Value
+        {
+            get { return this.image; }
+        }
     }
+
 }
