@@ -15,9 +15,15 @@ namespace CameraProcedure
     /// </summary>
     public class Object_Table
     {
-        private HObject image ;
-        public HObject Image { get { return image; }set { image = value; } }
-        public string ImageName;
+        private HObject image;
+        public HObject Image { get { return image; } set { image = value; } }
+        private string imageName;
+        public string ImageName { get { return imageName; } set { imageName = value; } }
+
+        //public List<HObject> Image = new List<HObject>();
+        //public List<string> ImageName = new List<string>();
+
+
         public string Display
         {
             get { return this.ImageName; }
@@ -25,7 +31,7 @@ namespace CameraProcedure
 
         public HObject Value
         {
-            get { return this.image; }
+            get { return this.Image; }
         }
     }
 

@@ -31,8 +31,6 @@ namespace CameraProcedure
             CreateCamrea();
             //第幾台相機綁定Procedure表單
             BindProcedureToGrid(ProcedureTable);
-            //第幾台相機綁定Object表單
-            BindObjectToGrid(MainWindowObjectTable);
         }
         /// <summary>
         /// 創造一台相機。
@@ -61,41 +59,7 @@ namespace CameraProcedure
             //設定行寬
             Table.Columns[1].Width = 300;
         }
-
-
-        /// <summary>
-        /// 將Object表格綁定。
-        /// </summary>
-        /// <param name="Table">Object table。</param>
-        private void BindObjectToGrid(DataGridView Table)
-        {
-            //縮圖列表 miniImage_Tabl
-            List<MiniImage_Table> miniImage_Tabl = new List<MiniImage_Table>();
-
-            //綁定指定Camera裡面的Object至miniImage_Tabl並且轉換成縮圖 100X100
-            for (int i = 0; i < Camera.Object.Count; i++)
-            {              
-                if (Camera.Object[i].Image != null)
-                {
-                    MiniImage_Table mini = new MiniImage_Table();
-                    mini.Object2minipicture(Camera.Object[i].Image);
-                    miniImage_Tabl.Add(mini);
-                }
-            }
-
-            //表格物件
-            Table.DataSource = miniImage_Tabl;//繫結到圖片集合
-            //Columns[0]的標頭文字
-            Table.Columns[0].HeaderText = "圖片";//設定列文字
-            //設定行寬
-            Table.Columns[0].Width = 100;//設定列寬度
-            //設定列高
-            for (int i = 0; i < Table.Rows.Count; i++)
-            {
-                Table.Rows[i].Height = 100;//設定行高度
-            }
-        }
-
+        
         /// <summary>
         /// 設定ProcedureTable的左鍵表單
         /// </summary>
@@ -192,7 +156,7 @@ namespace CameraProcedure
             }
         }
 
-        int clk = 0;//載入圖片序數
+        int p_clk = 0;//載入圖片序數
         private void 載入圖片ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //控制項目前cell位置
@@ -200,14 +164,13 @@ namespace CameraProcedure
             //設定Procedure_Table顯示字串
             Procedure_Table p = new Procedure_Table();
             Object_Table O = new Object_Table();
-            p.ProcedureName = "載入圖片" + clk;
+            p.ProcedureName = "載入圖片" + p_clk;
             p.Setornot = false;
             p.ProcedureMethod = (int)procedure_M.readimage;
-            O.ImageName = "載入圖片" + clk;
 
             Camera.Procedure.Insert(cm.Position + 1, p);
             Camera.Object.Insert(cm.Position + 1, O);
-            clk++;
+            p_clk++;
 
             //重新排序Procedure編號
             remarkProcedure(0);
@@ -340,14 +303,13 @@ namespace CameraProcedure
                     AccessImage readthefuckingimage = new AccessImage();
                     //由檔案載入圖片
                     readthefuckingimage.ImagefromFile();
-                    //設定顯示視窗
-                    //readthefuckingimage.setwindow(MainWindow.HalconWindow);
 
 
                     if (readthefuckingimage.getimagebase().GetImage != null)
                     {
                         p.procedurefunction.doprocedurefunction += readthefuckingimage.show;
-                        Camera.Object[cm.Position].Image = readthefuckingimage.getimagebase().GetImage;
+                        Camera.Object[cm.Position].OImage.Add(readthefuckingimage.getimagebase().GetImage);
+                        Camera.Object[cm.Position].OImageName.Add("(procedure_"+ cm.Position + ",Image_"+ Camera.Object[cm.Position].OImage.Count+")");
                         Camera.Procedure[cm.Position].Setornot = true;
                     }
                     break;
@@ -357,7 +319,7 @@ namespace CameraProcedure
                     Measure_1D M1_temp = (Measure_1D)Camera.Procedure[cm.Position].SettingForm;
                     if (cm.Position != 0)
                     {
-                        M1_temp.MeasureImage = Camera.Object[cm.Position - 1].Image;           //暫時使用前一個程序的圖片(載入圖片)
+                        M1_temp.MeasureImage = Camera.Object[cm.Position - 1].OImage[0];           //暫時使用前一個程序的圖片(載入圖片)
                         M1_temp.O_T = Camera.Object;
                     }
 
@@ -373,7 +335,7 @@ namespace CameraProcedure
                     Measure_2D_Circle M2DC_temp = (Measure_2D_Circle)Camera.Procedure[cm.Position].SettingForm;
                     if (cm.Position != 0)
                     {
-                        M2DC_temp.MeasureImage = Camera.Object[cm.Position - 1].Image;           //暫時使用前一個程序的圖片(載入圖片)
+                        M2DC_temp.MeasureImage = Camera.Object[cm.Position - 1].OImage[0];           //暫時使用前一個程序的圖片(載入圖片)
 
                     }
 
@@ -389,7 +351,7 @@ namespace CameraProcedure
                     Measure_2D_Ellipse M2DE_temp = (Measure_2D_Ellipse)Camera.Procedure[cm.Position].SettingForm;
                     if (cm.Position != 0)
                     {
-                        M2DE_temp.MeasureImage = Camera.Object[cm.Position - 1].Image;           //暫時使用前一個程序的圖片(載入圖片)
+                        M2DE_temp.MeasureImage = Camera.Object[cm.Position - 1].OImage[0];           //暫時使用前一個程序的圖片(載入圖片)
                     }
                     M2DE_temp.ShowDialog();
                     Camera.Procedure[cm.Position].procedurefunction.doprocedurefunction += M2DE_temp.run;
@@ -402,7 +364,7 @@ namespace CameraProcedure
                     Measure_2D_Line M2DL_temp = (Measure_2D_Line)Camera.Procedure[cm.Position].SettingForm;
                     if (cm.Position != 0)
                     {
-                        M2DL_temp.MeasureImage = Camera.Object[cm.Position - 1].Image;           //暫時使用前一個程序的圖片(載入圖片)
+                        M2DL_temp.MeasureImage = Camera.Object[cm.Position - 1].OImage[0];           //暫時使用前一個程序的圖片(載入圖片)
 
                     }
 
@@ -418,7 +380,8 @@ namespace CameraProcedure
                     CreateMatchingModel CMM_temp = (CreateMatchingModel)Camera.Procedure[cm.Position].SettingForm;
                     if (cm.Position != 0)
                     {
-                        CMM_temp.TemplateImage = Camera.Object[cm.Position - 1].Image;
+                        CMM_temp.TemplateImage = Camera.Object[cm.Position - 1].OImage[0];
+                        CMM_temp.O_T = Camera.Object;
                     }
                     CMM_temp.ShowDialog();
 
@@ -432,29 +395,10 @@ namespace CameraProcedure
 
 
         }
-
-        private void MainWindowObjectTable_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
-        {
-            CurrencyManager cm = (CurrencyManager)this.BindingContext[MainWindowObjectTable.DataSource];
-            ImageBase imgbs = new ImageBase();
-            List<Object_Table> O_temp = new List<Object_Table>();
-
-            for (int i = 0; i < Camera.Object.Count; i++)
-            {
-                if (Camera.Object[i].Image != null)
-                {
-                    O_temp.Add(Camera.Object[i]);
-                }
-            }
-            imgbs.SetImage = O_temp[cm.Position].Image;
-            toolWindow.WindowImage = imgbs;
-            toolWindow.showImage();
-            window_image = imgbs;
-        }
+        
         
         private void startButton_Click(object sender, EventArgs e)
         {
-
             bool whethersettedornot = true;
             for (int i = 0; i < Camera.Procedure.Count; i++)
             {
@@ -470,7 +414,6 @@ namespace CameraProcedure
                 {
                     Camera.Procedure[i].procedurefunction.dofunction();
                 }
-                BindObjectToGrid(MainWindowObjectTable);
             }
 
             else
