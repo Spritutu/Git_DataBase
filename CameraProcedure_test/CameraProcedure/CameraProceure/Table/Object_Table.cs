@@ -22,6 +22,7 @@ namespace CameraProcedure
 
         public List<HObject> OImage = new List<HObject>();
         public List<string> OImageName = new List<string>();
+        
 
 
         public List<string> Display

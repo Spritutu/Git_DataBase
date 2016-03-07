@@ -38,7 +38,7 @@ namespace CameraProcedure
         private Measure2DEllipseParameter M2DEP;
 
         public bool setornot = false;
-        bool ifopenfromornot = true;
+        bool ifopenformornot = true;
 
         public Measure_2D_Ellipse()
         {
@@ -58,7 +58,7 @@ namespace CameraProcedure
             {
                 toolWindow.WindowImage.ShowImage_autosize(toolWindow.Window.HalconWindow);
             }
-            if (ifopenfromornot)
+            if (ifopenformornot)
             {
                 M2DEP.Length1 = 20;
                 M2DEP.Length2 = 5;
@@ -70,7 +70,7 @@ namespace CameraProcedure
                 this.Sigma_trackBar.Value = 1;
                 this.Threshold_trackBar.Value = 10;
 
-                ifopenfromornot = false;
+                ifopenformornot = false;
             }
         }
         private void Length1_ValueChanged(object sender, EventArgs e)
@@ -162,7 +162,7 @@ namespace CameraProcedure
         {
 
             setornot = true;
-            ifopenfromornot = false;
+            ifopenformornot = false;
             Hide();
         }
     }

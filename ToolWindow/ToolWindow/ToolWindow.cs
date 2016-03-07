@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using HalconDotNet;
 using ST_Base;
+
 enum choose { cursor , move ,zoom, zoomin , zoomout , fit }
 
 
@@ -51,19 +52,32 @@ namespace ToolWindow
 
 
 
+        private List<setObjectdisplay> setObject_display = new List<setObjectdisplay>();
         private List<HObject> Object_disp = new List<HObject>();
-        public void Add_Object_disp(HObject obj)
+        public void Add_Object_disp(HObject obj, HTuple color, HTuple Draw, HTuple LineWidth)
         {
+            setObjectdisplay OD = new setObjectdisplay();
+            OD.color = color;
+            OD.Draw = Draw;
+            OD.LineWidth = LineWidth;
             Object_disp.Add(obj);
+            setObject_display.Add(OD);
         }
         public void Remove_Object_disp(HObject obj)
         {
-            Object_disp.Remove(obj);
+            //還沒寫
         }
-
-
-
-
+        private void DispObject()
+        {
+            for (int i = 0; i < Object_disp.Count; i++)
+            {
+                if (Object_disp[i] != null)
+                {
+                    setSystem.SetPen(this.window.HalconWindow, setObject_display[i].color, setObject_display[i].Draw, setObject_display[i].LineWidth);
+                    HOperatorSet.DispObj(Object_disp[i], this.window.HalconWindow);
+                }
+            }
+        }
 
 
 
@@ -81,16 +95,14 @@ namespace ToolWindow
         }
         public void showImage() {
             if (windowImage != null)
-                windowImage.ShowImage(window.HalconWindow);
+                windowImage.ShowImage_autosize(window.HalconWindow);
             DispImageFit(window.HalconWindow);
         }
 
         private void Window_HMouseMove(object sender, HalconDotNet.HMouseEventArgs e)
         {
             //取得滑鼠在視窗上的位置
-            //mousePosition.GetMposition(window.HalconWindow);
-            mousePosition.row = e.X;
-            mousePosition.col = e.Y;
+            mousePosition.GetMposition(window.HalconWindow);
             //顯示位置
             MouseXY.Text = "Mouse(" + mousePosition.col.ToString() + "," + mousePosition.row.ToString() + ")";
             //顯示滑鼠位置的灰階值
@@ -120,19 +132,16 @@ namespace ToolWindow
             }
             ToolwindowMOVE(e);
 
-            for (int i =0; i < Object_disp.Count;i++)
-            {
-                if (Object_disp[i] != null)
-                {
-                    HOperatorSet.DispObj(Object_disp[i], this.window.HalconWindow);
-                }
-            }
+           
 
         }
 
+
+        
+
         private void ToolWindow_Load(object sender, EventArgs e)
         {
-            //windowImage.ImagefromFile();
+            
         }
 
         private void ZoomButton_Click(object sender, EventArgs e)
@@ -217,13 +226,7 @@ namespace ToolWindow
                     break;
             }
             ToolwindowWHEEL(e);
-            for (int i = 0; i < Object_disp.Count; i++)
-            {
-                if (Object_disp[i] != null)
-                {
-                    HOperatorSet.DispObj(Object_disp[i], this.window.HalconWindow);
-                }
-            }
+            DispObject();
         }
 
         private void fitButton_Click(object sender, EventArgs e)
@@ -269,13 +272,7 @@ namespace ToolWindow
                     break;
             }
             ToolwindowDWON(e);
-            for (int i = 0; i < Object_disp.Count; i++)
-            {
-                if (Object_disp[i] != null)
-                {
-                    HOperatorSet.DispObj(Object_disp[i], this.window.HalconWindow);
-                }
-            }
+            DispObject();
         }
 
         private void Window_HMouseUp(object sender, HMouseEventArgs e)
@@ -294,14 +291,7 @@ namespace ToolWindow
 
             // 觸發 ToolwindowUP Event
             ToolwindowUP(e);
-
-            for (int i = 0; i < Object_disp.Count; i++)
-            {
-                if (Object_disp[i] != null)
-                {
-                    HOperatorSet.DispObj(Object_disp[i], window.HalconWindow);
-                }
-            }
+            DispObject();
         }
 
         public void DispImageFit(HTuple window)
@@ -341,13 +331,7 @@ namespace ToolWindow
                 HOperatorSet.DispObj(windowImage.GetImage, this.window.HalconWindow);
             }
 
-            for (int i = 0; i < Object_disp.Count; i++)
-            {
-                if (Object_disp[i] != null)
-                {
-                    HOperatorSet.DispObj(Object_disp[i], this.window.HalconWindow);
-                }
-            }
+            DispObject();
         }
     }
 }

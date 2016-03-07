@@ -35,12 +35,20 @@ namespace CameraProcedure
     public partial class Measure_2D_Circle : Form
     {
         private RegionBase region_circle = new RegionBase();
-        private ImageBase Measure_Image = new ImageBase();
-        public HObject MeasureImage { set { Measure_Image.SetImage = value; } }
+        //private ImageBase Measure_Image = new ImageBase();
+        //public HObject MeasureImage { set { Measure_Image.SetImage = value; } }
         private Measure2DcircleParameter M2DCP;
-
         public bool setornot = false;
-        bool ifopenfromornot = true;
+        bool ifopenformornot = false;
+
+        public List<Object_Table> O_T = new List<Object_Table>();
+        List<Measure_1D_SelectImage> SelectImage = new List<Measure_1D_SelectImage>();
+
+        private ImageBase src_Image = new ImageBase();
+        public HObject SrcImage { set { src_Image.SetImage = value; } }
+        private ImageBase dst_Image = new ImageBase();
+        public HObject dstImage { get { return dst_Image.GetImage; } }
+        bool loadfinish = false;
 
 
         public Measure_2D_Circle()
@@ -50,13 +58,48 @@ namespace CameraProcedure
 
         private void Measure_2D_Circle_Activated(object sender, EventArgs e)
         {
-            toolWindow.WindowImage = Measure_Image;
-
-            if (toolWindow.WindowImage != null)
+            if (setornot == false)
             {
-                toolWindow.WindowImage.ShowImage_autosize(toolWindow.Window.HalconWindow);
+                if (ifopenformornot == false)
+                {
+                    ifopenformornot = true;
+                    SelectImage.Clear();
+                    for (int i = 0; i < O_T.Count; i++)
+                    {
+                        for (int j = 0; j < O_T[i].OImage.Count; j++)
+                        {
+                            if (O_T[i].OImage[j] != null)
+                            {
+                                Measure_1D_SelectImage M1S = new Measure_1D_SelectImage();
+                                M1S.Image = O_T[i].OImage[j];
+                                M1S.ImageName = (string)O_T[i].OImageName[j];
+                                SelectImage.Add(M1S);
+                            }
+                        }
+                    }
+                    whichpicture.DataSource = SelectImage;
+                    whichpicture.DisplayMember = "ImageName";
+                    whichpicture.ValueMember = "Image";
+                    loadfinish = true;
+
+                    src_Image.SetImage = (HObject)whichpicture.SelectedValue;
+                    toolWindow.WindowImage = src_Image;
+                    toolWindow.showImage();
+                }
+
             }
-            if (ifopenfromornot)
+            else if (setornot == true)
+            {
+                if (ifopenformornot == false)
+                {
+                    ifopenformornot = true;
+                    toolWindow.showImage();
+                    toolWindow1.showImage();
+                }
+
+            }
+                        
+            if (ifopenformornot)
             {
                 M2DCP.Length1 = 20;
                 M2DCP.Length2 = 5;
@@ -68,7 +111,7 @@ namespace CameraProcedure
                 this.Sigma_trackBar.Value = 1;
                 this.Threshold_trackBar.Value = 10;
 
-                ifopenfromornot = false;
+                ifopenformornot = false;
             }
         }
         
@@ -134,43 +177,57 @@ namespace CameraProcedure
             {
                 HOperatorSet.ClearMetrologyModel(M2DCP.hv_MetrologyHandle);
                 HOperatorSet.CreateMetrologyModel(out M2DCP.hv_MetrologyHandle);
-                HOperatorSet.SetMetrologyModelImageSize(M2DCP.hv_MetrologyHandle, Measure_Image.GetWidth, Measure_Image.GetHeight);
+                HOperatorSet.SetMetrologyModelImageSize(M2DCP.hv_MetrologyHandle, src_Image.GetWidth, src_Image.GetHeight);
 
                 HOperatorSet.AddMetrologyObjectCircleMeasure(M2DCP.hv_MetrologyHandle, region_circle.circle.row,
                     region_circle.circle.column, region_circle.circle.radius, M2DCP.Length1, M2DCP.Length2,
                     M2DCP.Sigma, M2DCP.Threshold, new HTuple(), new HTuple(), out M2DCP.hv_MetrologyCircleIndices);
-                HOperatorSet.ApplyMetrologyModel(Measure_Image.GetImage, M2DCP.hv_MetrologyHandle);
+                HOperatorSet.ApplyMetrologyModel(src_Image.GetImage, M2DCP.hv_MetrologyHandle);
                 HOperatorSet.GetMetrologyObjectResultContour(out M2DCP.ho_Contours, M2DCP.hv_MetrologyHandle, "all", "all", 1.5);
                 HOperatorSet.GetMetrologyObjectMeasures(out M2DCP.ho_Contour, M2DCP.hv_MetrologyHandle, "all","all", out M2DCP.hv_Row1, out M2DCP.hv_Column1);
 
                 HOperatorSet.GenCrossContourXld(out M2DCP.ho_Cross, M2DCP.hv_Row1, M2DCP.hv_Column1, 6, 0.785398);
-                HOperatorSet.DispObj(Measure_Image.GetImage, toolWindow.Window.HalconWindow);
+                HOperatorSet.DispObj(src_Image.GetImage, toolWindow1.Window.HalconWindow);
 
-                HOperatorSet.SetColor(toolWindow.Window.HalconWindow, "blue");
-                HOperatorSet.DispObj(M2DCP.ho_Cross, toolWindow.Window.HalconWindow);
+                HOperatorSet.SetColor(toolWindow1.Window.HalconWindow, "blue");
+                HOperatorSet.DispObj(M2DCP.ho_Cross, toolWindow1.Window.HalconWindow);
 
-                HOperatorSet.SetColor(toolWindow.Window.HalconWindow, "red");
-                HOperatorSet.DispObj(M2DCP.ho_Contours, toolWindow.Window.HalconWindow);
+                HOperatorSet.SetColor(toolWindow1.Window.HalconWindow, "red");
+                HOperatorSet.DispObj(M2DCP.ho_Contours, toolWindow1.Window.HalconWindow);
             }
 
         }
 
         private void DrawROI_button_Click(object sender, EventArgs e)
         {
-            toolWindow.Window.Focus();
-            toolWindow.WindowImage.ShowImage_autosize(toolWindow.Window.HalconWindow);
-            region_circle.DrawCircle(toolWindow.Window.HalconWindow);
-            region_circle.showROI(toolWindow.Window.HalconWindow, (int)Shape.Line_rec, "yellow", "margin", 1);
+            toolWindow1.Window.Focus();
+            toolWindow1.WindowImage.ShowImage_autosize(toolWindow1.Window.HalconWindow);
+            region_circle.DrawCircle(toolWindow1.Window.HalconWindow);
+            region_circle.showROI(toolWindow1.Window.HalconWindow, (int)Shape.Line_rec, "yellow", "margin", 1);
             HOperatorSet.CreateMetrologyModel(out M2DCP.hv_MetrologyHandle);
             Showresult();
         }
 
         private void OK_Click(object sender, EventArgs e)
         {
-
             setornot = true;
-            ifopenfromornot = false;
+            ifopenformornot = false;
             Hide();
         }
+        
+        private void whichpicture_SelectedValueChanged(object sender, EventArgs e)
+        {
+            if (loadfinish)
+            {
+                src_Image.SetImage = (HObject)whichpicture.SelectedValue;
+                toolWindow.WindowImage = src_Image;
+                if(toolWindow.WindowImage!=null)
+                    toolWindow.showImage();
+                toolWindow1.WindowImage = src_Image;
+                if (toolWindow1.WindowImage != null)
+                    toolWindow1.showImage();
+            }
+        }
+        
     }
 }

@@ -109,11 +109,11 @@ namespace CameraProcedure
             InitializeComponent();
         }
 
-        bool ifopenfromornot = true;
+        bool ifopenformornot = false;
         bool loadfinish = false;
         private void Measure_Activated(object sender, EventArgs e)
         {
-            if (ifopenfromornot)
+            if (!ifopenformornot)
             {
                 //如果有圖片則載入圖片至toolWindow視窗裡
                 if (Measure_Image.GetImage != null)
@@ -184,7 +184,7 @@ namespace CameraProcedure
                 loadfinish = true;
                 SelectBox.DataSource = SelectData;
                 posButton.Checked = true;
-                ifopenfromornot = false;
+                ifopenformornot = true;
             }
             else
                 Showresult();
@@ -229,8 +229,8 @@ namespace CameraProcedure
                                                 
                         temp1 = region_line.line_rec.ROI.Clone();
                         temp2 = M1DP.ho_CrossFirst.Clone();
-                        toolWindow.Add_Object_disp(temp1);
-                        toolWindow.Add_Object_disp(temp2);
+                        toolWindow.Add_Object_disp(temp1, "yellow", "margin", 1);
+                        toolWindow.Add_Object_disp(temp2, "yellow", "margin", 1);
 
                         set_list(M1DP.hv_RowEdgeFirst, M1DP.hv_ColumnEdgeFirst, M1DP.hv_AmplitudeFirst, M1DP.hv_Distance, result_list);
                     }
@@ -277,9 +277,9 @@ namespace CameraProcedure
                         temp2 = M1DP.ho_CrossFirst.Clone();
                         temp3 = M1DP.ho_CrossSecond.Clone();
 
-                        toolWindow.Add_Object_disp(temp1);
-                        toolWindow.Add_Object_disp(temp2);
-                        toolWindow.Add_Object_disp(temp3);
+                        toolWindow.Add_Object_disp(temp1, "yellow", "margin", 1);
+                        toolWindow.Add_Object_disp(temp2, "yellow", "margin", 1);
+                        toolWindow.Add_Object_disp(temp3, "yellow", "margin", 1);
 
                         HOperatorSet.DispObj(M1DP.ho_CrossFirst, toolWindow.Window.HalconWindow);
                         HOperatorSet.DispObj(M1DP.ho_CrossSecond, toolWindow.Window.HalconWindow);
@@ -302,7 +302,7 @@ namespace CameraProcedure
         private void OK_Click(object sender, EventArgs e)
         {
             setornot = true;
-            ifopenfromornot = false;
+            ifopenformornot = true;
             Hide();
         }
 
@@ -431,8 +431,8 @@ namespace CameraProcedure
             if (region_line.line_rec.ROI!=null && M1DP.ho_CrossFirst != null) {
                 temp1 = region_line.line_rec.ROI.Clone();
                 temp2 = M1DP.ho_CrossFirst.Clone();
-                toolWindow.Add_Object_disp(temp1);
-                toolWindow.Add_Object_disp(temp2);
+                toolWindow.Add_Object_disp(temp1, "yellow", "margin", 1);
+                toolWindow.Add_Object_disp(temp2, "yellow", "margin", 1);
                 if (Eage_num.Maximum > 1)
                 {
                     Eage_num.Value = 2;
@@ -442,7 +442,7 @@ namespace CameraProcedure
             if (M1DP.ho_CrossSecond != null)
             {
                 temp3 = M1DP.ho_CrossSecond.Clone();
-                toolWindow.Add_Object_disp(temp3);
+                toolWindow.Add_Object_disp(temp3, "yellow", "margin", 1);
                 if (Eage_num.Maximum > 1)
                 {
                     Eage_num.Value = 2;

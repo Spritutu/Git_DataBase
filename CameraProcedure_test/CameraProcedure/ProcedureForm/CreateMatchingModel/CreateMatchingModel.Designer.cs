@@ -28,14 +28,18 @@
         /// </summary>
         private void InitializeComponent()
         {
-            ST_Base.ImageBase imageBase6 = new ST_Base.ImageBase();
-            ST_Base.ImageBase imageBase7 = new ST_Base.ImageBase();
-            ST_Base.ImageBase imageBase5 = new ST_Base.ImageBase();
+            ST_Base.ImageBase imageBase1 = new ST_Base.ImageBase();
+            ST_Base.ImageBase imageBase2 = new ST_Base.ImageBase();
+            ST_Base.ImageBase imageBase3 = new ST_Base.ImageBase();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CreateMatchingModel));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.label14 = new System.Windows.Forms.Label();
+            this.whichpicture = new System.Windows.Forms.ComboBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.toolWindow = new ToolWindow.ToolWindow();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.ShapeModel = new System.Windows.Forms.Button();
             this.setROI = new System.Windows.Forms.Button();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.Find_MaxOverLap = new System.Windows.Forms.TextBox();
@@ -69,16 +73,15 @@
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.toolWindow1 = new ToolWindow.ToolWindow();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.toolWindow2 = new ToolWindow.ToolWindow();
             this.label1 = new System.Windows.Forms.Label();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.label14 = new System.Windows.Forms.Label();
-            this.whichpicture = new System.Windows.Forms.ComboBox();
-            this.ShapeModel = new System.Windows.Forms.Button();
-            this.toolWindow2 = new ToolWindow.ToolWindow();
+            this.OK = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -87,6 +90,7 @@
             this.groupBox4.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.tabPage3.SuspendLayout();
+            this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -95,11 +99,12 @@
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Controls.Add(this.tabPage3);
-            this.tabControl1.Location = new System.Drawing.Point(12, 12);
+            this.tabControl1.Location = new System.Drawing.Point(12, 63);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(976, 639);
+            this.tabControl1.Size = new System.Drawing.Size(976, 801);
             this.tabControl1.TabIndex = 2;
+            this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
             // 
             // tabPage1
             // 
@@ -109,17 +114,35 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(968, 613);
+            this.tabPage1.Size = new System.Drawing.Size(968, 775);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "影像設定";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(669, 26);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(53, 12);
+            this.label14.TabIndex = 59;
+            this.label14.Text = "影像選擇";
+            // 
+            // whichpicture
+            // 
+            this.whichpicture.FormattingEnabled = true;
+            this.whichpicture.Location = new System.Drawing.Point(671, 44);
+            this.whichpicture.Name = "whichpicture";
+            this.whichpicture.Size = new System.Drawing.Size(121, 20);
+            this.whichpicture.TabIndex = 58;
+            this.whichpicture.SelectedValueChanged += new System.EventHandler(this.whichpicture_SelectedValueChanged);
             // 
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.toolWindow);
             this.groupBox1.Location = new System.Drawing.Point(6, 6);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(657, 596);
+            this.groupBox1.Size = new System.Drawing.Size(657, 659);
             this.groupBox1.TabIndex = 3;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "影像";
@@ -130,7 +153,7 @@
             this.toolWindow.Name = "toolWindow";
             this.toolWindow.Size = new System.Drawing.Size(645, 616);
             this.toolWindow.TabIndex = 5;
-            this.toolWindow.WindowImage = imageBase6;
+            this.toolWindow.WindowImage = imageBase1;
             // 
             // tabPage2
             // 
@@ -143,10 +166,20 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(968, 613);
+            this.tabPage2.Size = new System.Drawing.Size(968, 775);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "定位設定";
             this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // ShapeModel
+            // 
+            this.ShapeModel.Location = new System.Drawing.Point(678, 6);
+            this.ShapeModel.Name = "ShapeModel";
+            this.ShapeModel.Size = new System.Drawing.Size(128, 69);
+            this.ShapeModel.TabIndex = 27;
+            this.ShapeModel.Text = "載入模板影像";
+            this.ShapeModel.UseVisualStyleBackColor = true;
+            this.ShapeModel.Click += new System.EventHandler(this.ShapeModel_Click);
             // 
             // setROI
             // 
@@ -442,7 +475,7 @@
             this.groupBox2.Controls.Add(this.toolWindow1);
             this.groupBox2.Location = new System.Drawing.Point(6, 6);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(657, 596);
+            this.groupBox2.Size = new System.Drawing.Size(657, 650);
             this.groupBox2.TabIndex = 2;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "影像";
@@ -453,25 +486,43 @@
             this.toolWindow1.Name = "toolWindow1";
             this.toolWindow1.Size = new System.Drawing.Size(645, 616);
             this.toolWindow1.TabIndex = 5;
-            this.toolWindow1.WindowImage = imageBase7;
+            this.toolWindow1.WindowImage = imageBase2;
             // 
             // tabPage3
             // 
-            this.tabPage3.Controls.Add(this.toolWindow2);
+            this.tabPage3.Controls.Add(this.groupBox3);
             this.tabPage3.Controls.Add(this.label1);
             this.tabPage3.Controls.Add(this.dataGridView1);
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(968, 613);
+            this.tabPage3.Size = new System.Drawing.Size(968, 775);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "定位結果";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.toolWindow2);
+            this.groupBox3.Location = new System.Drawing.Point(6, 6);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(657, 642);
+            this.groupBox3.TabIndex = 3;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "影像";
+            // 
+            // toolWindow2
+            // 
+            this.toolWindow2.Location = new System.Drawing.Point(6, 20);
+            this.toolWindow2.Name = "toolWindow2";
+            this.toolWindow2.Size = new System.Drawing.Size(645, 616);
+            this.toolWindow2.TabIndex = 5;
+            this.toolWindow2.WindowImage = imageBase3;
+            // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(6, 13);
+            this.label1.Location = new System.Drawing.Point(10, 651);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(53, 12);
             this.label1.TabIndex = 1;
@@ -488,7 +539,7 @@
             this.Column2,
             this.Column3,
             this.Column4});
-            this.dataGridView1.Location = new System.Drawing.Point(6, 28);
+            this.dataGridView1.Location = new System.Drawing.Point(12, 663);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersVisible = false;
             this.dataGridView1.RowTemplate.Height = 24;
@@ -519,51 +570,27 @@
             this.Column4.Name = "Column4";
             this.Column4.Width = 21;
             // 
-            // label14
+            // OK
             // 
-            this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(669, 26);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(53, 12);
-            this.label14.TabIndex = 59;
-            this.label14.Text = "影像選擇";
-            // 
-            // whichpicture
-            // 
-            this.whichpicture.FormattingEnabled = true;
-            this.whichpicture.Location = new System.Drawing.Point(671, 44);
-            this.whichpicture.Name = "whichpicture";
-            this.whichpicture.Size = new System.Drawing.Size(121, 20);
-            this.whichpicture.TabIndex = 58;
-            this.whichpicture.SelectedValueChanged += new System.EventHandler(this.whichpicture_SelectedValueChanged);
-            // 
-            // ShapeModel
-            // 
-            this.ShapeModel.Location = new System.Drawing.Point(678, 6);
-            this.ShapeModel.Name = "ShapeModel";
-            this.ShapeModel.Size = new System.Drawing.Size(128, 69);
-            this.ShapeModel.TabIndex = 27;
-            this.ShapeModel.Text = "載入模板影像";
-            this.ShapeModel.UseVisualStyleBackColor = true;
-            this.ShapeModel.Click += new System.EventHandler(this.ShapeModel_Click);
-            // 
-            // toolWindow2
-            // 
-            this.toolWindow2.Location = new System.Drawing.Point(8, 138);
-            this.toolWindow2.Name = "toolWindow2";
-            this.toolWindow2.Size = new System.Drawing.Size(645, 472);
-            this.toolWindow2.TabIndex = 6;
-            this.toolWindow2.WindowImage = imageBase5;
+            this.OK.Image = ((System.Drawing.Image)(resources.GetObject("OK.Image")));
+            this.OK.Location = new System.Drawing.Point(12, 12);
+            this.OK.Name = "OK";
+            this.OK.Size = new System.Drawing.Size(46, 45);
+            this.OK.TabIndex = 5;
+            this.OK.UseVisualStyleBackColor = true;
+            this.OK.Click += new System.EventHandler(this.OK_Click);
             // 
             // CreateMatchingModel
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1000, 660);
+            this.ClientSize = new System.Drawing.Size(1000, 873);
+            this.Controls.Add(this.OK);
             this.Controls.Add(this.tabControl1);
             this.Name = "CreateMatchingModel";
             this.Text = "CreateMatchingModel";
             this.Activated += new System.EventHandler(this.CreateMatchingModel_Activated);
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.CreateMatchingModel_FormClosing);
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
@@ -576,6 +603,7 @@
             this.groupBox2.ResumeLayout(false);
             this.tabPage3.ResumeLayout(false);
             this.tabPage3.PerformLayout();
+            this.groupBox3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
 
@@ -630,6 +658,8 @@
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.ComboBox whichpicture;
         private System.Windows.Forms.Button ShapeModel;
+        private System.Windows.Forms.GroupBox groupBox3;
         private ToolWindow.ToolWindow toolWindow2;
+        private System.Windows.Forms.Button OK;
     }
 }

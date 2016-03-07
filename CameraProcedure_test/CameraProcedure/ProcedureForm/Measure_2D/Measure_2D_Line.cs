@@ -39,7 +39,7 @@ namespace CameraProcedure
         private Measure2DlineParameter M2DP;
 
         public bool setornot = false;
-        bool ifopenfromornot = true;
+        bool ifopenformornot = true;
 
         public Measure_2D_Line()
         {
@@ -53,7 +53,7 @@ namespace CameraProcedure
             {
                 toolWindow.WindowImage.ShowImage_autosize(toolWindow.Window.HalconWindow);
             }
-            if (ifopenfromornot)
+            if (ifopenformornot)
             {
                 M2DP.Length1 = 20;
                 M2DP.Length2 = 5;
@@ -65,7 +65,7 @@ namespace CameraProcedure
                 this.Sigma_trackBar.Value = 1;
                 this.Threshold_trackBar.Value = 10;
 
-                ifopenfromornot = false;
+                ifopenformornot = false;
             }
         }
 
@@ -179,7 +179,7 @@ namespace CameraProcedure
         private void OK_Click(object sender, EventArgs e)
         {
             setornot = true;
-            ifopenfromornot = false;
+            ifopenformornot = false;
             Hide();
         }
     }

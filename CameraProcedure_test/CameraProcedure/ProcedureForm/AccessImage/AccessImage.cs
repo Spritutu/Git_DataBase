@@ -21,11 +21,12 @@ namespace CameraProcedure
         {
             window = win;
         }
-        
+
         public ImageBase getimagebase()
         {
             return imagebase;
         }
+        
 
         public void show()
         {

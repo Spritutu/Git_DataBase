@@ -12,6 +12,7 @@ using ST_Base;
 namespace CameraProcedure
 {
     enum procedure_M { readimage = 1, Measure_1D, Measure_2D_Circle, Measure_2D_Line, Measure_2D_Ellipse, CreateMatchingModel };
+
     public partial class CameraProcedure : UserControl
     {
         private Camera_Table Camera = new Camera_Table();
@@ -19,6 +20,7 @@ namespace CameraProcedure
         private ImageBase window_image = new ImageBase();
         //視窗滑鼠位置
         private PointBase mousePosition = new PointBase();
+
 
         public CameraProcedure()
         {
@@ -289,27 +291,37 @@ namespace CameraProcedure
 
             setProcedurecolor();
         }
-
+        
         private void ProcedureTable_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             CurrencyManager cm = (CurrencyManager)this.BindingContext[ProcedureTable.DataSource];
             Procedure_Table p = new Procedure_Table();
+            //載入圖片函式
+            
 
             switch (Camera.Procedure[cm.Position].ProcedureMethod)
             {
                 case (int)procedure_M.readimage:
-
-                    //載入圖片函式
+                    
                     AccessImage readthefuckingimage = new AccessImage();
                     //由檔案載入圖片
                     readthefuckingimage.ImagefromFile();
-
-
+                    
                     if (readthefuckingimage.getimagebase().GetImage != null)
                     {
                         p.procedurefunction.doprocedurefunction += readthefuckingimage.show;
+                        string temp = "(procedure_" + cm.Position + ",Image_" + Camera.Object[cm.Position].OImage.Count + ")";
+
+                        if (readthefuckingimage.getimagebase().GetImage != null)
+                        {
+                            Camera.Object[cm.Position].OImage.Clear();
+                            Camera.Object[cm.Position].OImageName.Clear();
+                        }
+
+
                         Camera.Object[cm.Position].OImage.Add(readthefuckingimage.getimagebase().GetImage);
-                        Camera.Object[cm.Position].OImageName.Add("(procedure_"+ cm.Position + ",Image_"+ Camera.Object[cm.Position].OImage.Count+")");
+                        Camera.Object[cm.Position].OImageName.Add(temp);
+
                         Camera.Procedure[cm.Position].Setornot = true;
                     }
                     break;
@@ -335,7 +347,7 @@ namespace CameraProcedure
                     Measure_2D_Circle M2DC_temp = (Measure_2D_Circle)Camera.Procedure[cm.Position].SettingForm;
                     if (cm.Position != 0)
                     {
-                        M2DC_temp.MeasureImage = Camera.Object[cm.Position - 1].OImage[0];           //暫時使用前一個程序的圖片(載入圖片)
+                        M2DC_temp.O_T = Camera.Object;          //暫時使用前一個程序的圖片(載入圖片)
 
                     }
 
@@ -380,10 +392,20 @@ namespace CameraProcedure
                     CreateMatchingModel CMM_temp = (CreateMatchingModel)Camera.Procedure[cm.Position].SettingForm;
                     if (cm.Position != 0)
                     {
-                        CMM_temp.TemplateImage = Camera.Object[cm.Position - 1].OImage[0];
                         CMM_temp.O_T = Camera.Object;
                     }
                     CMM_temp.ShowDialog();
+
+                    if (CMM_temp.setornot ==true)
+                    {
+                        Camera.Object[cm.Position].OImage.Clear();
+                        Camera.Object[cm.Position].OImageName.Clear();
+                        if (CMM_temp.dstImage != null)
+                        {
+                            Camera.Object[cm.Position].OImage.Add(CMM_temp.dstImage);
+                            Camera.Object[cm.Position].OImageName.Add("test");
+                        }
+                    }
 
                     Camera.Procedure[cm.Position].procedurefunction.doprocedurefunction += CMM_temp.run;
                     Camera.Procedure[cm.Position].SettingForm = CMM_temp;

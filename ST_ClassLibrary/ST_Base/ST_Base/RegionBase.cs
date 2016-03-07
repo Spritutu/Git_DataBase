@@ -88,7 +88,7 @@ namespace ST_Base
 
 
         }
-        private void SetPen(HTuple hwindows, HTuple color, HTuple Draw, HTuple LineWidth)//線條參數
+        public void SetPen(HTuple hwindows, HTuple color, HTuple Draw, HTuple LineWidth)//線條參數
         {
             HOperatorSet.SetColor(hwindows, color);
             HOperatorSet.SetDraw(hwindows, Draw);
