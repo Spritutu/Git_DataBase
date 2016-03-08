@@ -11,7 +11,7 @@ using ST_Base;
 
 namespace CameraProcedure
 {
-    enum procedure_M { readimage = 1, Measure_1D, Measure_2D_Circle, Measure_2D_Line, Measure_2D_Ellipse, CreateMatchingModel };
+    enum procedure_M { readimage = 1, Measure_1D, Measure_2D_Circle, Measure_2D_Line, Measure_2D_Ellipse, CreateMatchingModel , TheVerticalLine };
 
     public partial class CameraProcedure : UserControl
     {
@@ -342,22 +342,6 @@ namespace CameraProcedure
 
                     break;
 
-                case (int)procedure_M.Measure_2D_Circle:
-
-                    Measure_2D_Circle M2DC_temp = (Measure_2D_Circle)Camera.Procedure[cm.Position].SettingForm;
-                    if (cm.Position != 0)
-                    {
-                        M2DC_temp.O_T = Camera.Object;          //暫時使用前一個程序的圖片(載入圖片)
-
-                    }
-
-                    M2DC_temp.ShowDialog();
-                    Camera.Procedure[cm.Position].procedurefunction.doprocedurefunction += M2DC_temp.run;
-                    Camera.Procedure[cm.Position].SettingForm = M2DC_temp;
-                    Camera.Procedure[cm.Position].Setornot = M2DC_temp.setornot;
-
-                    break;
-
                 case (int)procedure_M.Measure_2D_Ellipse:
 
                     Measure_2D_Ellipse M2DE_temp = (Measure_2D_Ellipse)Camera.Procedure[cm.Position].SettingForm;
@@ -387,6 +371,33 @@ namespace CameraProcedure
 
                     break;
 
+                case (int)procedure_M.Measure_2D_Circle:
+
+                    Measure_2D_Circle M2DC_temp = (Measure_2D_Circle)Camera.Procedure[cm.Position].SettingForm;
+                    if (cm.Position != 0)
+                    {
+                        M2DC_temp.O_T = Camera.Object;          //暫時使用前一個程序的圖片(載入圖片)
+                    }
+                    M2DC_temp.ShowDialog();
+
+                    if (M2DC_temp.setornot == true)
+                    {
+                        Camera.Object[cm.Position].OCircle.Clear();
+                        Camera.Object[cm.Position].OCircleName.Clear();
+                        if (M2DC_temp.dstCircle != null)
+                        {
+                            Camera.Object[cm.Position].OCircle.Add(M2DC_temp.dstCircle);
+                            Camera.Object[cm.Position].OCircleName.Add("testcircle");
+                        }
+                    }
+
+
+                    Camera.Procedure[cm.Position].procedurefunction.doprocedurefunction += M2DC_temp.run;
+                    Camera.Procedure[cm.Position].SettingForm = M2DC_temp;
+                    Camera.Procedure[cm.Position].Setornot = M2DC_temp.setornot;
+
+                    break;
+
                 case (int)procedure_M.CreateMatchingModel:
 
                     CreateMatchingModel CMM_temp = (CreateMatchingModel)Camera.Procedure[cm.Position].SettingForm;
@@ -412,6 +423,22 @@ namespace CameraProcedure
                     Camera.Procedure[cm.Position].Setornot = CMM_temp.setornot;
 
                     break;
+                case (int)procedure_M.TheVerticalLine:
+
+                    TheVerticalLine TVL_temp = (TheVerticalLine)Camera.Procedure[cm.Position].SettingForm;
+                    if (cm.Position != 0)
+                    {
+                        TVL_temp.O_T = Camera.Object;
+                    }
+                    TVL_temp.ShowDialog();
+                                     
+
+                    Camera.Procedure[cm.Position].procedurefunction.doprocedurefunction += TVL_temp.run;
+                    Camera.Procedure[cm.Position].SettingForm = TVL_temp;
+                    Camera.Procedure[cm.Position].Setornot = TVL_temp.setornot;
+
+                    break;
+                    
             }
             setProcedurecolor();
 
@@ -531,6 +558,44 @@ namespace CameraProcedure
             p.Setornot = false;
             p.ProcedureMethod = (int)procedure_M.Measure_2D_Ellipse;
             p.SettingForm = new Measure_2D_Ellipse();
+
+            Camera.Procedure.Insert(cm.Position + 1, p);
+            Camera.Object.Insert(cm.Position + 1, O);
+
+            //重新排序Procedure編號
+            remarkProcedure(0);
+
+            //更新表格
+            if (cm != null)
+            {
+                cm.Refresh();
+                ProcedureTable.ClearSelection();
+
+                if (ProcedureTable.RowCount < cm.Position + 1)
+                {
+                    ProcedureTable.Rows[cm.Position + 1].Selected = true;
+                }
+                else
+                {
+                    ProcedureTable.Rows[cm.Position].Selected = true;
+                }
+            }
+
+            setProcedurecolor();
+        }
+
+        private void 中垂線ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //控制項目前cell位置
+            CurrencyManager cm = (CurrencyManager)this.BindingContext[ProcedureTable.DataSource];
+            //設定Procedure_Table顯示字串
+            Procedure_Table p = new Procedure_Table();
+            Object_Table O = new Object_Table();
+
+            p.ProcedureName = "TheVerticalLine";
+            p.Setornot = false;
+            p.ProcedureMethod = (int)procedure_M.TheVerticalLine;
+            p.SettingForm = new TheVerticalLine();
 
             Camera.Procedure.Insert(cm.Position + 1, p);
             Camera.Object.Insert(cm.Position + 1, O);

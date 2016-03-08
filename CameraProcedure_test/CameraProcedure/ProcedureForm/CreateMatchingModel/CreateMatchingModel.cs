@@ -56,7 +56,7 @@ namespace CameraProcedure
     {
 
         public List<Object_Table> O_T = new List<Object_Table>();
-        List<Measure_1D_SelectImage> SelectImage = new List<Measure_1D_SelectImage>();
+        List<SelectImageNName> SelectImage = new List<SelectImageNName>();
 
         private RegionBase region_rec = new RegionBase();
         private ImageBase Template_Image = new ImageBase();
@@ -111,13 +111,14 @@ namespace CameraProcedure
                             if (O_T[i].OImage[j] != null)
                             {
                                 
-                                Measure_1D_SelectImage M1S = new Measure_1D_SelectImage();
+                                SelectImageNName M1S = new SelectImageNName();
                                 M1S.Image = O_T[i].OImage[j];
                                 M1S.ImageName = (string)O_T[i].OImageName[j];
                                 SelectImage.Add(M1S);
                             }
                         }
                     }
+                    whichpicture.DataSource = null;
                     whichpicture.DataSource = SelectImage;
                     whichpicture.DisplayMember = "ImageName";
                     whichpicture.ValueMember = "Image";

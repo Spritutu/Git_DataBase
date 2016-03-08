@@ -8,7 +8,7 @@ using HalconDotNet;
 namespace ST_Base
 {
     public enum Shape { Rectangle, Circle, Line, Ellipse, Line_rec }
-    public struct Rectangle
+    public class Rectangle
     {
         public HTuple row;
         public HTuple column;
@@ -18,14 +18,14 @@ namespace ST_Base
         public HObject ROI;
 
     }
-    public struct Circle
+    public class Circle
     {
         public HTuple row;
         public HTuple column;
         public HTuple radius;
         public HObject ROI;
     }
-    public struct Line
+    public class Line
     {
         public HTuple row_start;
         public HTuple column_start;
@@ -35,7 +35,7 @@ namespace ST_Base
         public HObject ROI;
 
     }
-    public struct Ellipse
+    public class Ellipse
     {
         public HTuple row;
         public HTuple column;
@@ -46,11 +46,11 @@ namespace ST_Base
     }
     public class RegionBase
     {
-        public Rectangle rectangle;
-        public Circle circle;
-        public Line line;
-        public Rectangle line_rec;
-        public Ellipse ellipse;
+        public Rectangle rectangle = new Rectangle();
+        public Circle circle = new Circle();
+        public Line line= new Line();
+        public Rectangle line_rec = new Rectangle();
+        public Ellipse ellipse = new Ellipse();
 
 
         public void ClearALL()

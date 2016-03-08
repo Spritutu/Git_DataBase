@@ -65,7 +65,7 @@ namespace ToolWindow
         }
         public void Remove_Object_disp(HObject obj)
         {
-            //還沒寫
+            Object_disp.Remove(obj);
         }
         private void DispObject()
         {

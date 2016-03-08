@@ -45,6 +45,7 @@
             this.ObjectMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
             this.startButton = new System.Windows.Forms.Button();
+            this.中垂線ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.ProcedureTable)).BeginInit();
             this.PrcedureMenuStrip.SuspendLayout();
             this.ObjectMenuStrip.SuspendLayout();
@@ -78,7 +79,7 @@
             this.插入程序ToolStripMenuItem,
             this.刪除程序ToolStripMenuItem});
             this.PrcedureMenuStrip.Name = "PrcedureStrip";
-            this.PrcedureMenuStrip.Size = new System.Drawing.Size(125, 48);
+            this.PrcedureMenuStrip.Size = new System.Drawing.Size(153, 70);
             // 
             // 插入程序ToolStripMenuItem
             // 
@@ -88,9 +89,10 @@
             this.二維量測LineToolStripMenuItem,
             this.二維量測ToolStripMenuItem,
             this.二維量測EillpseToolStripMenuItem,
-            this.建立匹配ModelToolStripMenuItem});
+            this.建立匹配ModelToolStripMenuItem,
+            this.中垂線ToolStripMenuItem});
             this.插入程序ToolStripMenuItem.Name = "插入程序ToolStripMenuItem";
-            this.插入程序ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.插入程序ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.插入程序ToolStripMenuItem.Text = "插入程序";
             // 
             // 載入圖片ToolStripMenuItem
@@ -138,7 +140,7 @@
             // 刪除程序ToolStripMenuItem
             // 
             this.刪除程序ToolStripMenuItem.Name = "刪除程序ToolStripMenuItem";
-            this.刪除程序ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.刪除程序ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.刪除程序ToolStripMenuItem.Text = "刪除程序";
             this.刪除程序ToolStripMenuItem.Click += new System.EventHandler(this.刪除程序ToolStripMenuItem_Click);
             // 
@@ -166,6 +168,13 @@
             this.startButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.startButton.UseVisualStyleBackColor = true;
             this.startButton.Click += new System.EventHandler(this.startButton_Click);
+            // 
+            // 中垂線ToolStripMenuItem
+            // 
+            this.中垂線ToolStripMenuItem.Name = "中垂線ToolStripMenuItem";
+            this.中垂線ToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+            this.中垂線ToolStripMenuItem.Text = "中垂線";
+            this.中垂線ToolStripMenuItem.Click += new System.EventHandler(this.中垂線ToolStripMenuItem_Click);
             // 
             // CameraProcedure
             // 
@@ -200,5 +209,6 @@
         private System.Windows.Forms.ToolStripMenuItem 二維量測ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 二維量測LineToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 二維量測EillpseToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 中垂線ToolStripMenuItem;
     }
 }

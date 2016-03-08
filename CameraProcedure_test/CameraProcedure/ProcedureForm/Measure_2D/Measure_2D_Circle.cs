@@ -24,6 +24,7 @@ namespace CameraProcedure
         public HTuple hv_Column, hv_Radius, hv_MetrologyHandle;
         public HTuple hv_MetrologyCircleIndices, hv_Row1;
         public HTuple hv_Column1;
+        public HTuple hv_Parameter;
 
         public HTuple Length1;
         public HTuple Length2;
@@ -35,19 +36,17 @@ namespace CameraProcedure
     public partial class Measure_2D_Circle : Form
     {
         private RegionBase region_circle = new RegionBase();
-        //private ImageBase Measure_Image = new ImageBase();
-        //public HObject MeasureImage { set { Measure_Image.SetImage = value; } }
         private Measure2DcircleParameter M2DCP;
+
         public bool setornot = false;
         bool ifopenformornot = false;
-
         public List<Object_Table> O_T = new List<Object_Table>();
-        List<Measure_1D_SelectImage> SelectImage = new List<Measure_1D_SelectImage>();
+        List<SelectImageNName> SelectImage = new List<SelectImageNName>();
 
         private ImageBase src_Image = new ImageBase();
         public HObject SrcImage { set { src_Image.SetImage = value; } }
-        private ImageBase dst_Image = new ImageBase();
-        public HObject dstImage { get { return dst_Image.GetImage; } }
+        private Circle dst_circle = new Circle();
+        public Circle dstCircle { get { return dst_circle; } }
         bool loadfinish = false;
 
 
@@ -70,13 +69,14 @@ namespace CameraProcedure
                         {
                             if (O_T[i].OImage[j] != null)
                             {
-                                Measure_1D_SelectImage M1S = new Measure_1D_SelectImage();
+                                SelectImageNName M1S = new SelectImageNName();
                                 M1S.Image = O_T[i].OImage[j];
                                 M1S.ImageName = (string)O_T[i].OImageName[j];
                                 SelectImage.Add(M1S);
                             }
                         }
                     }
+                    whichpicture.DataSource = null;
                     whichpicture.DataSource = SelectImage;
                     whichpicture.DisplayMember = "ImageName";
                     whichpicture.ValueMember = "Image";
@@ -185,6 +185,8 @@ namespace CameraProcedure
                 HOperatorSet.ApplyMetrologyModel(src_Image.GetImage, M2DCP.hv_MetrologyHandle);
                 HOperatorSet.GetMetrologyObjectResultContour(out M2DCP.ho_Contours, M2DCP.hv_MetrologyHandle, "all", "all", 1.5);
                 HOperatorSet.GetMetrologyObjectMeasures(out M2DCP.ho_Contour, M2DCP.hv_MetrologyHandle, "all","all", out M2DCP.hv_Row1, out M2DCP.hv_Column1);
+                HOperatorSet.GetMetrologyObjectResult(M2DCP.hv_MetrologyHandle, "all", "all", "result_type",
+        "all_param", out M2DCP.hv_Parameter);
 
                 HOperatorSet.GenCrossContourXld(out M2DCP.ho_Cross, M2DCP.hv_Row1, M2DCP.hv_Column1, 6, 0.785398);
                 HOperatorSet.DispObj(src_Image.GetImage, toolWindow1.Window.HalconWindow);
@@ -212,6 +214,9 @@ namespace CameraProcedure
         {
             setornot = true;
             ifopenformornot = false;
+            dst_circle.row = M2DCP.hv_Parameter[0];
+            dst_circle.column = M2DCP.hv_Parameter[1];
+            dst_circle.radius = M2DCP.hv_Parameter[2];
             Hide();
         }
         
@@ -228,6 +233,11 @@ namespace CameraProcedure
                     toolWindow1.showImage();
             }
         }
-        
+
+        private void Measure_2D_Circle_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            ifopenformornot = false;
+            Hide();
+        }
     }
 }

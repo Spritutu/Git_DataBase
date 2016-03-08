@@ -7,7 +7,7 @@ using HalconDotNet;
 
 namespace CameraProcedure
 {
-    public class Measure_1D_SelectImage
+    public class SelectImageNName
     {
         private HObject image;
         public HObject Image { get { return image; } set { image = value; } }

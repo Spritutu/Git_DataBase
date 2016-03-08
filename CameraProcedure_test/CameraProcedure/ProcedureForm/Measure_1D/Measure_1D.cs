@@ -82,7 +82,7 @@ namespace CameraProcedure
         /// <summary>
         /// SelectImage下拉式表單參數
         /// </summary>
-        List<Measure_1D_SelectImage> SelectImage = new List<Measure_1D_SelectImage>();
+        List<SelectImageNName> SelectImage = new List<SelectImageNName>();
         /// <summary>
         /// 待測圖片
         /// </summary>
@@ -159,7 +159,7 @@ namespace CameraProcedure
                     {
                         if (O_T[i].OImage[j] != null)
                         {
-                            Measure_1D_SelectImage M1S = new Measure_1D_SelectImage();
+                            SelectImageNName M1S = new SelectImageNName();
                             M1S.Image = O_T[i].OImage[j];
                             M1S.ImageName = (string)O_T[i].OImageName[j];
                             SelectImage.Add(M1S);

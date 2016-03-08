@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using HalconDotNet;
 using System.Drawing.Imaging;
 using System.Drawing;
+using ST_Base;
 
 namespace CameraProcedure
 {
@@ -15,25 +16,34 @@ namespace CameraProcedure
     /// </summary>
     public class Object_Table
     {
-        //private HObject image;
-        //public HObject Image { get { return image; } set { image = value; } }
-        //private string imageName;
-        //public string ImageName { get { return imageName; } set { imageName = value; } }
-
         public List<HObject> OImage = new List<HObject>();
         public List<string> OImageName = new List<string>();
-        
 
+        public List<Circle> OCircle = new List<Circle>();
+        public List<string> OCircleName = new List<string>();
 
-        public List<string> Display
-        {
-            get { return this.OImageName; }
-        }
+        public List<PointBase> OPoint = new List<PointBase>();
+        public List<string> OPointName = new List<string>();
 
-        public List<HObject> Value
-        {
-            get { return this.OImage; }
-        }
+        //public List<string> Display_Image
+        //{
+        //    get { return this.OImageName; }
+        //}
+
+        //public List<HObject> Value_Image
+        //{
+        //    get { return this.OImage; }
+        //}
+
+        //public List<string> Display_Point
+        //{
+        //    get { return this.OPointName; }
+        //}
+
+        //public List<PointBase> Value_Point
+        //{
+        //    get { return this.OPoint; }
+        //}
     }
 
 }
