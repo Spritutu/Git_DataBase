@@ -331,7 +331,6 @@ namespace CameraProcedure
                     Measure_1D M1_temp = (Measure_1D)Camera.Procedure[cm.Position].SettingForm;
                     if (cm.Position != 0)
                     {
-                        M1_temp.MeasureImage = Camera.Object[cm.Position - 1].OImage[0];           //暫時使用前一個程序的圖片(載入圖片)
                         M1_temp.O_T = Camera.Object;
                     }
 

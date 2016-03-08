@@ -30,11 +30,11 @@
         {
             this.Camerawindow2 = new System.Windows.Forms.TabControl();
             this.Camera_1 = new System.Windows.Forms.TabPage();
+            this.cameraProcedure1 = new CameraProcedure.CameraProcedure();
             this.Camera_2 = new System.Windows.Forms.TabPage();
+            this.cameraProcedure2 = new CameraProcedure.CameraProcedure();
             this.Camera_3 = new System.Windows.Forms.TabPage();
             this.Camera_4 = new System.Windows.Forms.TabPage();
-            this.cameraProcedure1 = new CameraProcedure.CameraProcedure();
-            this.cameraProcedure2 = new CameraProcedure.CameraProcedure();
             this.Camerawindow2.SuspendLayout();
             this.Camera_1.SuspendLayout();
             this.Camera_2.SuspendLayout();
@@ -63,6 +63,13 @@
             this.Camera_1.Text = "Camera No.1";
             this.Camera_1.UseVisualStyleBackColor = true;
             // 
+            // cameraProcedure1
+            // 
+            this.cameraProcedure1.Location = new System.Drawing.Point(6, 5);
+            this.cameraProcedure1.Name = "cameraProcedure1";
+            this.cameraProcedure1.Size = new System.Drawing.Size(1502, 733);
+            this.cameraProcedure1.TabIndex = 0;
+            // 
             // Camera_2
             // 
             this.Camera_2.Controls.Add(this.cameraProcedure2);
@@ -73,6 +80,13 @@
             this.Camera_2.TabIndex = 2;
             this.Camera_2.Text = "Camera No.2";
             this.Camera_2.UseVisualStyleBackColor = true;
+            // 
+            // cameraProcedure2
+            // 
+            this.cameraProcedure2.Location = new System.Drawing.Point(3, 6);
+            this.cameraProcedure2.Name = "cameraProcedure2";
+            this.cameraProcedure2.Size = new System.Drawing.Size(1502, 722);
+            this.cameraProcedure2.TabIndex = 1;
             // 
             // Camera_3
             // 
@@ -93,20 +107,6 @@
             this.Camera_4.TabIndex = 4;
             this.Camera_4.Text = "Camera No.4";
             this.Camera_4.UseVisualStyleBackColor = true;
-            // 
-            // cameraProcedure1
-            // 
-            this.cameraProcedure1.Location = new System.Drawing.Point(6, 5);
-            this.cameraProcedure1.Name = "cameraProcedure1";
-            this.cameraProcedure1.Size = new System.Drawing.Size(1502, 733);
-            this.cameraProcedure1.TabIndex = 0;
-            // 
-            // cameraProcedure2
-            // 
-            this.cameraProcedure2.Location = new System.Drawing.Point(3, 6);
-            this.cameraProcedure2.Name = "cameraProcedure2";
-            this.cameraProcedure2.Size = new System.Drawing.Size(1502, 722);
-            this.cameraProcedure2.TabIndex = 1;
             // 
             // CameraProcedureForm
             // 
