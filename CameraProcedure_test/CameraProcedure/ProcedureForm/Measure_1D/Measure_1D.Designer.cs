@@ -438,6 +438,7 @@
             this.Name = "Measure_1D";
             this.Text = "Measure_1D";
             this.Activated += new System.EventHandler(this.Measure_Activated);
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Measure_1D_FormClosing);
             this.tabControl1.ResumeLayout(false);
             this.Page_1DMeasure.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);

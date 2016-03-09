@@ -11,16 +11,13 @@ using HalconDotNet;
 using ST_Base;
 
 namespace CameraProcedure
-
-{public struct TheVerticalLineParameter
+{
+    public struct TheVerticalLineParameter
     {
         public HTuple hv_Center_row, hv_Center_col, hv_first_row, hv_Second_row, hv_first_col, hv_Second_col;
         public HTuple hv_m, hv_row1, hv_col1, hv_row2, hv_col2;
 
         public HObject ho_Cross_center, ho_Cross_firstpoint, ho_Cross_secondpoint , ho_RegionLines;
-
-        
-
     }
     public partial class TheVerticalLine : Form
     {
@@ -41,10 +38,8 @@ namespace CameraProcedure
         private PointBase src_Point2 = new PointBase();
         public PointBase SrcPoint2 { set { src_Point2 = value; } }
 
-        private PointBase dst_Point1 = new PointBase();
-        public PointBase DstPoint1 { set { dst_Point1 = value; } }
-        private PointBase dst_Point2 = new PointBase();
-        public PointBase DstPoint2 { set { dst_Point2 = value; } }
+        private Line dst_Line = new Line();
+        public Line DstLine { get { return dst_Line; } }
 
         bool loadfinish = false;
 
@@ -160,12 +155,12 @@ namespace CameraProcedure
                     toolWindow.Remove_Object_disp(TVL.ho_Cross_secondpoint);
 
                     src_Image.SetImage = (HObject)whichpicture.SelectedValue;
-                    dst_Point1 = (PointBase)whichpoint1.SelectedValue;
-                    dst_Point2 = (PointBase)whichpoint2.SelectedValue;
-                    TVL.hv_first_row = dst_Point1.row;
-                    TVL.hv_first_col = dst_Point1.col;
-                    TVL.hv_Second_row = dst_Point2.row;
-                    TVL.hv_Second_col = dst_Point2.col;
+                    PointBase temp1 = (PointBase)whichpoint1.SelectedValue;
+                    PointBase temp2 = (PointBase)whichpoint2.SelectedValue;
+                    TVL.hv_first_row = temp1.row;
+                    TVL.hv_first_col = temp1.col;
+                    TVL.hv_Second_row = temp2.row;
+                    TVL.hv_Second_col = temp2.col;
                     HOperatorSet.GenCrossContourXld(out TVL.ho_Cross_firstpoint, TVL.hv_first_row, TVL.hv_first_col, 10, 0);
                     HOperatorSet.GenCrossContourXld(out TVL.ho_Cross_secondpoint, TVL.hv_Second_row, TVL.hv_Second_col, 10, 0);
 
@@ -205,9 +200,9 @@ namespace CameraProcedure
             if (loadfinish)
             {
                 toolWindow.Remove_Object_disp(TVL.ho_Cross_firstpoint);
-                dst_Point1 = (PointBase)whichpoint1.SelectedValue;
-                TVL.hv_first_row = dst_Point1.row;
-                TVL.hv_first_col = dst_Point1.col;
+                PointBase temp1 = (PointBase)whichpoint1.SelectedValue;
+                TVL.hv_first_row = temp1.row;
+                TVL.hv_first_col = temp1.col;
 
                 HOperatorSet.GenCrossContourXld(out TVL.ho_Cross_firstpoint, TVL.hv_first_row, TVL.hv_first_col, 10, 0);
                 toolWindow.Add_Object_disp(TVL.ho_Cross_firstpoint, "red", "margin", 3);
@@ -220,9 +215,9 @@ namespace CameraProcedure
             if (loadfinish)
             {
                 toolWindow.Remove_Object_disp(TVL.ho_Cross_secondpoint);
-                dst_Point2 = (PointBase)whichpoint2.SelectedValue;
-                TVL.hv_Second_row = dst_Point2.row;
-                TVL.hv_Second_col = dst_Point2.col;
+                PointBase temp2 = (PointBase)whichpoint2.SelectedValue;
+                TVL.hv_Second_row = temp2.row;
+                TVL.hv_Second_col = temp2.col;
 
                 HOperatorSet.GenCrossContourXld(out TVL.ho_Cross_secondpoint, TVL.hv_Second_row, TVL.hv_Second_col, 10, 0);
                 toolWindow.Add_Object_disp(TVL.ho_Cross_secondpoint, "blue", "margin", 3);
@@ -236,6 +231,10 @@ namespace CameraProcedure
         {
             setornot = true;
             ifopenformornot = false;
+            dst_Line.row_start = TVL.hv_row1;
+            dst_Line.column_start = TVL.hv_col1;
+            dst_Line.row_end = TVL.hv_row2;
+            dst_Line.column_end = TVL.hv_col2;
             Hide();
         }
 
@@ -251,7 +250,6 @@ namespace CameraProcedure
 
         private void gen_result_Click(object sender, EventArgs e)
         {
-
             TVL.hv_Center_row = (TVL.hv_first_row + TVL.hv_Second_row) / 2;
             TVL.hv_Center_col = (TVL.hv_first_col + TVL.hv_Second_col) / 2;
 

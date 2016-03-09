@@ -11,7 +11,7 @@ using ST_Base;
 
 namespace CameraProcedure
 {
-    enum procedure_M { readimage = 1, Measure_1D, Measure_2D_Circle, Measure_2D_Line, Measure_2D_Ellipse, CreateMatchingModel , TheVerticalLine };
+    enum procedure_M { readimage = 1, Measure_1D, Measure_2D_Circle, Measure_2D_Line, Measure_2D_Ellipse, CreateMatchingModel , TheVerticalLine , PL_distance };
 
     public partial class CameraProcedure : UserControl
     {
@@ -333,8 +333,30 @@ namespace CameraProcedure
                     {
                         M1_temp.O_T = Camera.Object;
                     }
-
                     M1_temp.ShowDialog();
+
+                    if (M1_temp.setornot == true)
+                    {
+                        Camera.Object[cm.Position].OPoint.Clear();
+                        Camera.Object[cm.Position].OPointName.Clear();
+                        if (M1_temp.dstfirstpoint != null)
+                        {
+                            for (int i = 0; i < M1_temp.dstfirstpoint.Count; i++)
+                            {
+                                Camera.Object[cm.Position].OPoint.Add(M1_temp.dstfirstpoint[i]);
+                                Camera.Object[cm.Position].OPointName.Add("dstfirstpoint" + i);
+                            }
+                        }
+                        if (M1_temp.dstsecondpoint != null)
+                        {
+                            for (int i = 0; i < M1_temp.dstsecondpoint.Count; i++)
+                            {
+                                Camera.Object[cm.Position].OPoint.Add(M1_temp.dstsecondpoint[i]);
+                                Camera.Object[cm.Position].OPointName.Add("dstsecondpoint" + i);
+                            }
+                        }
+                    }
+
                     Camera.Procedure[cm.Position].procedurefunction.doprocedurefunction += M1_temp.run;
                     Camera.Procedure[cm.Position].SettingForm = M1_temp;
                     Camera.Procedure[cm.Position].Setornot = M1_temp.setornot;
@@ -348,6 +370,7 @@ namespace CameraProcedure
                     {
                         M2DE_temp.MeasureImage = Camera.Object[cm.Position - 1].OImage[0];           //暫時使用前一個程序的圖片(載入圖片)
                     }
+
                     M2DE_temp.ShowDialog();
                     Camera.Procedure[cm.Position].procedurefunction.doprocedurefunction += M2DE_temp.run;
                     Camera.Procedure[cm.Position].SettingForm = M2DE_temp;
@@ -360,7 +383,6 @@ namespace CameraProcedure
                     if (cm.Position != 0)
                     {
                         M2DL_temp.MeasureImage = Camera.Object[cm.Position - 1].OImage[0];           //暫時使用前一個程序的圖片(載入圖片)
-
                     }
 
                     M2DL_temp.ShowDialog();
@@ -413,7 +435,7 @@ namespace CameraProcedure
                         if (CMM_temp.dstImage != null)
                         {
                             Camera.Object[cm.Position].OImage.Add(CMM_temp.dstImage);
-                            Camera.Object[cm.Position].OImageName.Add("test");
+                            Camera.Object[cm.Position].OImageName.Add("CreateMatchingModel");
                         }
                     }
 
@@ -430,14 +452,41 @@ namespace CameraProcedure
                         TVL_temp.O_T = Camera.Object;
                     }
                     TVL_temp.ShowDialog();
-                                     
+
+                    if (TVL_temp.setornot == true)
+                    {
+                        Camera.Object[cm.Position].OLine.Clear();
+                        Camera.Object[cm.Position].OLineName.Clear();
+                        if (TVL_temp.DstLine != null)
+                        {
+                            Camera.Object[cm.Position].OLine.Add(TVL_temp.DstLine);
+                            Camera.Object[cm.Position].OLineName.Add("CreateMatchingModel");
+                        }
+                    }
+
 
                     Camera.Procedure[cm.Position].procedurefunction.doprocedurefunction += TVL_temp.run;
                     Camera.Procedure[cm.Position].SettingForm = TVL_temp;
                     Camera.Procedure[cm.Position].Setornot = TVL_temp.setornot;
 
+                    break; 
+                case (int)procedure_M.PL_distance:
+
+                    PL_distance PLD_temp = (PL_distance)Camera.Procedure[cm.Position].SettingForm;
+                    if (cm.Position != 0)
+                    {
+                        PLD_temp.O_T = Camera.Object;
+                    }
+                    PLD_temp.ShowDialog();
+
+
+                    Camera.Procedure[cm.Position].procedurefunction.doprocedurefunction += PLD_temp.run;
+                    Camera.Procedure[cm.Position].SettingForm = PLD_temp;
+                    Camera.Procedure[cm.Position].Setornot = PLD_temp.setornot;
+
                     break;
-                    
+
+
             }
             setProcedurecolor();
 
@@ -595,6 +644,44 @@ namespace CameraProcedure
             p.Setornot = false;
             p.ProcedureMethod = (int)procedure_M.TheVerticalLine;
             p.SettingForm = new TheVerticalLine();
+
+            Camera.Procedure.Insert(cm.Position + 1, p);
+            Camera.Object.Insert(cm.Position + 1, O);
+
+            //重新排序Procedure編號
+            remarkProcedure(0);
+
+            //更新表格
+            if (cm != null)
+            {
+                cm.Refresh();
+                ProcedureTable.ClearSelection();
+
+                if (ProcedureTable.RowCount < cm.Position + 1)
+                {
+                    ProcedureTable.Rows[cm.Position + 1].Selected = true;
+                }
+                else
+                {
+                    ProcedureTable.Rows[cm.Position].Selected = true;
+                }
+            }
+
+            setProcedurecolor();
+        }
+
+        private void 兩點距離ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //控制項目前cell位置
+            CurrencyManager cm = (CurrencyManager)this.BindingContext[ProcedureTable.DataSource];
+            //設定Procedure_Table顯示字串
+            Procedure_Table p = new Procedure_Table();
+            Object_Table O = new Object_Table();
+
+            p.ProcedureName = "PL_distance";
+            p.Setornot = false;
+            p.ProcedureMethod = (int)procedure_M.PL_distance;
+            p.SettingForm = new PL_distance();
 
             Camera.Procedure.Insert(cm.Position + 1, p);
             Camera.Object.Insert(cm.Position + 1, O);

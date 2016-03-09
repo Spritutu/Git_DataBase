@@ -25,25 +25,9 @@ namespace CameraProcedure
         public List<PointBase> OPoint = new List<PointBase>();
         public List<string> OPointName = new List<string>();
 
-        //public List<string> Display_Image
-        //{
-        //    get { return this.OImageName; }
-        //}
+        public List<Line> OLine = new List<Line>();
+        public List<string> OLineName = new List<string>();
 
-        //public List<HObject> Value_Image
-        //{
-        //    get { return this.OImage; }
-        //}
-
-        //public List<string> Display_Point
-        //{
-        //    get { return this.OPointName; }
-        //}
-
-        //public List<PointBase> Value_Point
-        //{
-        //    get { return this.OPoint; }
-        //}
     }
 
 }

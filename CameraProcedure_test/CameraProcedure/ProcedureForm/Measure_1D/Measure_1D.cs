@@ -96,6 +96,9 @@ namespace CameraProcedure
 
         public List<Object_Table> O_T = new List<Object_Table>();
 
+        public List<PointBase> dstfirstpoint = new List<PointBase>();
+        public List<PointBase> dstsecondpoint = new List<PointBase>();
+
         /// <summary>
         /// 測量模式
         /// </summary>
@@ -176,15 +179,20 @@ namespace CameraProcedure
                 result_list.Columns.Add("距離");
                 this.result_list.EndUpdate();
 
-                
-                 
+
+                whichpicture.DataSource = null;
                 whichpicture.DataSource = SelectImage;
                 whichpicture.DisplayMember = "ImageName";
                 whichpicture.ValueMember = "Image";
                 loadfinish = true;
+                SelectBox.DataSource = null;
                 SelectBox.DataSource = SelectData;
                 posButton.Checked = true;
                 ifopenformornot = true;
+
+                Measure_Image.SetImage = (HObject)whichpicture.SelectedValue;
+                toolWindow.WindowImage = Measure_Image;
+                toolWindow.showImage();
             }
             else
                 Showresult();
@@ -303,6 +311,37 @@ namespace CameraProcedure
         {
             setornot = true;
             ifopenformornot = true;
+            switch (measuretype)
+            {
+                case (int)MeasureType.pos:
+                    dstfirstpoint.Clear();
+                    for (int i = 0; i < M1DP.hv_RowEdgeFirst.Length; i++)
+                    {                        
+                        PointBase PB_temp = new PointBase();
+                        PB_temp.row = M1DP.hv_RowEdgeFirst[i];
+                        PB_temp.col = M1DP.hv_ColumnEdgeFirst[i];
+                        dstfirstpoint.Add(PB_temp);
+                    }
+                    break;
+
+                case (int)MeasureType.pair:
+                    dstfirstpoint.Clear();
+                    dstsecondpoint.Clear();
+                    for (int i = 0; i < M1DP.hv_RowEdgeFirst.Length; i++)
+                    {
+                        PointBase PB1_temp = new PointBase();
+                        PointBase PB2_temp = new PointBase();
+                        PB1_temp.row = M1DP.hv_RowEdgeFirst[i];
+                        PB1_temp.col = M1DP.hv_ColumnEdgeFirst[i];
+                        PB2_temp.row = M1DP.hv_RowEdgeFirst[i];
+                        PB2_temp.col = M1DP.hv_ColumnEdgeFirst[i];
+                        dstfirstpoint.Add(PB1_temp);
+                        dstsecondpoint.Add(PB2_temp);
+                    }
+
+                    break;
+
+            }
             Hide();
         }
 
@@ -535,9 +574,14 @@ namespace CameraProcedure
             if (loadfinish)
             {
                 Measure_Image.SetImage = (HObject)whichpicture.SelectedValue;
-                Measure_Image.ShowImage_autosize(toolWindow.Window.HalconWindow);
+                toolWindow.WindowImage = Measure_Image;
+                toolWindow.showImage();
                 Showresult();
             }
+        }
+
+        private void Measure_1D_FormClosing(object sender, FormClosingEventArgs e)
+        {
 
         }
     }
