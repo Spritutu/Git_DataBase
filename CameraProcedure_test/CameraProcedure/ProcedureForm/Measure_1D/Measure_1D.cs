@@ -201,9 +201,7 @@ namespace CameraProcedure
         private void DrawROI_button_Click(object sender, EventArgs e)
         {
             HOperatorSet.ClearWindow(EageWindow.HalconWindow);
-            toolWindow.Remove_Object_disp(temp1);
-            toolWindow.Remove_Object_disp(temp2);
-            toolWindow.Remove_Object_disp(temp3);
+            toolWindow.Clear_Object_disp();
 
             switch (measuretype) {
                 case (int)MeasureType.pos:
@@ -425,9 +423,7 @@ namespace CameraProcedure
 
         private void Showresult() {
 
-            toolWindow.Remove_Object_disp(temp1);
-            toolWindow.Remove_Object_disp(temp2);
-            toolWindow.Remove_Object_disp(temp3);
+            toolWindow.Clear_Object_disp();
             switch (measuretype)
             {
                 case (int)MeasureType.pos:

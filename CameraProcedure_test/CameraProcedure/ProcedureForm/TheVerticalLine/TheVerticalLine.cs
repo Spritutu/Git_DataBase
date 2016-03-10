@@ -151,8 +151,7 @@ namespace CameraProcedure
 
                     loadfinish = true;
 
-                    toolWindow.Remove_Object_disp(TVL.ho_Cross_firstpoint);
-                    toolWindow.Remove_Object_disp(TVL.ho_Cross_secondpoint);
+                    toolWindow.Clear_Object_disp();
 
                     src_Image.SetImage = (HObject)whichpicture.SelectedValue;
                     PointBase temp1 = (PointBase)whichpoint1.SelectedValue;
@@ -199,13 +198,23 @@ namespace CameraProcedure
         {
             if (loadfinish)
             {
-                toolWindow.Remove_Object_disp(TVL.ho_Cross_firstpoint);
+                toolWindow.Clear_Object_disp();
                 PointBase temp1 = (PointBase)whichpoint1.SelectedValue;
                 TVL.hv_first_row = temp1.row;
                 TVL.hv_first_col = temp1.col;
-
                 HOperatorSet.GenCrossContourXld(out TVL.ho_Cross_firstpoint, TVL.hv_first_row, TVL.hv_first_col, 10, 0);
                 toolWindow.Add_Object_disp(TVL.ho_Cross_firstpoint, "red", "margin", 3);
+
+
+
+                PointBase temp2 = (PointBase)whichpoint2.SelectedValue;
+                TVL.hv_Second_row = temp2.row;
+                TVL.hv_Second_col = temp2.col;
+
+                HOperatorSet.GenCrossContourXld(out TVL.ho_Cross_secondpoint, TVL.hv_Second_row, TVL.hv_Second_col, 10, 0);
+                toolWindow.Add_Object_disp(TVL.ho_Cross_secondpoint, "blue", "margin", 3);
+
+
                 toolWindow.showImage();
             }
         }
@@ -214,7 +223,17 @@ namespace CameraProcedure
         {
             if (loadfinish)
             {
-                toolWindow.Remove_Object_disp(TVL.ho_Cross_secondpoint);
+                toolWindow.Clear_Object_disp();
+
+
+                PointBase temp1 = (PointBase)whichpoint1.SelectedValue;
+                TVL.hv_first_row = temp1.row;
+                TVL.hv_first_col = temp1.col;
+                HOperatorSet.GenCrossContourXld(out TVL.ho_Cross_firstpoint, TVL.hv_first_row, TVL.hv_first_col, 10, 0);
+                toolWindow.Add_Object_disp(TVL.ho_Cross_firstpoint, "red", "margin", 3);
+
+
+
                 PointBase temp2 = (PointBase)whichpoint2.SelectedValue;
                 TVL.hv_Second_row = temp2.row;
                 TVL.hv_Second_col = temp2.col;

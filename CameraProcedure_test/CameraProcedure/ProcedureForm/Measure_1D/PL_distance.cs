@@ -15,7 +15,7 @@ namespace CameraProcedure
     public struct PL_distanceParameter
     {
         public HTuple hv_Center_row, hv_Center_col, hv_first_row, hv_Second_row, hv_first_col, hv_Second_col;
-        public HTuple hv_m, hv_row1, hv_col1, hv_row2, hv_col2;
+        public HTuple hv_m, hv_row1, hv_col1, hv_row2, hv_col2, hv_Distance;
 
         public HObject ho_Cross_center, ho_Cross_firstpoint, ho_Cross_Line, ho_RegionLines;
     }
@@ -131,8 +131,7 @@ namespace CameraProcedure
 
                     loadfinish = true;
 
-                    toolWindow.Remove_Object_disp(PLD.ho_Cross_firstpoint);
-                    toolWindow.Remove_Object_disp(PLD.ho_Cross_Line);
+                    toolWindow.Clear_Object_disp();
 
                     src_Image.SetImage = (HObject)whichpicture.SelectedValue;
                     PointBase temp1 = (PointBase)whichpoint1.SelectedValue;
@@ -152,7 +151,6 @@ namespace CameraProcedure
                     toolWindow.Add_Object_disp(PLD.ho_Cross_firstpoint, "red", "margin", 3);
                     toolWindow.Add_Object_disp(PLD.ho_RegionLines, "green", "margin", 3);
                     toolWindow.WindowImage = src_Image;
-                    toolWindow1.WindowImage = src_Image;
                     toolWindow.showImage();
                 }
 
@@ -163,7 +161,6 @@ namespace CameraProcedure
                 {
                     ifopenformornot = true;
                     toolWindow.showImage();
-                    toolWindow1.showImage();
                 }
             }
 
@@ -183,13 +180,24 @@ namespace CameraProcedure
         {
             if (loadfinish)
             {
-                toolWindow.Remove_Object_disp(PLD.ho_Cross_firstpoint);
+                toolWindow.Clear_Object_disp();
                 PointBase temp1 = (PointBase)whichpoint1.SelectedValue;
                 PLD.hv_first_row = temp1.row;
                 PLD.hv_first_col = temp1.col;
 
                 HOperatorSet.GenCrossContourXld(out PLD.ho_Cross_firstpoint, PLD.hv_first_row, PLD.hv_first_col, 10, 0);
                 toolWindow.Add_Object_disp(PLD.ho_Cross_firstpoint, "red", "margin", 3);
+
+
+                Line temp2 = (Line)whichLline.SelectedValue;
+
+                PLD.hv_row1 = temp2.row_start;
+                PLD.hv_col1 = temp2.column_start;
+                PLD.hv_row2 = temp2.row_end;
+                PLD.hv_col2 = temp2.column_end;
+                HOperatorSet.GenRegionLine(out PLD.ho_RegionLines, PLD.hv_row1, PLD.hv_col1, PLD.hv_row2, PLD.hv_col2);
+                toolWindow.Add_Object_disp(PLD.ho_RegionLines, "green", "margin", 3);
+
                 toolWindow.showImage();
             }
         }
@@ -198,27 +206,42 @@ namespace CameraProcedure
         {
             if (loadfinish)
             {
-                toolWindow.Remove_Object_disp(PLD.ho_RegionLines);
+                toolWindow.Clear_Object_disp();
                 Line temp2 = (Line)whichLline.SelectedValue;
 
                 PLD.hv_row1 = temp2.row_start;
                 PLD.hv_col1 = temp2.column_start;
                 PLD.hv_row2 = temp2.row_end;
                 PLD.hv_col2 = temp2.column_end;
-                HOperatorSet.GenCrossContourXld(out PLD.ho_RegionLines, PLD.hv_Second_row, PLD.hv_Second_col, 10, 0);
+                HOperatorSet.GenRegionLine(out PLD.ho_RegionLines, PLD.hv_row1, PLD.hv_col1, PLD.hv_row2, PLD.hv_col2);
                 toolWindow.Add_Object_disp(PLD.ho_RegionLines, "green", "margin", 3);
+
+
+                PointBase temp1 = (PointBase)whichpoint1.SelectedValue;
+                PLD.hv_first_row = temp1.row;
+                PLD.hv_first_col = temp1.col;
+
+                HOperatorSet.GenCrossContourXld(out PLD.ho_Cross_firstpoint, PLD.hv_first_row, PLD.hv_first_col, 10, 0);
+                toolWindow.Add_Object_disp(PLD.ho_Cross_firstpoint, "red", "margin", 3);
+
+
                 toolWindow.showImage();
             }
         }
 
         private void OK_Click(object sender, EventArgs e)
         {
-
+            setornot = true;
+            ifopenformornot = false;
+            Hide();
         }
 
         private void gen_result_Click(object sender, EventArgs e)
         {
-
+            PointBase temp1 = (PointBase)whichpoint1.SelectedValue;
+            Line temp2 = (Line)whichLline.SelectedValue;
+            HOperatorSet.DistancePl(temp1.row, temp1.col, temp2.row_start, temp2.column_start, temp2.row_end, temp2.column_end, out PLD.hv_Distance);
+            distance_pl.Text = PLD.hv_Distance.D.ToString();
         }
         public void run()
         {
@@ -228,7 +251,8 @@ namespace CameraProcedure
 
         private void PL_distance_FormClosing(object sender, FormClosingEventArgs e)
         {
-
+            ifopenformornot = false;
+            Hide();
         }
     }
 }

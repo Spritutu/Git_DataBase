@@ -54,6 +54,7 @@ namespace ToolWindow
 
         private List<setObjectdisplay> setObject_display = new List<setObjectdisplay>();
         private List<HObject> Object_disp = new List<HObject>();
+        setObjectdisplay OD_temp = new setObjectdisplay();
         public void Add_Object_disp(HObject obj, HTuple color, HTuple Draw, HTuple LineWidth)
         {
             setObjectdisplay OD = new setObjectdisplay();
@@ -63,9 +64,10 @@ namespace ToolWindow
             Object_disp.Add(obj);
             setObject_display.Add(OD);
         }
-        public void Remove_Object_disp(HObject obj)
-        {
-            Object_disp.Remove(obj);
+        public void Clear_Object_disp()
+        { 
+            Object_disp.Clear();
+            setObject_display.Clear();
         }
         private void DispObject()
         {

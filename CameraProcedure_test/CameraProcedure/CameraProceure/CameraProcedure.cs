@@ -460,7 +460,7 @@ namespace CameraProcedure
                         if (TVL_temp.DstLine != null)
                         {
                             Camera.Object[cm.Position].OLine.Add(TVL_temp.DstLine);
-                            Camera.Object[cm.Position].OLineName.Add("CreateMatchingModel");
+                            Camera.Object[cm.Position].OLineName.Add("TheVerticalLine");
                         }
                     }
 

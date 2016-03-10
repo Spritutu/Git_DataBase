@@ -18,8 +18,6 @@ namespace CameraProcedure
         public HObject ho_Image, ho_Circle, ho_Contours, ho_Contour;
         public HObject ho_Cross;
 
-        // Local control variables 
-
         public HTuple hv_Width, hv_Height, hv_Row;
         public HTuple hv_Column, hv_Radius, hv_MetrologyHandle;
         public HTuple hv_MetrologyCircleIndices, hv_Row1;
@@ -30,7 +28,6 @@ namespace CameraProcedure
         public HTuple Length2;
         public HTuple Sigma;
         public HTuple Threshold;
-
     }
 
     public partial class Measure_2D_Circle : Form
@@ -48,7 +45,6 @@ namespace CameraProcedure
         private Circle dst_circle = new Circle();
         public Circle dstCircle { get { return dst_circle; } }
         bool loadfinish = false;
-
 
         public Measure_2D_Circle()
         {
@@ -185,8 +181,7 @@ namespace CameraProcedure
                 HOperatorSet.ApplyMetrologyModel(src_Image.GetImage, M2DCP.hv_MetrologyHandle);
                 HOperatorSet.GetMetrologyObjectResultContour(out M2DCP.ho_Contours, M2DCP.hv_MetrologyHandle, "all", "all", 1.5);
                 HOperatorSet.GetMetrologyObjectMeasures(out M2DCP.ho_Contour, M2DCP.hv_MetrologyHandle, "all","all", out M2DCP.hv_Row1, out M2DCP.hv_Column1);
-                HOperatorSet.GetMetrologyObjectResult(M2DCP.hv_MetrologyHandle, "all", "all", "result_type",
-        "all_param", out M2DCP.hv_Parameter);
+                HOperatorSet.GetMetrologyObjectResult(M2DCP.hv_MetrologyHandle, "all", "all", "result_type", "all_param", out M2DCP.hv_Parameter);
 
                 HOperatorSet.GenCrossContourXld(out M2DCP.ho_Cross, M2DCP.hv_Row1, M2DCP.hv_Column1, 6, 0.785398);
                 HOperatorSet.DispObj(src_Image.GetImage, toolWindow1.Window.HalconWindow);

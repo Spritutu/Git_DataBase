@@ -12,5 +12,7 @@ namespace ToolWindow
        public HTuple color;
        public HTuple Draw;
        public HTuple LineWidth;
+
+       public HObject Object_disp;
     }
 }

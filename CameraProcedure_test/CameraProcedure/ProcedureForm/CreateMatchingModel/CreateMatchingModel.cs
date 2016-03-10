@@ -48,11 +48,15 @@ namespace CameraProcedure
         public HObject ImageAtNewPosition;
         public HObject Template_Image_rot;
         public HObject ROI_rot;
-
-
     }
 
-    public partial class CreateMatchingModel : Form
+    public struct CreateMatchingModelParameter_auto
+    {
+        public HObject Template_Image_rot;
+        public HObject ROI_rot;
+    }
+
+        public partial class CreateMatchingModel : Form
     {
 
         public List<Object_Table> O_T = new List<Object_Table>();
@@ -69,6 +73,7 @@ namespace CameraProcedure
         public bool setornot = false;
         bool ifopenformornot = false;
         private CreateMatchingModelParameter CMMP;
+        public CreateMatchingModelParameter_auto CMMP_auto;
 
 
         bool loadfinish = false;
@@ -91,10 +96,36 @@ namespace CameraProcedure
             Find_Greediness.Text = "0.7";
         }
 
+
         public void run()
         {
+            HOperatorSet.FindShapeModel(src_Image.GetImage, CMMP.CreatModelID, (CMMP.Find_AngleStart).TupleRad()
+                , (CMMP.Find_AngleExtent).TupleRad(), CMMP.Find_MinScore, CMMP.Find_NumMatch, CMMP.Find_MaxOverLap, "least_squares",
+                CMMP.Find_NumLevels, CMMP.Find_Greediness, out CMMP.Find_RowCheck, out CMMP.Find_ColumnCheck, out CMMP.Find_AngleCheck, out CMMP.Find_Score);
 
-        }
+            HTuple hv_I = null;
+
+
+            for (hv_I = 0; (int)hv_I <= (int)((new HTuple(CMMP.Find_Score.TupleLength())) - 1); hv_I = (int)hv_I + 1)
+            {
+                HOperatorSet.VectorAngleToRigid(0, 0, 0, CMMP.Find_RowCheck.TupleSelect(hv_I),
+                    CMMP.Find_ColumnCheck.TupleSelect(hv_I), CMMP.Find_AngleCheck.TupleSelect(hv_I), out CMMP.MovementOfObject);
+
+                HOperatorSet.VectorAngleToRigid(CMMP.Find_RowCheck.TupleSelect(hv_I), CMMP.Find_ColumnCheck.TupleSelect(hv_I),
+                    0, src_Image.GetHeight / 2, src_Image.GetWidth / 2, -CMMP.Find_AngleCheck.TupleSelect(hv_I), out CMMP.MovementOfObject1);
+
+                HOperatorSet.AffineTransContourXld(CMMP.CreatShapeModel, out CMMP.ModelAtNewPosition_temp, CMMP.MovementOfObject);
+
+                HOperatorSet.AffineTransContourXld(CMMP.ModelAtNewPosition_temp, out CMMP.ModelAtNewPosition, CMMP.MovementOfObject1);
+
+                HOperatorSet.AffineTransImage(src_Image.GetImage, out CMMP.ImageAtNewPosition, CMMP.MovementOfObject1, "constant", "false");
+            }
+
+            HOperatorSet.ReduceDomain(CMMP.ImageAtNewPosition, src_Image.GetImage, out CMMP.ImageAtNewPosition);
+
+        }  
+
+
 
         private void CreateMatchingModel_Activated(object sender, EventArgs e)
         {
