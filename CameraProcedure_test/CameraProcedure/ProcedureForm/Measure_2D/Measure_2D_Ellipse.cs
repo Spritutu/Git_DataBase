@@ -52,7 +52,8 @@ namespace CameraProcedure
 
         private void Measure_2D_Ellipse_Activated(object sender, EventArgs e)
         {
-            toolWindow.WindowImage = Measure_Image;
+            toolWindow.WindowImage.CopyImagetoThis(Measure_Image.GetImage);
+
 
             if (toolWindow.WindowImage != null)
             {

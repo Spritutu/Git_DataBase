@@ -82,6 +82,7 @@
             this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.OK = new System.Windows.Forms.Button();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -108,6 +109,7 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.textBox1);
             this.tabPage1.Controls.Add(this.label14);
             this.tabPage1.Controls.Add(this.whichpicture);
             this.tabPage1.Controls.Add(this.groupBox1);
@@ -580,6 +582,13 @@
             this.OK.UseVisualStyleBackColor = true;
             this.OK.Click += new System.EventHandler(this.OK_Click);
             // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(671, 99);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(100, 22);
+            this.textBox1.TabIndex = 60;
+            // 
             // CreateMatchingModel
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -661,5 +670,6 @@
         private System.Windows.Forms.GroupBox groupBox3;
         private ToolWindow.ToolWindow toolWindow2;
         private System.Windows.Forms.Button OK;
+        private System.Windows.Forms.TextBox textBox1;
     }
 }

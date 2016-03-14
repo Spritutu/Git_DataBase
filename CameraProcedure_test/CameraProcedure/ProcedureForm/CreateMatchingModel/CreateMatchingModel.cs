@@ -50,13 +50,15 @@ namespace CameraProcedure
         public HObject ROI_rot;
     }
 
+    
+
     public struct CreateMatchingModelParameter_auto
     {
         public HObject Template_Image_rot;
         public HObject ROI_rot;
     }
 
-        public partial class CreateMatchingModel : Form
+                               public partial class CreateMatchingModel : Form
     {
 
         public List<Object_Table> O_T = new List<Object_Table>();
@@ -74,6 +76,9 @@ namespace CameraProcedure
         bool ifopenformornot = false;
         private CreateMatchingModelParameter CMMP;
         public CreateMatchingModelParameter_auto CMMP_auto;
+        
+
+        List<index_ij> index = new List<index_ij>();
 
 
         bool loadfinish = false;
@@ -99,9 +104,12 @@ namespace CameraProcedure
 
         public void run()
         {
+            src_Image.SetImage = O_T[index[whichpicture.SelectedIndex].i].OImage[index[whichpicture.SelectedIndex].j];
+
             HOperatorSet.FindShapeModel(src_Image.GetImage, CMMP.CreatModelID, (CMMP.Find_AngleStart).TupleRad()
                 , (CMMP.Find_AngleExtent).TupleRad(), CMMP.Find_MinScore, CMMP.Find_NumMatch, CMMP.Find_MaxOverLap, "least_squares",
-                CMMP.Find_NumLevels, CMMP.Find_Greediness, out CMMP.Find_RowCheck, out CMMP.Find_ColumnCheck, out CMMP.Find_AngleCheck, out CMMP.Find_Score);
+                CMMP.Find_NumLevels, CMMP.Find_Greediness, out CMMP.Find_RowCheck, out CMMP.Find_ColumnCheck,
+                out CMMP.Find_AngleCheck, out CMMP.Find_Score);
 
             HTuple hv_I = null;
 
@@ -109,20 +117,24 @@ namespace CameraProcedure
             for (hv_I = 0; (int)hv_I <= (int)((new HTuple(CMMP.Find_Score.TupleLength())) - 1); hv_I = (int)hv_I + 1)
             {
                 HOperatorSet.VectorAngleToRigid(0, 0, 0, CMMP.Find_RowCheck.TupleSelect(hv_I),
-                    CMMP.Find_ColumnCheck.TupleSelect(hv_I), CMMP.Find_AngleCheck.TupleSelect(hv_I), out CMMP.MovementOfObject);
+                    CMMP.Find_ColumnCheck.TupleSelect(hv_I), CMMP.Find_AngleCheck.TupleSelect(hv_I),
+                    out CMMP.MovementOfObject);
 
                 HOperatorSet.VectorAngleToRigid(CMMP.Find_RowCheck.TupleSelect(hv_I), CMMP.Find_ColumnCheck.TupleSelect(hv_I),
                     0, src_Image.GetHeight / 2, src_Image.GetWidth / 2, -CMMP.Find_AngleCheck.TupleSelect(hv_I), out CMMP.MovementOfObject1);
 
-                HOperatorSet.AffineTransContourXld(CMMP.CreatShapeModel, out CMMP.ModelAtNewPosition_temp, CMMP.MovementOfObject);
+                HOperatorSet.AffineTransContourXld(CMMP.CreatShapeModel, out CMMP.ModelAtNewPosition_temp,
+                     CMMP.MovementOfObject);
+                HOperatorSet.AffineTransContourXld(CMMP.ModelAtNewPosition_temp, out CMMP.ModelAtNewPosition,
+                    CMMP.MovementOfObject1);
 
-                HOperatorSet.AffineTransContourXld(CMMP.ModelAtNewPosition_temp, out CMMP.ModelAtNewPosition, CMMP.MovementOfObject1);
-
-                HOperatorSet.AffineTransImage(src_Image.GetImage, out CMMP.ImageAtNewPosition, CMMP.MovementOfObject1, "constant", "false");
+                HOperatorSet.AffineTransImage(src_Image.GetImage, out CMMP.ImageAtNewPosition,
+                    CMMP.MovementOfObject1, "constant", "false");
             }
 
             HOperatorSet.ReduceDomain(CMMP.ImageAtNewPosition, src_Image.GetImage, out CMMP.ImageAtNewPosition);
-
+            //HOperatorSet.WriteImage(CMMP.ImageAtNewPosition,"bmp",0, "D:/Git_DataBase/CameraProcedure_test/CameraProcedure/test.bmp");
+            dst_Image.SetImage = CMMP.ImageAtNewPosition;
         }  
 
 
@@ -143,9 +155,14 @@ namespace CameraProcedure
                             {
                                 
                                 SelectImageNName M1S = new SelectImageNName();
+                                
                                 M1S.Image = O_T[i].OImage[j];
                                 M1S.ImageName = (string)O_T[i].OImageName[j];
                                 SelectImage.Add(M1S);
+                                index_ij ij_temp = new index_ij();
+                                ij_temp.i = i;
+                                ij_temp.j = j;
+                                index.Add(ij_temp);
                             }
                         }
                     }
@@ -156,7 +173,9 @@ namespace CameraProcedure
                     loadfinish = true;
 
                     src_Image.SetImage = (HObject)whichpicture.SelectedValue;
+                    textBox1.Text = whichpicture.SelectedIndex.ToString();
                     toolWindow.WindowImage = src_Image;
+                    //toolWindow.WindowImage.CopyImagetoThis(src_Image.GetImage);
                     toolWindow.showImage();
                 }
 
@@ -210,6 +229,8 @@ namespace CameraProcedure
         private void Test_Click(object sender, EventArgs e)
         {
             HOperatorSet.GenEmptyObj(out CMMP.ModelAtNewPosition);
+            HOperatorSet.GenEmptyObj(out CMMP.ImageAtNewPosition);
+            
             CMMP.Create_NumLevels = Convert.ToInt32(Create_NumLevels.Text);
             CMMP.Create_AngleStart = Convert.ToInt32(Create_AngleStart.Text);
             CMMP.Create_AngleExtent = Convert.ToInt32(Create_AngleExtent.Text);
@@ -225,7 +246,7 @@ namespace CameraProcedure
             CMMP.Find_Greediness = Convert.ToDouble(Find_Greediness.Text);
 
             ImageBase show_temp = new ImageBase();
-
+            
             HOperatorSet.VectorAngleToRigid(region_rec.rectangle.row, region_rec.rectangle.column, region_rec.rectangle.phi,
                 Template_Image.GetHeight / 2, Template_Image.GetWidth / 2, 0, out CMMP.Template_rot_matrix);
 
@@ -236,8 +257,9 @@ namespace CameraProcedure
                 CMMP.Template_rot_matrix, "nearest_neighbor");
             
             HOperatorSet.ReduceDomain(CMMP.Template_Image_rot, CMMP.ROI_rot, out CMMP.Reduce_Image);
+            HOperatorSet.ReduceDomain(CMMP.Template_Image_rot, Template_Image.GetImage, out CMMP.Template_Image_rot);
 
-            HOperatorSet.ClearWindow(toolWindow1.Window.HalconWindow);
+            toolWindow1.Window.HalconWindow.ClearWindow();
             toolWindow1.WindowImage.SetImage = CMMP.Template_Image_rot;
             toolWindow1.Add_Object_disp(CMMP.ROI_rot, "red", "margin", 3);
             toolWindow1.showImage();
@@ -306,7 +328,7 @@ namespace CameraProcedure
         private void ShapeModel_Click(object sender, EventArgs e)
         {
             Template_Image.ImagefromFile();
-            toolWindow1.WindowImage = Template_Image;
+            toolWindow1.WindowImage.SetImage = Template_Image.GetImage;
             toolWindow1.WindowImage.ShowImage_autosize(toolWindow1.Window.HalconWindow);
         }
 

@@ -14,5 +14,6 @@ namespace CameraProcedure
         public PointBase Point { get { return point; } set { point = value; } }
         private string pointName;
         public string PointName { get { return pointName; } set { pointName = value; } }
+        public int circleorpoint;
     }
 }

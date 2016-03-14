@@ -38,6 +38,14 @@ namespace CameraProcedure
         private PointBase src_Point2 = new PointBase();
         public PointBase SrcPoint2 { set { src_Point2 = value; } }
 
+        private string dst_distance ;
+        public string DstDistance { get {return dst_distance ; } }
+
+        List<index_ij> index_img = new List<index_ij>();
+        List<index_ij> index_P1 = new List<index_ij>();
+        List<index_ij> index_C1 = new List<index_ij>();
+        List<index_ij> index_L1 = new List<index_ij>();
+
         bool loadfinish = false;
 
         public PL_distance()
@@ -65,6 +73,12 @@ namespace CameraProcedure
                                 M1S.Image = O_T[i].OImage[j];
                                 M1S.ImageName = (string)O_T[i].OImageName[j];
                                 SelectImage.Add(M1S);
+
+
+                                index_ij ij_temp = new index_ij();
+                                ij_temp.i = i;
+                                ij_temp.j = j;
+                                index_img.Add(ij_temp);
                             }
                         }
                     }
@@ -83,7 +97,13 @@ namespace CameraProcedure
                                 SelectPointNName SPNN = new SelectPointNName();
                                 SPNN.Point = O_T[i].OPoint[j];
                                 SPNN.PointName = (string)O_T[i].OPointName[j];
+                                SPNN.circleorpoint = 0;
                                 SelectPoint1.Add(SPNN);
+
+                                index_ij ij_temp = new index_ij();
+                                ij_temp.i = i;
+                                ij_temp.j = j;
+                                index_P1.Add(ij_temp);
                             }
                         }
                     }
@@ -100,7 +120,12 @@ namespace CameraProcedure
                                 P_temp.col = O_T[i].OCircle[j].column;
                                 SPNN.Point = P_temp;
                                 SPNN.PointName = O_T[i].OCircleName[j];
+                                SPNN.circleorpoint = 1;
                                 SelectPoint1.Add(SPNN);
+                                index_ij ij_temp = new index_ij();
+                                ij_temp.i = i;
+                                ij_temp.j = j;
+                                index_C1.Add(ij_temp);
                             }
                         }
                     }
@@ -121,6 +146,10 @@ namespace CameraProcedure
                                 SPNN.Line = O_T[i].OLine[j];
                                 SPNN.LineName = (string)O_T[i].OLineName[j];
                                 SelectLine.Add(SPNN);
+                                index_ij ij_temp = new index_ij();
+                                ij_temp.i = i;
+                                ij_temp.j = j;
+                                index_L1.Add(ij_temp);
                             }
                         }
                     }
@@ -150,7 +179,7 @@ namespace CameraProcedure
 
                     toolWindow.Add_Object_disp(PLD.ho_Cross_firstpoint, "red", "margin", 3);
                     toolWindow.Add_Object_disp(PLD.ho_RegionLines, "green", "margin", 3);
-                    toolWindow.WindowImage = src_Image;
+                    toolWindow.WindowImage.CopyImagetoThis(src_Image.GetImage);
                     toolWindow.showImage();
                 }
 
@@ -171,7 +200,7 @@ namespace CameraProcedure
             if (loadfinish)
             {
                 src_Image.SetImage = (HObject)whichpicture.SelectedValue;
-                toolWindow.WindowImage = src_Image;
+                toolWindow.WindowImage.CopyImagetoThis(src_Image.GetImage);
                 toolWindow.showImage();
             }
         }
@@ -245,7 +274,29 @@ namespace CameraProcedure
         }
         public void run()
         {
+            
+            if (SelectPoint1[whichpoint1.SelectedIndex].circleorpoint == 0)
+            {
 
+                PLD.hv_first_row = O_T[index_P1[whichpoint1.SelectedIndex].i].OPoint[index_P1[whichpoint1.SelectedIndex].j].row;
+                PLD.hv_first_col = O_T[index_P1[whichpoint1.SelectedIndex].i].OPoint[index_P1[whichpoint1.SelectedIndex].j].col;
+
+            }
+            if (SelectPoint1[whichpoint1.SelectedIndex].circleorpoint == 1)
+            {
+
+                PLD.hv_first_row = O_T[index_C1[whichpoint1.SelectedIndex].i].OCircle[index_C1[whichpoint1.SelectedIndex].j].row;
+                PLD.hv_first_col = O_T[index_C1[whichpoint1.SelectedIndex].i].OCircle[index_C1[whichpoint1.SelectedIndex].j].column;
+
+            }
+
+            PLD.hv_row1 = O_T[index_L1[whichLline.SelectedIndex].i].OLine[index_L1[whichLline.SelectedIndex].j].row_start;
+            PLD.hv_col1 = O_T[index_L1[whichLline.SelectedIndex].i].OLine[index_L1[whichLline.SelectedIndex].j].column_start;
+            PLD.hv_row2 = O_T[index_L1[whichLline.SelectedIndex].i].OLine[index_L1[whichLline.SelectedIndex].j].row_end;
+            PLD.hv_col2 = O_T[index_L1[whichLline.SelectedIndex].i].OLine[index_L1[whichLline.SelectedIndex].j].column_end;
+
+            HOperatorSet.DistancePl(PLD.hv_first_row, PLD.hv_first_col, PLD.hv_row1, PLD.hv_col1, PLD.hv_row2, PLD.hv_col2, out PLD.hv_Distance);
+            dst_distance = PLD.hv_Distance.D.ToString();
         }
 
 

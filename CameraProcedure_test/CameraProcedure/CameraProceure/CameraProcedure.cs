@@ -465,11 +465,14 @@ namespace CameraProcedure
                     }
 
 
+
                     Camera.Procedure[cm.Position].procedurefunction.doprocedurefunction += TVL_temp.run;
                     Camera.Procedure[cm.Position].SettingForm = TVL_temp;
                     Camera.Procedure[cm.Position].Setornot = TVL_temp.setornot;
 
                     break; 
+
+
                 case (int)procedure_M.PL_distance:
 
                     PL_distance PLD_temp = (PL_distance)Camera.Procedure[cm.Position].SettingForm;
@@ -510,11 +513,106 @@ namespace CameraProcedure
                 for (int i = 0; i < Camera.Procedure.Count; i++)
                 {
                     Camera.Procedure[i].procedurefunction.dofunction();
+
+                    switch (Camera.Procedure[i].ProcedureMethod)
+                    {                      
+
+                        case (int)procedure_M.Measure_1D:
+
+                            Measure_1D M1_temp = (Measure_1D)Camera.Procedure[i].SettingForm;
+                            
+                            if (M1_temp.setornot == true)
+                            {
+                                Camera.Object[i].OPoint.Clear();
+                                Camera.Object[i].OPointName.Clear();
+                                if (M1_temp.dstfirstpoint != null)
+                                {
+                                    for (int j = 0; j < M1_temp.dstfirstpoint.Count; j++)
+                                    {
+                                        Camera.Object[i].OPoint.Add(M1_temp.dstfirstpoint[j]);
+                                        Camera.Object[i].OPointName.Add("dstfirstpoint" + j);
+                                    }
+                                }
+                                if (M1_temp.dstsecondpoint != null)
+                                {
+                                    for (int j = 0; j < M1_temp.dstsecondpoint.Count; j++)
+                                    {
+                                        Camera.Object[i].OPoint.Add(M1_temp.dstsecondpoint[j]);
+                                        Camera.Object[i].OPointName.Add("dstsecondpoint" + j);
+                                    }
+                                }
+                            }
+
+                            break;
+
+
+                        case (int)procedure_M.CreateMatchingModel:
+
+                            CreateMatchingModel CMM_temp = (CreateMatchingModel)Camera.Procedure[i].SettingForm;
+                            
+
+                            if (CMM_temp.setornot == true)
+                            {
+                                Camera.Object[i].OImage.Clear();
+                                Camera.Object[i].OImageName.Clear();
+                                if (CMM_temp.dstImage != null)
+                                {
+                                    Camera.Object[i].OImage.Add(CMM_temp.dstImage);
+                                    Camera.Object[i].OImageName.Add("CreateMatchingModel");
+                                }
+                            }
+                            
+
+                            break;
+                        case (int)procedure_M.TheVerticalLine:
+
+                            TheVerticalLine TVL_temp = (TheVerticalLine)Camera.Procedure[i].SettingForm;
+                           
+
+                            if (TVL_temp.setornot == true)
+                            {
+                                Camera.Object[i].OLine.Clear();
+                                Camera.Object[i].OLineName.Clear();
+                                if (TVL_temp.DstLine != null)
+                                {
+                                    Camera.Object[i].OLine.Add(TVL_temp.DstLine);
+                                    Camera.Object[i].OLineName.Add("TheVerticalLine");
+                                }
+                            }
+                            
+                            break;
+                        case (int)procedure_M.Measure_2D_Circle:
+
+                            Measure_2D_Circle M2DC_temp = (Measure_2D_Circle)Camera.Procedure[i].SettingForm;
+                           
+
+                            if (M2DC_temp.setornot == true)
+                            {
+                                Camera.Object[i].OCircle.Clear();
+                                Camera.Object[i].OCircleName.Clear();
+                                if (M2DC_temp.dstCircle != null)
+                                {
+                                    Camera.Object[i].OCircle.Add(M2DC_temp.dstCircle);
+                                    Camera.Object[i].OCircleName.Add("testcircle");
+                                }
+                            }
+                            
+                            break;
+
+                    }
+
+
+                    if (i == Camera.Procedure.Count - 1)
+                    {
+                        PL_distance PLD_temp = (PL_distance)Camera.Procedure[Camera.Procedure.Count - 1].SettingForm;
+                        textBox1.Text = PLD_temp.DstDistance;
+                    }
                 }
             }
 
             else
                 MessageBox.Show("還有參數沒有設定喔");
+
         }
 
 

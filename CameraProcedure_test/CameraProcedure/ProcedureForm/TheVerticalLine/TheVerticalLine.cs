@@ -43,6 +43,15 @@ namespace CameraProcedure
 
         bool loadfinish = false;
 
+        List<index_ij> index_img = new List<index_ij>();
+        List<index_ij> index_P1 = new List<index_ij>();
+        List<index_ij> index_C1 = new List<index_ij>();
+        List<index_ij> index_P2 = new List<index_ij>();
+        List<index_ij> index_C2 = new List<index_ij>();
+
+
+        
+
 
         public TheVerticalLine()
         {
@@ -68,6 +77,11 @@ namespace CameraProcedure
                                 M1S.Image = O_T[i].OImage[j];
                                 M1S.ImageName = (string)O_T[i].OImageName[j];
                                 SelectImage.Add(M1S);
+
+                                index_ij ij_temp = new index_ij();
+                                ij_temp.i = i;
+                                ij_temp.j = j;
+                                index_img.Add(ij_temp);
                             }
                         }
                     }
@@ -86,7 +100,13 @@ namespace CameraProcedure
                                 SelectPointNName SPNN = new SelectPointNName();
                                 SPNN.Point = O_T[i].OPoint[j];
                                 SPNN.PointName = (string)O_T[i].OPointName[j];
+                                SPNN.circleorpoint = 0;
                                 SelectPoint1.Add(SPNN);
+
+                                index_ij ij_temp = new index_ij();
+                                ij_temp.i = i;
+                                ij_temp.j = j;
+                                index_P1.Add(ij_temp);
                             }
                         }
                     }
@@ -103,7 +123,13 @@ namespace CameraProcedure
                                 P_temp.col = O_T[i].OCircle[j].column;
                                 SPNN.Point = P_temp;
                                 SPNN.PointName = O_T[i].OCircleName[j];
+                                SPNN.circleorpoint = 1;
                                 SelectPoint1.Add(SPNN);
+
+                                index_ij ij_temp = new index_ij();
+                                ij_temp.i = i;
+                                ij_temp.j = j;
+                                index_C1.Add(ij_temp);
                             }
                         }
                     }
@@ -123,7 +149,13 @@ namespace CameraProcedure
                                 SelectPointNName SPNN = new SelectPointNName();
                                 SPNN.Point = O_T[i].OPoint[j];
                                 SPNN.PointName = (string)O_T[i].OPointName[j];
+                                SPNN.circleorpoint = 0;
                                 SelectPoint2.Add(SPNN);
+
+                                index_ij ij_temp = new index_ij();
+                                ij_temp.i = i;
+                                ij_temp.j = j;
+                                index_P2.Add(ij_temp);
                             }
                         }
                     }
@@ -140,7 +172,13 @@ namespace CameraProcedure
                                 P_temp.col = O_T[i].OCircle[j].column;
                                 SPNN.Point = P_temp;
                                 SPNN.PointName = O_T[i].OCircleName[j];
+                                SPNN.circleorpoint = 1;
                                 SelectPoint2.Add(SPNN);
+
+                                index_ij ij_temp = new index_ij();
+                                ij_temp.i = i;
+                                ij_temp.j = j;
+                                index_C2.Add(ij_temp);
                             }
                         }
                     }
@@ -166,8 +204,9 @@ namespace CameraProcedure
 
                     toolWindow.Add_Object_disp(TVL.ho_Cross_firstpoint, "red", "margin", 3);
                     toolWindow.Add_Object_disp(TVL.ho_Cross_secondpoint, "blue", "margin", 3);
-                    toolWindow.WindowImage = src_Image;
-                    toolWindow1.WindowImage = src_Image;
+                    toolWindow.WindowImage.CopyImagetoThis(src_Image.GetImage);
+                    toolWindow1.WindowImage.CopyImagetoThis(src_Image.GetImage);
+
                     toolWindow.showImage();
                 }
 
@@ -189,7 +228,7 @@ namespace CameraProcedure
             if (loadfinish)
             {
                 src_Image.SetImage = (HObject)whichpicture.SelectedValue;
-                toolWindow.WindowImage = src_Image;
+                toolWindow.WindowImage.CopyImagetoThis(src_Image.GetImage);
                 toolWindow.showImage();
             }
         }
@@ -264,7 +303,53 @@ namespace CameraProcedure
         }
         public void run()
         {
+            if (SelectPoint1[whichpoint1.SelectedIndex].circleorpoint == 0) {
 
+                TVL.hv_first_row = O_T[index_P1[whichpoint1.SelectedIndex].i].OPoint[index_P1[whichpoint1.SelectedIndex].j].row;
+                TVL.hv_first_col = O_T[index_P1[whichpoint1.SelectedIndex].i].OPoint[index_P1[whichpoint1.SelectedIndex].j].col;
+
+            }
+            if (SelectPoint1[whichpoint1.SelectedIndex].circleorpoint == 1)
+            {
+
+                TVL.hv_first_row = O_T[index_C1[whichpoint1.SelectedIndex].i].OCircle[index_C1[whichpoint1.SelectedIndex].j].row;
+                TVL.hv_first_col = O_T[index_C1[whichpoint1.SelectedIndex].i].OCircle[index_C1[whichpoint1.SelectedIndex].j].column;
+
+            }
+            if (SelectPoint2[whichpoint2.SelectedIndex].circleorpoint == 0)
+            {
+
+                TVL.hv_Second_row = O_T[index_P2[whichpoint2.SelectedIndex].i].OPoint[index_P2[whichpoint2.SelectedIndex].j].row;
+                TVL.hv_Second_col = O_T[index_P2[whichpoint2.SelectedIndex].i].OPoint[index_P2[whichpoint2.SelectedIndex].j].col;
+
+            }
+            if (SelectPoint2[whichpoint2.SelectedIndex].circleorpoint == 1)
+            {
+                TVL.hv_Second_row = O_T[index_C2[whichpoint2.SelectedIndex].i].OCircle[index_C2[whichpoint2.SelectedIndex].j].row;
+                TVL.hv_Second_col = O_T[index_C2[whichpoint2.SelectedIndex].i].OCircle[index_C2[whichpoint2.SelectedIndex].j].column;
+            }
+           
+
+            TVL.hv_Center_row = (TVL.hv_first_row + TVL.hv_Second_row) / 2;
+            TVL.hv_Center_col = (TVL.hv_first_col + TVL.hv_Second_col) / 2;
+
+            TVL.hv_m = (TVL.hv_first_row - TVL.hv_Second_row) / (TVL.hv_first_col - TVL.hv_Second_col);
+
+            TVL.hv_row1 = 0;
+            TVL.hv_col1 = ((-TVL.hv_m) * (TVL.hv_row1 - TVL.hv_Center_row)) + TVL.hv_Center_col;
+
+            TVL.hv_row2 = toolWindow.WindowImage.GetHeight;
+            TVL.hv_col2 = ((-TVL.hv_m) * (TVL.hv_row2 - TVL.hv_Center_row)) + TVL.hv_Center_col;
+
+            HOperatorSet.GenCrossContourXld(out TVL.ho_Cross_center, TVL.hv_Center_row, TVL.hv_Center_col, 10, 0);
+            HOperatorSet.GenCrossContourXld(out TVL.ho_Cross_firstpoint, TVL.hv_first_row, TVL.hv_first_col, 10, 6);
+            HOperatorSet.GenCrossContourXld(out TVL.ho_Cross_secondpoint, TVL.hv_Second_row, TVL.hv_Second_col, 10, 6);
+            HOperatorSet.GenRegionLine(out TVL.ho_RegionLines, TVL.hv_row1, TVL.hv_col1, TVL.hv_row2, TVL.hv_col2);
+
+            dst_Line.row_start = TVL.hv_row1;
+            dst_Line.column_start = TVL.hv_col1;
+            dst_Line.row_end = TVL.hv_row2;
+            dst_Line.column_end = TVL.hv_col2;
         }
 
         private void gen_result_Click(object sender, EventArgs e)

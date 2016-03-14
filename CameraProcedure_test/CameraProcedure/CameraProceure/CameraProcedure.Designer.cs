@@ -42,11 +42,12 @@
             this.二維量測EillpseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.建立匹配ModelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.中垂線ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.兩點距離ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.刪除程序ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ObjectMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
             this.startButton = new System.Windows.Forms.Button();
-            this.兩點距離ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.ProcedureTable)).BeginInit();
             this.PrcedureMenuStrip.SuspendLayout();
             this.ObjectMenuStrip.SuspendLayout();
@@ -80,7 +81,7 @@
             this.插入程序ToolStripMenuItem,
             this.刪除程序ToolStripMenuItem});
             this.PrcedureMenuStrip.Name = "PrcedureStrip";
-            this.PrcedureMenuStrip.Size = new System.Drawing.Size(153, 70);
+            this.PrcedureMenuStrip.Size = new System.Drawing.Size(125, 48);
             // 
             // 插入程序ToolStripMenuItem
             // 
@@ -94,7 +95,7 @@
             this.中垂線ToolStripMenuItem,
             this.兩點距離ToolStripMenuItem});
             this.插入程序ToolStripMenuItem.Name = "插入程序ToolStripMenuItem";
-            this.插入程序ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.插入程序ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
             this.插入程序ToolStripMenuItem.Text = "插入程序";
             // 
             // 載入圖片ToolStripMenuItem
@@ -146,10 +147,17 @@
             this.中垂線ToolStripMenuItem.Text = "中垂線";
             this.中垂線ToolStripMenuItem.Click += new System.EventHandler(this.中垂線ToolStripMenuItem_Click);
             // 
+            // 兩點距離ToolStripMenuItem
+            // 
+            this.兩點距離ToolStripMenuItem.Name = "兩點距離ToolStripMenuItem";
+            this.兩點距離ToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+            this.兩點距離ToolStripMenuItem.Text = "點線距離";
+            this.兩點距離ToolStripMenuItem.Click += new System.EventHandler(this.兩點距離ToolStripMenuItem_Click);
+            // 
             // 刪除程序ToolStripMenuItem
             // 
             this.刪除程序ToolStripMenuItem.Name = "刪除程序ToolStripMenuItem";
-            this.刪除程序ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.刪除程序ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
             this.刪除程序ToolStripMenuItem.Text = "刪除程序";
             this.刪除程序ToolStripMenuItem.Click += new System.EventHandler(this.刪除程序ToolStripMenuItem_Click);
             // 
@@ -178,17 +186,18 @@
             this.startButton.UseVisualStyleBackColor = true;
             this.startButton.Click += new System.EventHandler(this.startButton_Click);
             // 
-            // 兩點距離ToolStripMenuItem
+            // textBox1
             // 
-            this.兩點距離ToolStripMenuItem.Name = "兩點距離ToolStripMenuItem";
-            this.兩點距離ToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
-            this.兩點距離ToolStripMenuItem.Text = "點線距離";
-            this.兩點距離ToolStripMenuItem.Click += new System.EventHandler(this.兩點距離ToolStripMenuItem_Click);
+            this.textBox1.Location = new System.Drawing.Point(813, 21);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(100, 22);
+            this.textBox1.TabIndex = 11;
             // 
             // CameraProcedure
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.textBox1);
             this.Controls.Add(this.startButton);
             this.Controls.Add(this.ProcedureTable);
             this.Controls.Add(this.toolWindow);
@@ -199,6 +208,7 @@
             this.PrcedureMenuStrip.ResumeLayout(false);
             this.ObjectMenuStrip.ResumeLayout(false);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -220,5 +230,6 @@
         private System.Windows.Forms.ToolStripMenuItem 二維量測EillpseToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 中垂線ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 兩點距離ToolStripMenuItem;
+        private System.Windows.Forms.TextBox textBox1;
     }
 }

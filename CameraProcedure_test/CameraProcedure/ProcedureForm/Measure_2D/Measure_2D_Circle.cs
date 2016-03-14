@@ -46,6 +46,8 @@ namespace CameraProcedure
         public Circle dstCircle { get { return dst_circle; } }
         bool loadfinish = false;
 
+        List<index_ij> index = new List<index_ij>();
+
         public Measure_2D_Circle()
         {
             InitializeComponent();
@@ -69,6 +71,11 @@ namespace CameraProcedure
                                 M1S.Image = O_T[i].OImage[j];
                                 M1S.ImageName = (string)O_T[i].OImageName[j];
                                 SelectImage.Add(M1S);
+
+                                index_ij ij_temp = new index_ij();
+                                ij_temp.i = i;
+                                ij_temp.j = j;
+                                index.Add(ij_temp);
                             }
                         }
                     }
@@ -79,7 +86,8 @@ namespace CameraProcedure
                     loadfinish = true;
 
                     src_Image.SetImage = (HObject)whichpicture.SelectedValue;
-                    toolWindow.WindowImage = src_Image;
+                    toolWindow.WindowImage.CopyImagetoThis(src_Image.GetImage);
+
                     toolWindow.showImage();
                 }
 
@@ -164,7 +172,20 @@ namespace CameraProcedure
 
         public void run()
         {
+            src_Image.SetImage = O_T[index[whichpicture.SelectedIndex].i].OImage[index[whichpicture.SelectedIndex].j];
+            HOperatorSet.CreateMetrologyModel(out M2DCP.hv_MetrologyHandle);
+            HOperatorSet.SetMetrologyModelImageSize(M2DCP.hv_MetrologyHandle, src_Image.GetWidth, src_Image.GetHeight);
+            HOperatorSet.AddMetrologyObjectCircleMeasure(M2DCP.hv_MetrologyHandle, region_circle.circle.row,
+                    region_circle.circle.column, region_circle.circle.radius, M2DCP.Length1, M2DCP.Length2,
+                    M2DCP.Sigma, M2DCP.Threshold, new HTuple(), new HTuple(), out M2DCP.hv_MetrologyCircleIndices);
+            HOperatorSet.ApplyMetrologyModel(src_Image.GetImage, M2DCP.hv_MetrologyHandle);
+            HOperatorSet.GetMetrologyObjectResultContour(out M2DCP.ho_Contours, M2DCP.hv_MetrologyHandle, "all", "all", 1.5);
+            HOperatorSet.GetMetrologyObjectMeasures(out M2DCP.ho_Contour, M2DCP.hv_MetrologyHandle, "all", "all", out M2DCP.hv_Row1, out M2DCP.hv_Column1);
+            HOperatorSet.GetMetrologyObjectResult(M2DCP.hv_MetrologyHandle, "all", "all", "result_type", "all_param", out M2DCP.hv_Parameter);
 
+            dst_circle.row = M2DCP.hv_Parameter[0];
+            dst_circle.column = M2DCP.hv_Parameter[1];
+            dst_circle.radius = M2DCP.hv_Parameter[2];
         }
 
         private void Showresult()
