@@ -58,7 +58,7 @@ namespace CameraProcedure
         public HObject ROI_rot;
     }
 
-                               public partial class CreateMatchingModel : Form
+    public partial class CreateMatchingModel : Form
     {
 
         public List<Object_Table> O_T = new List<Object_Table>();
@@ -75,6 +75,7 @@ namespace CameraProcedure
         public bool setornot = false;
         bool ifopenformornot = false;
         private CreateMatchingModelParameter CMMP;
+        private CreateMatchingModelParameter CMMP_Initial;
         public CreateMatchingModelParameter_auto CMMP_auto;
         
 
@@ -99,8 +100,81 @@ namespace CameraProcedure
             Find_NumMatch.Text = "3";
             Find_NumLevels.Text = "0";
             Find_Greediness.Text = "0.7";
+
+            CMMP.Create_NumLevels = Convert.ToInt32(Create_NumLevels.Text);
+            CMMP.Create_AngleStart = Convert.ToInt32(Create_AngleStart.Text);
+            CMMP.Create_AngleExtent = Convert.ToInt32(Create_AngleExtent.Text);
+            CMMP.Create_Contrast = Convert.ToDouble(Create_Contrast.Text);
+            CMMP.Create_MinContrast = Convert.ToDouble(Create_MinContrast.Text);
+
+            CMMP.Find_AngleStart = Convert.ToInt32(Find_AngleStart.Text);
+            CMMP.Find_AngleExtent = Convert.ToInt32(Find_AngleExtent.Text);
+            CMMP.Find_MinScore = Convert.ToDouble(Find_MinScore.Text);
+            CMMP.Find_MaxOverLap = Convert.ToInt32(Find_MaxOverLap.Text);
+            CMMP.Find_NumMatch = Convert.ToDouble(Find_NumMatch.Text);
+            CMMP.Find_NumLevels = Convert.ToInt32(Find_NumLevels.Text);
+            CMMP.Find_Greediness = Convert.ToDouble(Find_Greediness.Text);
+
+            CMMP_Initial.Create_NumLevels = Convert.ToInt32(Create_NumLevels.Text);
+            CMMP_Initial.Create_AngleStart = Convert.ToInt32(Create_AngleStart.Text);
+            CMMP_Initial.Create_AngleExtent = Convert.ToInt32(Create_AngleExtent.Text);
+            CMMP_Initial.Create_Contrast = Convert.ToDouble(Create_Contrast.Text);
+            CMMP_Initial.Create_MinContrast = Convert.ToDouble(Create_MinContrast.Text);
+
+            CMMP_Initial.Find_AngleStart = Convert.ToInt32(Find_AngleStart.Text);
+            CMMP_Initial.Find_AngleExtent = Convert.ToInt32(Find_AngleExtent.Text);
+            CMMP_Initial.Find_MinScore = Convert.ToDouble(Find_MinScore.Text);
+            CMMP_Initial.Find_MaxOverLap = Convert.ToInt32(Find_MaxOverLap.Text);
+            CMMP_Initial.Find_NumMatch = Convert.ToDouble(Find_NumMatch.Text);
+            CMMP_Initial.Find_NumLevels = Convert.ToInt32(Find_NumLevels.Text);
+            CMMP_Initial.Find_Greediness = Convert.ToDouble(Find_Greediness.Text);
+
         }
 
+        private void CreateMatchingModel_Activated(object sender, EventArgs e)
+        {
+            //判斷是否已經開啟視窗
+            if (ifopenformornot == false)
+            {
+                //進來表示已經開啟，並且更改狀態。
+                ifopenformornot = true;
+                //清除SelectImage表單。
+                SelectImage.Clear();
+                //載入O_T至表單裡(OImage)
+                for (int i = 0; i < O_T.Count - 1; i++)
+                {
+                    for (int j = 0; j < O_T[i].OImage.Count; j++)
+                    {
+                        if (O_T[i].OImage[j] != null)
+                        {
+                            SelectImageNName M1S = new SelectImageNName();
+                            M1S.Image = O_T[i].OImage[j];
+                            M1S.ImageName = (string)O_T[i].OImageName[j];
+                            SelectImage.Add(M1S);
+                            index_ij ij_temp = new index_ij();
+                            ij_temp.i = i;
+                            ij_temp.j = j;
+                            index.Add(ij_temp);
+                        }
+                    }
+                }
+                whichpicture.DataSource = null;
+                whichpicture.DataSource = SelectImage;
+                whichpicture.DisplayMember = "ImageName";
+                whichpicture.ValueMember = "Image";
+                loadfinish = true;
+
+                src_Image.SetImage = (HObject)whichpicture.SelectedValue;
+                textBox1.Text = whichpicture.SelectedIndex.ToString();
+                toolWindow.WindowImage = src_Image;
+            }
+            if (toolWindow.WindowImage.GetImage != null)
+                toolWindow.showImage();
+            if (toolWindow1.WindowImage.GetImage != null)
+                toolWindow1.showImage();
+            if (toolWindow2.WindowImage.GetImage != null)
+                toolWindow2.showImage();
+        }
 
         public void run()
         {
@@ -137,65 +211,8 @@ namespace CameraProcedure
             dst_Image.SetImage = CMMP.ImageAtNewPosition;
         }  
 
-
-
-        private void CreateMatchingModel_Activated(object sender, EventArgs e)
-        {
-            if (setornot == false)
-            {
-                if (ifopenformornot == false)
-                {
-                    ifopenformornot = true;
-                    SelectImage.Clear();
-                    for (int i = 0; i < O_T.Count; i++)
-                    {
-                        for (int j = 0; j < O_T[i].OImage.Count; j++)
-                        {
-                            if (O_T[i].OImage[j] != null)
-                            {
-                                
-                                SelectImageNName M1S = new SelectImageNName();
-                                
-                                M1S.Image = O_T[i].OImage[j];
-                                M1S.ImageName = (string)O_T[i].OImageName[j];
-                                SelectImage.Add(M1S);
-                                index_ij ij_temp = new index_ij();
-                                ij_temp.i = i;
-                                ij_temp.j = j;
-                                index.Add(ij_temp);
-                            }
-                        }
-                    }
-                    whichpicture.DataSource = null;
-                    whichpicture.DataSource = SelectImage;
-                    whichpicture.DisplayMember = "ImageName";
-                    whichpicture.ValueMember = "Image";
-                    loadfinish = true;
-
-                    src_Image.SetImage = (HObject)whichpicture.SelectedValue;
-                    textBox1.Text = whichpicture.SelectedIndex.ToString();
-                    toolWindow.WindowImage = src_Image;
-                    //toolWindow.WindowImage.CopyImagetoThis(src_Image.GetImage);
-                    toolWindow.showImage();
-                }
-
-            }
-            else if (setornot == true)
-            {
-                if (ifopenformornot == false)
-                {
-                    ifopenformornot = true;
-                    toolWindow.showImage();
-                    toolWindow1.showImage();
-                    toolWindow2.showImage();
-                }
-
-            }
-        }
-
         private void Create_Default_Click(object sender, EventArgs e)
         {
-
             Create_NumLevels.Text = "0";
             Create_AngleStart.Text = "0";
             Create_AngleExtent.Text = "360";
@@ -230,7 +247,8 @@ namespace CameraProcedure
         {
             HOperatorSet.GenEmptyObj(out CMMP.ModelAtNewPosition);
             HOperatorSet.GenEmptyObj(out CMMP.ImageAtNewPosition);
-            
+
+
             CMMP.Create_NumLevels = Convert.ToInt32(Create_NumLevels.Text);
             CMMP.Create_AngleStart = Convert.ToInt32(Create_AngleStart.Text);
             CMMP.Create_AngleExtent = Convert.ToInt32(Create_AngleExtent.Text);
@@ -346,6 +364,7 @@ namespace CameraProcedure
         {
             setornot = true;
             ifopenformornot = false;
+            loadfinish = false;
             dst_Image = toolWindow2.WindowImage;
             Hide();
         }
@@ -363,6 +382,7 @@ namespace CameraProcedure
         private void CreateMatchingModel_FormClosing(object sender, FormClosingEventArgs e)
         {
             ifopenformornot = false;
+            loadfinish = false;
             Hide();
         }
     }
