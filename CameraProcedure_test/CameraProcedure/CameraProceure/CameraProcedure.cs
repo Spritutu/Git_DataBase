@@ -619,8 +619,8 @@ namespace CameraProcedure
 
                     if (i == Camera.Procedure.Count - 1)
                     {
-                        //PL_distance PLD_temp = (PL_distance)Camera.Procedure[Camera.Procedure.Count - 1].SettingForm;
-                        //textBox1.Text = PLD_temp.DstDistance;
+                        PL_distance PLD_temp = (PL_distance)Camera.Procedure[Camera.Procedure.Count - 1].SettingForm;
+                        textBox1.Text = PLD_temp.DstDistance;
                     }
                 }
             }
