@@ -165,7 +165,6 @@ namespace CameraProcedure
                 loadfinish = true;
 
                 src_Image.SetImage = (HObject)whichpicture.SelectedValue;
-                textBox1.Text = whichpicture.SelectedIndex.ToString();
                 toolWindow.WindowImage = src_Image;
             }
             if (toolWindow.WindowImage.GetImage != null)
@@ -329,7 +328,6 @@ namespace CameraProcedure
             toolWindow2.showImage();
             ADDCreatDataGridView(dataGridView1);
 
-
         }
 
         private void ADDCreatDataGridView(DataGridView DataGridView)
@@ -347,7 +345,7 @@ namespace CameraProcedure
         {
             Template_Image.ImagefromFile();
             toolWindow1.WindowImage.SetImage = Template_Image.GetImage;
-            toolWindow1.WindowImage.ShowImage_autosize(toolWindow1.Window.HalconWindow);
+            toolWindow1.showImage();
         }
 
         private void whichpicture_SelectedValueChanged(object sender, EventArgs e)

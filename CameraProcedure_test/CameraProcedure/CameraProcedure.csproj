@@ -73,6 +73,12 @@
     </Compile>
     <Compile Include="CameraProceure\HObject_Bitmap.cs" />
     <Compile Include="ProcedureForm\CreateMatchingModel\index_ij.cs" />
+    <Compile Include="ProcedureForm\ImageFromCamera\ImageFromCamera.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ProcedureForm\ImageFromCamera\ImageFromCamera.Designer.cs">
+      <DependentUpon>ImageFromCamera.cs</DependentUpon>
+    </Compile>
     <Compile Include="ProcedureForm\Measure_1D\PL_distance.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -128,6 +134,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ProcedureForm\CreateMatchingModel\CreateMatchingModel.resx">
       <DependentUpon>CreateMatchingModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ProcedureForm\ImageFromCamera\ImageFromCamera.resx">
+      <DependentUpon>ImageFromCamera.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ProcedureForm\Measure_1D\Measure_1D.resx">
       <DependentUpon>Measure_1D.cs</DependentUpon>

@@ -204,8 +204,7 @@ namespace CameraProcedure
 
                     toolWindow.Add_Object_disp(TVL.ho_Cross_firstpoint, "red", "margin", 3);
                     toolWindow.Add_Object_disp(TVL.ho_Cross_secondpoint, "blue", "margin", 3);
-                    toolWindow.WindowImage.CopyImagetoThis(src_Image.GetImage);
-                    toolWindow1.WindowImage.CopyImagetoThis(src_Image.GetImage);
+                    toolWindow.WindowImage.SetImage = src_Image.GetImage;
 
                     toolWindow.showImage();
                 }
@@ -228,7 +227,8 @@ namespace CameraProcedure
             if (loadfinish)
             {
                 src_Image.SetImage = (HObject)whichpicture.SelectedValue;
-                toolWindow.WindowImage.CopyImagetoThis(src_Image.GetImage);
+                toolWindow.WindowImage.SetImage = src_Image.GetImage;
+                toolWindow1.WindowImage.SetImage = src_Image.GetImage;
                 toolWindow.showImage();
             }
         }

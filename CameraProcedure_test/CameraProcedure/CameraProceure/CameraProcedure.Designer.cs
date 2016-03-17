@@ -48,6 +48,7 @@
             this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
             this.startButton = new System.Windows.Forms.Button();
             this.textBox1 = new System.Windows.Forms.TextBox();
+            this.相機ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.ProcedureTable)).BeginInit();
             this.PrcedureMenuStrip.SuspendLayout();
             this.ObjectMenuStrip.SuspendLayout();
@@ -81,11 +82,12 @@
             this.插入程序ToolStripMenuItem,
             this.刪除程序ToolStripMenuItem});
             this.PrcedureMenuStrip.Name = "PrcedureStrip";
-            this.PrcedureMenuStrip.Size = new System.Drawing.Size(125, 48);
+            this.PrcedureMenuStrip.Size = new System.Drawing.Size(153, 70);
             // 
             // 插入程序ToolStripMenuItem
             // 
             this.插入程序ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.相機ToolStripMenuItem,
             this.載入圖片ToolStripMenuItem,
             this.一維測量ToolStripMenuItem,
             this.二維量測LineToolStripMenuItem,
@@ -95,7 +97,7 @@
             this.中垂線ToolStripMenuItem,
             this.兩點距離ToolStripMenuItem});
             this.插入程序ToolStripMenuItem.Name = "插入程序ToolStripMenuItem";
-            this.插入程序ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.插入程序ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.插入程序ToolStripMenuItem.Text = "插入程序";
             // 
             // 載入圖片ToolStripMenuItem
@@ -157,7 +159,7 @@
             // 刪除程序ToolStripMenuItem
             // 
             this.刪除程序ToolStripMenuItem.Name = "刪除程序ToolStripMenuItem";
-            this.刪除程序ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.刪除程序ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.刪除程序ToolStripMenuItem.Text = "刪除程序";
             this.刪除程序ToolStripMenuItem.Click += new System.EventHandler(this.刪除程序ToolStripMenuItem_Click);
             // 
@@ -192,6 +194,13 @@
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(100, 22);
             this.textBox1.TabIndex = 11;
+            // 
+            // 相機ToolStripMenuItem
+            // 
+            this.相機ToolStripMenuItem.Name = "相機ToolStripMenuItem";
+            this.相機ToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+            this.相機ToolStripMenuItem.Text = "相機";
+            this.相機ToolStripMenuItem.Click += new System.EventHandler(this.相機ToolStripMenuItem_Click);
             // 
             // CameraProcedure
             // 
@@ -231,5 +240,6 @@
         private System.Windows.Forms.ToolStripMenuItem 中垂線ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 兩點距離ToolStripMenuItem;
         private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.ToolStripMenuItem 相機ToolStripMenuItem;
     }
 }

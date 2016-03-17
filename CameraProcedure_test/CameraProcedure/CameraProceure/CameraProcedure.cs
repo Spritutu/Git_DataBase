@@ -15,7 +15,8 @@ namespace CameraProcedure
     /// <summary>
     /// 各種程序的編號
     /// </summary>
-    enum PROCEDURE { readimage = 1, Measure_1D, Measure_2D_Circle, Measure_2D_Line, Measure_2D_Ellipse, CreateMatchingModel , TheVerticalLine , PL_distance };
+    enum PROCEDURE { readimage = 1, Measure_1D, Measure_2D_Circle, Measure_2D_Line, Measure_2D_Ellipse,
+        CreateMatchingModel , TheVerticalLine , PL_distance ,ImageFromCamera};
 
     public partial class CameraProcedure : UserControl
     {
@@ -340,6 +341,27 @@ namespace CameraProcedure
                         Camera.Procedure[cm.Position].Setornot = true;
                     }
                     break;
+                case (int)PROCEDURE.ImageFromCamera:
+
+                    ImageFromCamera IFC_temp = (ImageFromCamera)Camera.Procedure[cm.Position].SettingForm;
+
+                    IFC_temp.ShowDialog();
+
+                    if (IFC_temp.setornot == true)
+                    {                       
+                        if (IFC_temp.dstImage != null)
+                        {
+                            Camera.Object[cm.Position].OImage.Clear();
+                            Camera.Object[cm.Position].OImageName.Clear();
+                        }
+                        Camera.Object[cm.Position].OImage.Add(IFC_temp.dstImage);
+                        Camera.Object[cm.Position].OImageName.Add("(procedure_" + cm.Position + ",Image_" + Camera.Object[cm.Position].OImage.Count + ")");
+                    }
+
+                    Camera.Procedure[cm.Position].procedurefunction.doprocedurefunction += IFC_temp.run;
+                    Camera.Procedure[cm.Position].SettingForm = IFC_temp;
+                    Camera.Procedure[cm.Position].Setornot = IFC_temp.setornot;
+                    break;
 
                 case (int)PROCEDURE.Measure_1D:
 
@@ -457,7 +479,7 @@ namespace CameraProcedure
                     Camera.Procedure[cm.Position].procedurefunction.doprocedurefunction += CMM_temp.run;
                     Camera.Procedure[cm.Position].SettingForm = CMM_temp;
                     Camera.Procedure[cm.Position].Setornot = CMM_temp.setornot;
-
+                                        
                     break;
                 case (int)PROCEDURE.TheVerticalLine:
 
@@ -530,7 +552,22 @@ namespace CameraProcedure
                     Camera.Procedure[i].procedurefunction.dofunction();
 
                     switch (Camera.Procedure[i].ProcedureMethod)
-                    {                      
+                    {
+                        case (int)PROCEDURE.ImageFromCamera:
+
+                            ImageFromCamera IFC_temp = (ImageFromCamera)Camera.Procedure[i].SettingForm;
+
+                            if (IFC_temp.dstImage != null)
+                            {
+                                if (IFC_temp.dstImage != null)
+                                {
+                                    Camera.Object[i].OImage.Clear();
+                                    Camera.Object[i].OImageName.Clear();
+                                }
+                                Camera.Object[i].OImage.Add(IFC_temp.dstImage);
+                                Camera.Object[i].OImageName.Add("(procedure_" + i + ",Image_" + Camera.Object[i].OImage.Count + ")");
+                            }
+                            break;
 
                         case (int)PROCEDURE.Measure_1D:
 
@@ -576,7 +613,6 @@ namespace CameraProcedure
                                     Camera.Object[i].OImageName.Add("CreateMatchingModel");
                                 }
                             }
-                            
 
                             break;
                         case (int)PROCEDURE.TheVerticalLine:
@@ -795,6 +831,44 @@ namespace CameraProcedure
             p.Setornot = false;
             p.ProcedureMethod = (int)PROCEDURE.PL_distance;
             p.SettingForm = new PL_distance();
+
+            Camera.Procedure.Insert(cm.Position + 1, p);
+            Camera.Object.Insert(cm.Position + 1, O);
+
+            //重新排序Procedure編號
+            remarkProcedure(0);
+
+            //更新表格
+            if (cm != null)
+            {
+                cm.Refresh();
+                ProcedureTable.ClearSelection();
+
+                if (ProcedureTable.RowCount < cm.Position + 1)
+                {
+                    ProcedureTable.Rows[cm.Position + 1].Selected = true;
+                }
+                else
+                {
+                    ProcedureTable.Rows[cm.Position].Selected = true;
+                }
+            }
+
+            setProcedurecolor();
+        }
+
+        private void 相機ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //控制項目前cell位置
+            CurrencyManager cm = (CurrencyManager)this.BindingContext[ProcedureTable.DataSource];
+            //設定Procedure_Table顯示字串
+            Procedure_Table p = new Procedure_Table();
+            Object_Table O = new Object_Table();
+
+            p.ProcedureName = "ImageFromCamera";
+            p.Setornot = false;
+            p.ProcedureMethod = (int)PROCEDURE.ImageFromCamera;
+            p.SettingForm = new ImageFromCamera();
 
             Camera.Procedure.Insert(cm.Position + 1, p);
             Camera.Object.Insert(cm.Position + 1, O);
