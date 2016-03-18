@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 
 namespace CameraProcedure
 {
-
     public class index_ij
     {
         public int i;

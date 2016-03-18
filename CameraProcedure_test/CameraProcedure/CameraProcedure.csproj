@@ -72,7 +72,10 @@
       <DependentUpon>CreateMatchingModel.cs</DependentUpon>
     </Compile>
     <Compile Include="CameraProceure\HObject_Bitmap.cs" />
-    <Compile Include="ProcedureForm\CreateMatchingModel\index_ij.cs" />
+    <Compile Include="ProcedureForm\CreateMatchingModel\CreateMatchingModelParameter_form.cs" />
+    <Compile Include="ProcedureForm\CreateMatchingModel\CreateMatchingModelParameter_in.cs" />
+    <Compile Include="ProcedureForm\CreateMatchingModel\CreateMatchingModelParameter_out.cs" />
+    <Compile Include="ProcedureForm\index_ij.cs" />
     <Compile Include="ProcedureForm\ImageFromCamera\ImageFromCamera.cs">
       <SubType>Form</SubType>
     </Compile>

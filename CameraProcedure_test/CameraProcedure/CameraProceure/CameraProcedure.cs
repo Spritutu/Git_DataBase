@@ -461,24 +461,24 @@ namespace CameraProcedure
                     CreateMatchingModel CMM_temp = (CreateMatchingModel)Camera.Procedure[cm.Position].SettingForm;
                     if (cm.Position != 0)
                     {
-                        CMM_temp.O_T = Camera.Object;
+                        CMM_temp.CMMP_in.O_T = Camera.Object;
                     }
                     CMM_temp.ShowDialog();
 
-                    if (CMM_temp.setornot ==true)
+                    if (CMM_temp.CMMP_out.setornot ==true)
                     {
                         Camera.Object[cm.Position].OImage.Clear();
                         Camera.Object[cm.Position].OImageName.Clear();
-                        if (CMM_temp.dstImage != null)
+                        if (CMM_temp.CMMP_out.dst_Image.GetImage != null)
                         {
-                            Camera.Object[cm.Position].OImage.Add(CMM_temp.dstImage);
+                            Camera.Object[cm.Position].OImage.Add(CMM_temp.CMMP_out.dst_Image.GetImage);
                             Camera.Object[cm.Position].OImageName.Add("CreateMatchingModel");
                         }
                     }
 
                     Camera.Procedure[cm.Position].procedurefunction.doprocedurefunction += CMM_temp.run;
                     Camera.Procedure[cm.Position].SettingForm = CMM_temp;
-                    Camera.Procedure[cm.Position].Setornot = CMM_temp.setornot;
+                    Camera.Procedure[cm.Position].Setornot = CMM_temp.CMMP_out.setornot;
                                         
                     break;
                 case (int)PROCEDURE.TheVerticalLine:
@@ -603,13 +603,13 @@ namespace CameraProcedure
                             CreateMatchingModel CMM_temp = (CreateMatchingModel)Camera.Procedure[i].SettingForm;
                             
 
-                            if (CMM_temp.setornot == true)
+                            if (CMM_temp.CMMP_out.setornot == true)
                             {
                                 Camera.Object[i].OImage.Clear();
                                 Camera.Object[i].OImageName.Clear();
-                                if (CMM_temp.dstImage != null)
+                                if (CMM_temp.CMMP_out.dst_Image.GetImage != null)
                                 {
-                                    Camera.Object[i].OImage.Add(CMM_temp.dstImage);
+                                    Camera.Object[i].OImage.Add(CMM_temp.CMMP_out.dst_Image.GetImage);
                                     Camera.Object[i].OImageName.Add("CreateMatchingModel");
                                 }
                             }

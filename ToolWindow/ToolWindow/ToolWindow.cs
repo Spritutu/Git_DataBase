@@ -97,8 +97,14 @@ namespace ToolWindow
         }
         public void showImage() {
             if (windowImage != null)
-                windowImage.ShowImage_autosize(window.HalconWindow);
-            DispImageFit(window.HalconWindow);
+                //windowImage.ShowImage_autosize(window.HalconWindow);
+                DispImageFit(window.HalconWindow);
+        }
+        public void ClearAll()
+        {
+            windowImage.SetImage = null;
+            Object_disp.Clear();
+            setObject_display.Clear();
         }
 
         private void Window_HMouseMove(object sender, HalconDotNet.HMouseEventArgs e)

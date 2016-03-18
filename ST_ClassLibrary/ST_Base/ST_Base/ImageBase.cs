@@ -136,6 +136,11 @@ namespace ST_Base
             return Grayval;
         }
 
+        public void GetImageSize()
+        {
+            HOperatorSet.GetImageSize(Image, out hv_Width, out hv_Height);
+        }
+
         public HTuple PiexlGrayval_Interpolated(PointBase point)//取得某點的pixel值(內插法) 直接函式輸出
         {
             HTuple Grayval_Interpolated;
