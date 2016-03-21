@@ -194,8 +194,8 @@ namespace CameraProcedure
             M2DCP_form.loadfinish = false;
             if (M2DCP_form.hv_Row1 != null)
             {
-                M2DCP_out.setornot = true;
                 M2DCP_form.ifopenformornot = false;
+                M2DCP_out.setornot = true;
                 M2DCP_out.dst_circle.row = M2DCP_form.hv_Parameter[0];
                 M2DCP_out.dst_circle.column = M2DCP_form.hv_Parameter[1];
                 M2DCP_out.dst_circle.radius = M2DCP_form.hv_Parameter[2];

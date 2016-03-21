@@ -486,17 +486,17 @@ namespace CameraProcedure
                     TheVerticalLine TVL_temp = (TheVerticalLine)Camera.Procedure[cm.Position].SettingForm;
                     if (cm.Position != 0)
                     {
-                        TVL_temp.O_T = Camera.Object;
+                        TVL_temp.TVL_in.O_T = Camera.Object;
                     }
                     TVL_temp.ShowDialog();
 
-                    if (TVL_temp.setornot == true)
+                    if (TVL_temp.TVL_out.setornot == true)
                     {
                         Camera.Object[cm.Position].OLine.Clear();
                         Camera.Object[cm.Position].OLineName.Clear();
-                        if (TVL_temp.DstLine != null)
+                        if (TVL_temp.TVL_out.dst_Line != null)
                         {
-                            Camera.Object[cm.Position].OLine.Add(TVL_temp.DstLine);
+                            Camera.Object[cm.Position].OLine.Add(TVL_temp.TVL_out.dst_Line);
                             Camera.Object[cm.Position].OLineName.Add("TheVerticalLine");
                         }
                     }
@@ -505,7 +505,7 @@ namespace CameraProcedure
 
                     Camera.Procedure[cm.Position].procedurefunction.doprocedurefunction += TVL_temp.run;
                     Camera.Procedure[cm.Position].SettingForm = TVL_temp;
-                    Camera.Procedure[cm.Position].Setornot = TVL_temp.setornot;
+                    Camera.Procedure[cm.Position].Setornot = TVL_temp.TVL_out.setornot;
 
                     break; 
 
@@ -620,13 +620,13 @@ namespace CameraProcedure
                             TheVerticalLine TVL_temp = (TheVerticalLine)Camera.Procedure[i].SettingForm;
                            
 
-                            if (TVL_temp.setornot == true)
+                            if (TVL_temp.TVL_out.setornot == true)
                             {
                                 Camera.Object[i].OLine.Clear();
                                 Camera.Object[i].OLineName.Clear();
-                                if (TVL_temp.DstLine != null)
+                                if (TVL_temp.TVL_out.dst_Line != null)
                                 {
-                                    Camera.Object[i].OLine.Add(TVL_temp.DstLine);
+                                    Camera.Object[i].OLine.Add(TVL_temp.TVL_out.dst_Line);
                                     Camera.Object[i].OLineName.Add("TheVerticalLine");
                                 }
                             }
