@@ -404,17 +404,17 @@ namespace CameraProcedure
                     Measure_2D_Circle M2DC_temp = (Measure_2D_Circle)Camera.Procedure[cm.Position].SettingForm;
                     if (cm.Position != 0)
                     {
-                        M2DC_temp.O_T = Camera.Object;          //暫時使用前一個程序的圖片(載入圖片)
+                        M2DC_temp.M2DCP_in.O_T = Camera.Object;          //暫時使用前一個程序的圖片(載入圖片)
                     }
                     M2DC_temp.ShowDialog();
 
-                    if (M2DC_temp.setornot == true)
+                    if (M2DC_temp.M2DCP_out.setornot == true)
                     {
                         Camera.Object[cm.Position].OCircle.Clear();
                         Camera.Object[cm.Position].OCircleName.Clear();
-                        if (M2DC_temp.dstCircle != null)
+                        if (M2DC_temp.M2DCP_out.dst_circle != null)
                         {
-                            Camera.Object[cm.Position].OCircle.Add(M2DC_temp.dstCircle);
+                            Camera.Object[cm.Position].OCircle.Add(M2DC_temp.M2DCP_out.dst_circle);
                             Camera.Object[cm.Position].OCircleName.Add("testcircle");
                         }
                     }
@@ -422,7 +422,7 @@ namespace CameraProcedure
 
                     Camera.Procedure[cm.Position].procedurefunction.doprocedurefunction += M2DC_temp.run;
                     Camera.Procedure[cm.Position].SettingForm = M2DC_temp;
-                    Camera.Procedure[cm.Position].Setornot = M2DC_temp.setornot;
+                    Camera.Procedure[cm.Position].Setornot = M2DC_temp.M2DCP_out.setornot;
 
                     break;
 
@@ -637,13 +637,13 @@ namespace CameraProcedure
                             Measure_2D_Circle M2DC_temp = (Measure_2D_Circle)Camera.Procedure[i].SettingForm;
                            
 
-                            if (M2DC_temp.setornot == true)
+                            if (M2DC_temp.M2DCP_out.setornot == true)
                             {
                                 Camera.Object[i].OCircle.Clear();
                                 Camera.Object[i].OCircleName.Clear();
-                                if (M2DC_temp.dstCircle != null)
+                                if (M2DC_temp.M2DCP_out.dst_circle != null)
                                 {
-                                    Camera.Object[i].OCircle.Add(M2DC_temp.dstCircle);
+                                    Camera.Object[i].OCircle.Add(M2DC_temp.M2DCP_out.dst_circle);
                                     Camera.Object[i].OCircleName.Add("testcircle");
                                 }
                             }

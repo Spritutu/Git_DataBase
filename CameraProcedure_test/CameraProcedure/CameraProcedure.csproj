@@ -88,6 +88,9 @@
     <Compile Include="ProcedureForm\Measure_1D\PL_distance.Designer.cs">
       <DependentUpon>PL_distance.cs</DependentUpon>
     </Compile>
+    <Compile Include="ProcedureForm\Measure_2D\Measure_2D_Circle_parameter_form.cs" />
+    <Compile Include="ProcedureForm\Measure_2D\Measure_2D_Circle_parameter_in.cs" />
+    <Compile Include="ProcedureForm\Measure_2D\Measure_2D_Circle_parameter_out.cs" />
     <Compile Include="ProcedureForm\SelectImageNName.cs" />
     <Compile Include="ProcedureForm\Measure_1D\Measure_1D.cs">
       <SubType>Form</SubType>

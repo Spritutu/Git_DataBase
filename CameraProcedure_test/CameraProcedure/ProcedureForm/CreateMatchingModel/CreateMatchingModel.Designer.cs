@@ -76,7 +76,7 @@
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.toolWindow2 = new ToolWindow.ToolWindow();
             this.label1 = new System.Windows.Forms.Label();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.ResultData = new System.Windows.Forms.DataGridView();
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -91,7 +91,7 @@
             this.groupBox2.SuspendLayout();
             this.tabPage3.SuspendLayout();
             this.groupBox3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ResultData)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -208,7 +208,7 @@
             this.groupBox5.Controls.Add(this.label10);
             this.groupBox5.Controls.Add(this.label9);
             this.groupBox5.Controls.Add(this.Find_MinScore);
-            this.groupBox5.Location = new System.Drawing.Point(669, 350);
+            this.groupBox5.Location = new System.Drawing.Point(669, 265);
             this.groupBox5.Name = "groupBox5";
             this.groupBox5.Size = new System.Drawing.Size(293, 168);
             this.groupBox5.TabIndex = 25;
@@ -358,7 +358,7 @@
             this.groupBox4.Controls.Add(this.label5);
             this.groupBox4.Controls.Add(this.label4);
             this.groupBox4.Controls.Add(this.Create_AngleExtent);
-            this.groupBox4.Location = new System.Drawing.Point(669, 166);
+            this.groupBox4.Location = new System.Drawing.Point(669, 81);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(293, 178);
             this.groupBox4.TabIndex = 6;
@@ -492,7 +492,7 @@
             // 
             this.tabPage3.Controls.Add(this.groupBox3);
             this.tabPage3.Controls.Add(this.label1);
-            this.tabPage3.Controls.Add(this.dataGridView1);
+            this.tabPage3.Controls.Add(this.ResultData);
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
@@ -528,23 +528,23 @@
             this.label1.TabIndex = 1;
             this.label1.Text = "詳細結果";
             // 
-            // dataGridView1
+            // ResultData
             // 
-            this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCellsExceptHeader;
-            this.dataGridView1.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders;
-            this.dataGridView1.BackgroundColor = System.Drawing.Color.White;
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.ResultData.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCellsExceptHeader;
+            this.ResultData.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders;
+            this.ResultData.BackgroundColor = System.Drawing.Color.White;
+            this.ResultData.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.ResultData.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Column1,
             this.Column2,
             this.Column3,
             this.Column4});
-            this.dataGridView1.Location = new System.Drawing.Point(12, 663);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.RowHeadersVisible = false;
-            this.dataGridView1.RowTemplate.Height = 24;
-            this.dataGridView1.Size = new System.Drawing.Size(690, 104);
-            this.dataGridView1.TabIndex = 0;
+            this.ResultData.Location = new System.Drawing.Point(12, 663);
+            this.ResultData.Name = "ResultData";
+            this.ResultData.RowHeadersVisible = false;
+            this.ResultData.RowTemplate.Height = 24;
+            this.ResultData.Size = new System.Drawing.Size(690, 104);
+            this.ResultData.TabIndex = 0;
             // 
             // Column1
             // 
@@ -604,7 +604,7 @@
             this.tabPage3.ResumeLayout(false);
             this.tabPage3.PerformLayout();
             this.groupBox3.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ResultData)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -645,7 +645,7 @@
         private ToolWindow.ToolWindow toolWindow1;
         private System.Windows.Forms.TabPage tabPage3;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridView ResultData;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column3;

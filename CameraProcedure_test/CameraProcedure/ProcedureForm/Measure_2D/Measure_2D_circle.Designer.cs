@@ -28,11 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
+            ST_Base.ImageBase imageBase1 = new ST_Base.ImageBase();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Measure_2D_Circle));
-            ST_Base.ImageBase imageBase9 = new ST_Base.ImageBase();
-            ST_Base.ImageBase imageBase10 = new ST_Base.ImageBase();
+            ST_Base.ImageBase imageBase2 = new ST_Base.ImageBase();
             this.setcircle = new System.Windows.Forms.TabPage();
-            this.OK = new System.Windows.Forms.Button();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.toolWindow1 = new ToolWindow.ToolWindow();
             this.DrawROI_button = new System.Windows.Forms.Button();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.Page_2DMeasure = new System.Windows.Forms.TabPage();
@@ -50,15 +51,15 @@
             this.Threshold = new System.Windows.Forms.NumericUpDown();
             this.Leangth1 = new System.Windows.Forms.Label();
             this.Page_result = new System.Windows.Forms.TabPage();
+            this.OK = new System.Windows.Forms.Button();
             this.setimage = new System.Windows.Forms.TabPage();
             this.label14 = new System.Windows.Forms.Label();
             this.whichpicture = new System.Windows.Forms.ComboBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.toolWindow = new ToolWindow.ToolWindow();
-            this.tabControl4 = new System.Windows.Forms.TabControl();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.toolWindow1 = new ToolWindow.ToolWindow();
+            this.tabControl = new System.Windows.Forms.TabControl();
             this.setcircle.SuspendLayout();
+            this.groupBox3.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.Page_2DMeasure.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -72,8 +73,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.Threshold)).BeginInit();
             this.setimage.SuspendLayout();
             this.groupBox2.SuspendLayout();
-            this.tabControl4.SuspendLayout();
-            this.groupBox3.SuspendLayout();
+            this.tabControl.SuspendLayout();
             this.SuspendLayout();
             // 
             // setcircle
@@ -89,15 +89,23 @@
             this.setcircle.Text = "設定圓";
             this.setcircle.UseVisualStyleBackColor = true;
             // 
-            // OK
+            // groupBox3
             // 
-            this.OK.Image = ((System.Drawing.Image)(resources.GetObject("OK.Image")));
-            this.OK.Location = new System.Drawing.Point(12, 12);
-            this.OK.Name = "OK";
-            this.OK.Size = new System.Drawing.Size(46, 45);
-            this.OK.TabIndex = 18;
-            this.OK.UseVisualStyleBackColor = true;
-            this.OK.Click += new System.EventHandler(this.OK_Click);
+            this.groupBox3.Controls.Add(this.toolWindow1);
+            this.groupBox3.Location = new System.Drawing.Point(6, 6);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(657, 659);
+            this.groupBox3.TabIndex = 61;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "影像";
+            // 
+            // toolWindow1
+            // 
+            this.toolWindow1.Location = new System.Drawing.Point(6, 20);
+            this.toolWindow1.Name = "toolWindow1";
+            this.toolWindow1.Size = new System.Drawing.Size(645, 616);
+            this.toolWindow1.TabIndex = 5;
+            this.toolWindow1.WindowImage = imageBase1;
             // 
             // DrawROI_button
             // 
@@ -317,6 +325,16 @@
             this.Page_result.Text = "測量結果";
             this.Page_result.UseVisualStyleBackColor = true;
             // 
+            // OK
+            // 
+            this.OK.Image = ((System.Drawing.Image)(resources.GetObject("OK.Image")));
+            this.OK.Location = new System.Drawing.Point(12, 12);
+            this.OK.Name = "OK";
+            this.OK.Size = new System.Drawing.Size(46, 45);
+            this.OK.TabIndex = 18;
+            this.OK.UseVisualStyleBackColor = true;
+            this.OK.Click += new System.EventHandler(this.OK_Click);
+            // 
             // setimage
             // 
             this.setimage.Controls.Add(this.label14);
@@ -325,7 +343,7 @@
             this.setimage.Location = new System.Drawing.Point(4, 22);
             this.setimage.Name = "setimage";
             this.setimage.Padding = new System.Windows.Forms.Padding(3);
-            this.setimage.Size = new System.Drawing.Size(1264, 697);
+            this.setimage.Size = new System.Drawing.Size(1142, 697);
             this.setimage.TabIndex = 0;
             this.setimage.Text = "設定影像";
             this.setimage.UseVisualStyleBackColor = true;
@@ -364,48 +382,32 @@
             this.toolWindow.Name = "toolWindow";
             this.toolWindow.Size = new System.Drawing.Size(645, 616);
             this.toolWindow.TabIndex = 5;
-            this.toolWindow.WindowImage = imageBase9;
+            this.toolWindow.WindowImage = imageBase2;
             // 
-            // tabControl4
+            // tabControl
             // 
-            this.tabControl4.Controls.Add(this.setimage);
-            this.tabControl4.Controls.Add(this.setcircle);
-            this.tabControl4.Location = new System.Drawing.Point(12, 63);
-            this.tabControl4.Name = "tabControl4";
-            this.tabControl4.SelectedIndex = 0;
-            this.tabControl4.Size = new System.Drawing.Size(1150, 723);
-            this.tabControl4.TabIndex = 12;
-            // 
-            // groupBox3
-            // 
-            this.groupBox3.Controls.Add(this.toolWindow1);
-            this.groupBox3.Location = new System.Drawing.Point(6, 6);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(657, 659);
-            this.groupBox3.TabIndex = 61;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "影像";
-            // 
-            // toolWindow1
-            // 
-            this.toolWindow1.Location = new System.Drawing.Point(6, 20);
-            this.toolWindow1.Name = "toolWindow1";
-            this.toolWindow1.Size = new System.Drawing.Size(645, 616);
-            this.toolWindow1.TabIndex = 5;
-            this.toolWindow1.WindowImage = imageBase10;
+            this.tabControl.Controls.Add(this.setimage);
+            this.tabControl.Controls.Add(this.setcircle);
+            this.tabControl.Location = new System.Drawing.Point(12, 63);
+            this.tabControl.Name = "tabControl";
+            this.tabControl.SelectedIndex = 0;
+            this.tabControl.Size = new System.Drawing.Size(1150, 723);
+            this.tabControl.TabIndex = 12;
+            this.tabControl.SelectedIndexChanged += new System.EventHandler(this.tabControl_SelectedIndexChanged);
             // 
             // Measure_2D_Circle
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1171, 796);
-            this.Controls.Add(this.tabControl4);
+            this.Controls.Add(this.tabControl);
             this.Controls.Add(this.OK);
             this.Name = "Measure_2D_Circle";
             this.Text = "Measure_2D_Circle";
             this.Activated += new System.EventHandler(this.Measure_2D_Circle_Activated);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Measure_2D_Circle_FormClosing);
             this.setcircle.ResumeLayout(false);
+            this.groupBox3.ResumeLayout(false);
             this.tabControl1.ResumeLayout(false);
             this.Page_2DMeasure.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
@@ -421,8 +423,7 @@
             this.setimage.ResumeLayout(false);
             this.setimage.PerformLayout();
             this.groupBox2.ResumeLayout(false);
-            this.tabControl4.ResumeLayout(false);
-            this.groupBox3.ResumeLayout(false);
+            this.tabControl.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -432,7 +433,7 @@
         private System.Windows.Forms.TabPage setcircle;
         private System.Windows.Forms.Button OK;
         private System.Windows.Forms.TabPage setimage;
-        private System.Windows.Forms.TabControl tabControl4;
+        private System.Windows.Forms.TabControl tabControl;
         private System.Windows.Forms.TabPage Page_result;
         private System.Windows.Forms.Label Leangth1;
         private System.Windows.Forms.NumericUpDown Threshold;

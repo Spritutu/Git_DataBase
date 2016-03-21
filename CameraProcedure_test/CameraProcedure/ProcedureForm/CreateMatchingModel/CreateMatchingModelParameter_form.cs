@@ -35,7 +35,9 @@ namespace CameraProcedure
 
         public void ClearAll() {
 
-            CreatModelID = null; 
+            if (CreatModelID!=null) {
+                HOperatorSet.ClearShapeModel(CreatModelID);
+            }
             Find_RowCheck = null;
             Find_ColumnCheck = null;
             Find_AngleCheck = null;
@@ -45,6 +47,7 @@ namespace CameraProcedure
             matrix_ObjecttoCenter = null;
 
             Reduce_Image.Dispose() ;
+            
             CreatShapeModel.Dispose();
             ModelAtNewPosition.Dispose();
             ModelAtNewPosition_temp.Dispose();

@@ -54,9 +54,17 @@ namespace CameraProcedure
 
         private void CreateMatchingModel_Activated(object sender, EventArgs e)
         {
+
             //判斷是否已經開啟視窗
             if (CMMP_form.ifopenformornot == false)
             {
+                HOperatorSet.GenEmptyObj(out CMMP_form.Reduce_Image);
+                HOperatorSet.GenEmptyObj(out CMMP_form.CreatShapeModel);
+                HOperatorSet.GenEmptyObj(out CMMP_form.ModelAtNewPosition);
+                HOperatorSet.GenEmptyObj(out CMMP_form.ModelAtNewPosition_temp);
+                HOperatorSet.GenEmptyObj(out CMMP_form.ImageAtNewPosition);
+                HOperatorSet.GenEmptyObj(out CMMP_form.Template_Image_rot);
+                HOperatorSet.GenEmptyObj(out CMMP_form.ROI_rot);
                 //進來表示已經開啟，並且更改狀態。
                 CMMP_form.ifopenformornot = true;
                 //清除SelectImage表單。
@@ -86,6 +94,9 @@ namespace CameraProcedure
                 CMMP_form.loadfinish = true;
 
                 CMMP_form.src_Image.SetImage = (HObject)whichpicture.SelectedValue;
+                if (CMMP_form.src_Image.GetImage!=null) {
+                    CMMP_form.src_Image.GetImageSize();
+                }
                 toolWindow.WindowImage = CMMP_form.src_Image;
                 tabControl1.SelectedTab = tabPage1;
             }
@@ -152,18 +163,20 @@ namespace CameraProcedure
        
         private void setROI_Click(object sender, EventArgs e)
         {
+            
             toolWindow1.Window.Focus();
             toolWindow1.Window.HalconWindow.ClearWindow();
+            toolWindow1.Clear_Object_disp();
             toolWindow1.WindowImage.ShowImage_autosize(toolWindow1.Window.HalconWindow);
             setSystem.SetPen(toolWindow1.Window.HalconWindow,"red", "margin", 3);
             CMMP_in.region_rec.DrawRectangle(toolWindow1.Window.HalconWindow);
-            CMMP_in.region_rec.showROI(toolWindow1.Window.HalconWindow, (int)Shape.Rectangle, "red", "margin", 3);
+            toolWindow1.Add_Object_disp(CMMP_in.region_rec.rectangle.ROI,"red", "margin", 3);
+            toolWindow1.showImage();
         }
 
         private void Test_Click(object sender, EventArgs e)
         {
-            //HOperatorSet.GenEmptyObj();
-
+            toolWindow2.Clear_Object_disp();
             CMMP_in.Create_NumLevels = Convert.ToInt32(Create_NumLevels.Text);
             CMMP_in.Create_AngleStart = Convert.ToInt32(Create_AngleStart.Text);
             CMMP_in.Create_AngleExtent = Convert.ToInt32(Create_AngleExtent.Text);
@@ -189,16 +202,17 @@ namespace CameraProcedure
                 CMMP_form.Template_rot_matrix, "nearest_neighbor");
             //以ROI_rot切割Template_Image_rot
             HOperatorSet.ReduceDomain(CMMP_form.Template_Image_rot, CMMP_form.ROI_rot, out CMMP_form.Reduce_Image);
-            //HOperatorSet.ReduceDomain(CMMP_form.Template_Image_rot, CMMP_in.Template_Image.GetImage, out CMMP_form.Template_Image_rot);
+            
 
             //顯示在toolWindow1 (Template_Image_rot、ROI_rot)
             toolWindow1.Window.HalconWindow.ClearWindow();
             toolWindow1.WindowImage.SetImage = CMMP_form.Template_Image_rot;
+            toolWindow1.Clear_Object_disp();
             toolWindow1.Add_Object_disp(CMMP_form.ROI_rot, "red", "margin", 3);
             toolWindow1.showImage();
 
             //清空CreatShapeModel和CreatModelID  (除了第一次)
-            if (CMMP_form.CreatShapeModel != null)
+            if (CMMP_form.CreatShapeModel != null&& CMMP_form.CreatModelID!=null)
             {
                 CMMP_form.CreatModelID.TupleRemove(CMMP_form.CreatModelID);
                 CMMP_form.CreatShapeModel.Dispose();
@@ -245,7 +259,8 @@ namespace CameraProcedure
             toolWindow2.Add_Object_disp(CMMP_form.ModelAtNewPosition, "yellow", "margin", 1);
             toolWindow2.Add_Object_disp(CMMP_form.ROI_rot, "red", "margin", 3);
             toolWindow2.showImage();
-            ADDCreatDataGridView(dataGridView1);
+            //填入表單資訊
+            ADDCreatDataGridView(ResultData);
 
         }
 
@@ -263,6 +278,7 @@ namespace CameraProcedure
         private void ShapeModel_Click(object sender, EventArgs e)
         {
             CMMP_in.Template_Image.ImagefromFile();
+            toolWindow1.ClearAll();
             toolWindow1.WindowImage.SetImage = CMMP_in.Template_Image.GetImage;
             toolWindow1.showImage();
         }
@@ -271,22 +287,16 @@ namespace CameraProcedure
         {
             if (CMMP_form.loadfinish)
             {
+                toolWindow.ClearAll();
+                toolWindow1.ClearAll();
+                toolWindow2.ClearAll();
                 CMMP_form.src_Image.SetImage = (HObject)whichpicture.SelectedValue;
                 CMMP_form.src_Image.GetImageSize();
                 toolWindow.WindowImage.SetImage = CMMP_form.src_Image.GetImage;
                 toolWindow.showImage();
             }
         }
-
-        private void OK_Click(object sender, EventArgs e)
-        {
-            CMMP_out.setornot = true;
-            CMMP_form.ifopenformornot = false;
-            CMMP_form.loadfinish = false;
-            CMMP_out.dst_Image.SetImage = toolWindow2.WindowImage.GetImage;
-            Hide();
-        }
-
+        
         private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (CMMP_out.setornot == true)
@@ -296,23 +306,34 @@ namespace CameraProcedure
                 toolWindow2.showImage();
             }
         }
+        //清除視窗裡的圖檔和物件
         private void ClearAllToolWindow()
         {
             toolWindow.ClearAll();
             toolWindow1.ClearAll();
             toolWindow2.ClearAll();
         }
+        private void OK_Click(object sender, EventArgs e)
+        {
+            CMMP_out.setornot = true;
+            CMMP_form.ifopenformornot = false;
+            CMMP_form.loadfinish = false;
+            CMMP_out.dst_Image.SetImage = toolWindow2.WindowImage.GetImage;
+            Hide();
+        }
         private void CreateMatchingModel_FormClosing(object sender, FormClosingEventArgs e)
         {
+            //如果已經設定過了則不要清除資訊
             if (!CMMP_out.setornot)
             {
                 CMMP_form.ClearAll();
                 ClearAllToolWindow();
-                dataGridView1.Rows.Clear();
+                ResultData.Rows.Clear();
             }
-
+            //重制參數
             CMMP_form.ifopenformornot = false;
             CMMP_form.loadfinish = false;
+            //隱藏頁面
             Hide();
         }
     }
