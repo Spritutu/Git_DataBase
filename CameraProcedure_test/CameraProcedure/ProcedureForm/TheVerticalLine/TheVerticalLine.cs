@@ -16,12 +16,10 @@ namespace CameraProcedure
     {
         public HTuple hv_Center_row, hv_Center_col, hv_first_row, hv_Second_row, hv_first_col, hv_Second_col;
         public HTuple hv_m, hv_row1, hv_col1, hv_row2, hv_col2;
-
         public HObject ho_Cross_center, ho_Cross_firstpoint, ho_Cross_secondpoint , ho_RegionLines;
     }
     public partial class TheVerticalLine : Form
     {
-
         public bool setornot = false;
         bool ifopenformornot = false;
         public List<Object_Table> O_T = new List<Object_Table>();
