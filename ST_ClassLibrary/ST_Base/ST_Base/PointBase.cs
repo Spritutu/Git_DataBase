@@ -15,11 +15,25 @@ namespace ST_Base
 
         public void GetMposition(HTuple Window)
         {
-            HOperatorSet.GetMposition(Window, out row, out col, out Button);
+            try
+            {
+                HOperatorSet.GetMposition(Window, out row, out col, out Button);
+            }
+            catch (Exception) {
+
+            }
+
         }
         public void GetMpositionSubPix(HTuple Window)
         {
-            HOperatorSet.GetMpositionSubPix(Window, out row, out col, out Button);
+            try
+            {
+                HOperatorSet.GetMpositionSubPix(Window, out row, out col, out Button);
+            }
+            catch (Exception)
+            {
+
+            }
         }
     }
 }
