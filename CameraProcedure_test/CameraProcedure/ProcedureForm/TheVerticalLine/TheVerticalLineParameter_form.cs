@@ -16,10 +16,8 @@ namespace CameraProcedure
         public bool ifopenformornot = false;
         public bool loadfinish = false;
         public List<index_ij> index_img = new List<index_ij>();
-        public List<index_ij> index_P1 = new List<index_ij>();
-        public List<index_ij> index_C1 = new List<index_ij>();
-        public List<index_ij> index_P2 = new List<index_ij>();
-        public List<index_ij> index_C2 = new List<index_ij>();
+        public List<index_ij> index_1 = new List<index_ij>();
+        public List<index_ij> index_2 = new List<index_ij>();
         public List<SelectImageNName> SelectImage = new List<SelectImageNName>();
         public List<SelectPointNName> SelectPoint1 = new List<SelectPointNName>();
         public List<SelectPointNName> SelectPoint2 = new List<SelectPointNName>();

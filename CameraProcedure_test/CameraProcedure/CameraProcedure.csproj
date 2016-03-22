@@ -82,12 +82,18 @@
     <Compile Include="ProcedureForm\ImageFromCamera\ImageFromCamera.Designer.cs">
       <DependentUpon>ImageFromCamera.cs</DependentUpon>
     </Compile>
+    <Compile Include="ProcedureForm\Measure_1D\Measure1DParameter_form.cs" />
+    <Compile Include="ProcedureForm\Measure_1D\Measure1DParameter_in.cs" />
+    <Compile Include="ProcedureForm\Measure_1D\Measure1DParameter_out.cs" />
     <Compile Include="ProcedureForm\Measure_1D\PL_distance.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="ProcedureForm\Measure_1D\PL_distance.Designer.cs">
       <DependentUpon>PL_distance.cs</DependentUpon>
     </Compile>
+    <Compile Include="ProcedureForm\Measure_2D\Measure2DlineParameter_form.cs" />
+    <Compile Include="ProcedureForm\Measure_2D\Measure2DlineParameter_in.cs" />
+    <Compile Include="ProcedureForm\Measure_2D\Measure2DlineParameter_out.cs" />
     <Compile Include="ProcedureForm\Measure_2D\Measure_2D_Circle_parameter_form.cs" />
     <Compile Include="ProcedureForm\Measure_2D\Measure_2D_Circle_parameter_in.cs" />
     <Compile Include="ProcedureForm\Measure_2D\Measure_2D_Circle_parameter_out.cs" />
@@ -105,12 +111,6 @@
     </Compile>
     <Compile Include="ProcedureForm\Measure_2D\Measure_2D_Circle.Designer.cs">
       <DependentUpon>Measure_2D_Circle.cs</DependentUpon>
-    </Compile>
-    <Compile Include="ProcedureForm\Measure_2D\Measure_2D_Ellipse.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ProcedureForm\Measure_2D\Measure_2D_Ellipse.Designer.cs">
-      <DependentUpon>Measure_2D_Ellipse.cs</DependentUpon>
     </Compile>
     <Compile Include="ProcedureForm\Measure_2D\Measure_2D_Line.cs">
       <SubType>Form</SubType>
@@ -155,9 +155,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ProcedureForm\Measure_2D\Measure_2D_Circle.resx">
       <DependentUpon>Measure_2D_Circle.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ProcedureForm\Measure_2D\Measure_2D_Ellipse.resx">
-      <DependentUpon>Measure_2D_Ellipse.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ProcedureForm\Measure_2D\Measure_2D_Line.resx">
       <DependentUpon>Measure_2D_Line.cs</DependentUpon>

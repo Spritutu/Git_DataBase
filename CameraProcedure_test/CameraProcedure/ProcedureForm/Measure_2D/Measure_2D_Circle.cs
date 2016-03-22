@@ -76,7 +76,6 @@ namespace CameraProcedure
                 tabControl.SelectedTab = setimage;
             }
 
-
             if (toolWindow.WindowImage.GetImage != null)
                 toolWindow.showImage();
             if (toolWindow1.WindowImage.GetImage != null)

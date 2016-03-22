@@ -28,7 +28,6 @@ namespace CameraProcedure
             if (TVL_form.ifopenformornot == false)
             {
                 TVL_form.ifopenformornot = true;
-
                 TVL_form.SelectImage.Clear();
                 for (int i = 0; i < TVL_in.O_T.Count; i++)
                 {
@@ -69,7 +68,7 @@ namespace CameraProcedure
                             index_ij ij_temp = new index_ij();
                             ij_temp.i = i;
                             ij_temp.j = j;
-                            TVL_form.index_P1.Add(ij_temp);
+                            TVL_form.index_1.Add(ij_temp);
                         }
                     }
                 }
@@ -92,7 +91,7 @@ namespace CameraProcedure
                             index_ij ij_temp = new index_ij();
                             ij_temp.i = i;
                             ij_temp.j = j;
-                            TVL_form.index_C1.Add(ij_temp);
+                            TVL_form.index_1.Add(ij_temp);
                         }
                     }
                 }
@@ -118,7 +117,7 @@ namespace CameraProcedure
                             index_ij ij_temp = new index_ij();
                             ij_temp.i = i;
                             ij_temp.j = j;
-                            TVL_form.index_P2.Add(ij_temp);
+                            TVL_form.index_2.Add(ij_temp);
                         }
                     }
                 }
@@ -141,7 +140,7 @@ namespace CameraProcedure
                             index_ij ij_temp = new index_ij();
                             ij_temp.i = i;
                             ij_temp.j = j;
-                            TVL_form.index_C2.Add(ij_temp);
+                            TVL_form.index_2.Add(ij_temp);
                         }
                     }
                 }
@@ -174,14 +173,13 @@ namespace CameraProcedure
                 toolWindow1.showImage();
             }
             
-            if (TVL_form.ifopenformornot == false)
-            {
-                TVL_form.ifopenformornot = true;
+
+            if (toolWindow.WindowImage.GetImage != null)
                 toolWindow.showImage();
+            if (toolWindow1.WindowImage.GetImage != null)
                 toolWindow1.showImage();
-            }
-            
-            
+
+
         }
 
         private void whichpicture_SelectedValueChanged(object sender, EventArgs e)
@@ -263,32 +261,34 @@ namespace CameraProcedure
             TVL_form.ifopenformornot = false;
             Hide();
         }
+
+
         public void run()
         {
-            if (TVL_form.SelectPoint1[whichpoint1.SelectedIndex].circleorpoint == 0) {
+             if (TVL_form.SelectPoint1[whichpoint1.SelectedIndex].circleorpoint == 0) {
 
-                TVL_form.hv_first_row = TVL_in.O_T[TVL_form.index_P1[whichpoint1.SelectedIndex].i].OPoint[TVL_form.index_P1[whichpoint1.SelectedIndex].j].row;
-                TVL_form.hv_first_col = TVL_in.O_T[TVL_form.index_P1[whichpoint1.SelectedIndex].i].OPoint[TVL_form.index_P1[whichpoint1.SelectedIndex].j].col;
+                TVL_form.hv_first_row = TVL_in.O_T[TVL_form.index_1[whichpoint1.SelectedIndex].i].OPoint[TVL_form.index_1[whichpoint1.SelectedIndex].j].row;
+                TVL_form.hv_first_col = TVL_in.O_T[TVL_form.index_1[whichpoint1.SelectedIndex].i].OPoint[TVL_form.index_1[whichpoint1.SelectedIndex].j].col;
 
             }
             if (TVL_form.SelectPoint1[whichpoint1.SelectedIndex].circleorpoint == 1)
             {
 
-                TVL_form.hv_first_row = TVL_in.O_T[TVL_form.index_C1[whichpoint1.SelectedIndex].i].OCircle[TVL_form.index_C1[whichpoint1.SelectedIndex].j].row;
-                TVL_form.hv_first_col = TVL_in.O_T[TVL_form.index_C1[whichpoint1.SelectedIndex].i].OCircle[TVL_form.index_C1[whichpoint1.SelectedIndex].j].column;
+                TVL_form.hv_first_row = TVL_in.O_T[TVL_form.index_1[whichpoint1.SelectedIndex].i].OCircle[TVL_form.index_1[whichpoint1.SelectedIndex].j].row;
+                TVL_form.hv_first_col = TVL_in.O_T[TVL_form.index_1[whichpoint1.SelectedIndex].i].OCircle[TVL_form.index_1[whichpoint1.SelectedIndex].j].column;
 
             }
             if (TVL_form.SelectPoint2[whichpoint2.SelectedIndex].circleorpoint == 0)
             {
 
-                TVL_form.hv_Second_row = TVL_in.O_T[TVL_form.index_P2[whichpoint2.SelectedIndex].i].OPoint[TVL_form.index_P2[whichpoint2.SelectedIndex].j].row;
-                TVL_form.hv_Second_col = TVL_in.O_T[TVL_form.index_P2[whichpoint2.SelectedIndex].i].OPoint[TVL_form.index_P2[whichpoint2.SelectedIndex].j].col;
+                TVL_form.hv_Second_row = TVL_in.O_T[TVL_form.index_2[whichpoint2.SelectedIndex].i].OPoint[TVL_form.index_2[whichpoint2.SelectedIndex].j].row;
+                TVL_form.hv_Second_col = TVL_in.O_T[TVL_form.index_2[whichpoint2.SelectedIndex].i].OPoint[TVL_form.index_2[whichpoint2.SelectedIndex].j].col;
 
             }
             if (TVL_form.SelectPoint2[whichpoint2.SelectedIndex].circleorpoint == 1)
             {
-                TVL_form.hv_Second_row = TVL_in.O_T[TVL_form.index_C2[whichpoint2.SelectedIndex].i].OCircle[TVL_form.index_C2[whichpoint2.SelectedIndex].j].row;
-                TVL_form.hv_Second_col = TVL_in.O_T[TVL_form.index_C2[whichpoint2.SelectedIndex].i].OCircle[TVL_form.index_C2[whichpoint2.SelectedIndex].j].column;
+                TVL_form.hv_Second_row = TVL_in.O_T[TVL_form.index_2[whichpoint2.SelectedIndex].i].OCircle[TVL_form.index_2[whichpoint2.SelectedIndex].j].row;
+                TVL_form.hv_Second_col = TVL_in.O_T[TVL_form.index_2[whichpoint2.SelectedIndex].i].OCircle[TVL_form.index_2[whichpoint2.SelectedIndex].j].column;
             }
 
 
@@ -316,6 +316,7 @@ namespace CameraProcedure
 
         private void gen_result_Click(object sender, EventArgs e)
         {
+            toolWindow1.Clear_Object_disp();
             TVL_form.hv_Center_row = (TVL_form.hv_first_row + TVL_form.hv_Second_row) / 2;
             TVL_form.hv_Center_col = (TVL_form.hv_first_col + TVL_form.hv_Second_col) / 2;
 

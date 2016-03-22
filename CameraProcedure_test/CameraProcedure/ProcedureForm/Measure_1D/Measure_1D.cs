@@ -20,116 +20,24 @@ namespace CameraProcedure
     enum MeasureTransition_pos { all, negative, positive }
     //測量結果選擇
     enum MeasureSelect { all, first, last }
-
-
-    /// <summary>
-    /// MeasureParameter
-    /// </summary>
-    public struct Measure1DParameter
-    {
-        //pair的前標點(ho_CrossFirst)and後標點(ho_CrossSecond)  其中ho_CrossFirst與pos模式下的標點共用
-        public HObject ho_CrossFirst;
-        public HObject ho_CrossSecond;
-        //測量控制器
-        public HTuple hv_MeasureHandle;
-
-        //********測量參數(in)**********
-        public HTuple sigma;
-        public HTuple threshold;
-        public HTuple transition_pair;
-        public HTuple transition_pos;
-        public HTuple select;
-        //********測量參數(out)**********
-        public HTuple hv_RowEdgeFirst;
-        public HTuple hv_ColumnEdgeFirst;
-        public HTuple hv_AmplitudeFirst;
-        public HTuple hv_RowEdgeSecond;
-        public HTuple hv_ColumnEdgeSecond;
-        public HTuple hv_AmplitudeSecond;
-        public HTuple hv_Distance;
-        public HTuple hv_PinWidth;
-        public HTuple hv_PinDistance;
-        public HTuple ROIweight;
-    }
-
-
-
+    
     public partial class Measure_1D : Form
     {
-
-        //***********暫存未整理區域***********
-        HObject temp1;
-        HObject temp2;
-        HObject temp3;
-        //***********暫存未整理區域***********
-
-        /// <summary>
-        /// MeasureParameter 測量參數
-        /// </summary>
-        private Measure1DParameter M1DP;
-        /// <summary>
-        /// TransitionData_pair下拉式表單參數
-        /// </summary>
-        List<string> TransitionData_pair = new List<string>();
-        /// <summary>
-        /// TransitionData_pos下拉式表單參數
-        /// </summary>
-        List<string> TransitionData_pos = new List<string>();
-        /// <summary>
-        /// SelectData下拉式表單參數
-        /// </summary>
-        List<string> SelectData = new List<string>();
-        /// <summary>
-        /// SelectImage下拉式表單參數
-        /// </summary>
-        List<SelectImageNName> SelectImage = new List<SelectImageNName>();
-        /// <summary>
-        /// 待測圖片
-        /// </summary>
-        private ImageBase Measure_Image = new ImageBase();
-        public HObject MeasureImage { set { Measure_Image.SetImage = value; } }
-        /// <summary>
-        /// line的ROI
-        /// </summary>
-        private RegionBase region_line = new RegionBase();
-
-
-        public List<Object_Table> O_T = new List<Object_Table>();
-
-        public List<PointBase> dstfirstpoint = new List<PointBase>();
-        public List<PointBase> dstsecondpoint = new List<PointBase>();
-
-        /// <summary>
-        /// 測量模式
-        /// </summary>
-        int measuretype = 0;
-        /// <summary>
-        /// 是否設定完成->按下OK鈕
-        /// </summary>
-        public bool setornot = false;
-
-        List<index_ij> index_img = new List<index_ij>();
-
-
-
+        public Measure1DParameter_in M1DP_in = new Measure1DParameter_in();
+        public Measure1DParameter_out M1DP_out = new Measure1DParameter_out();
+        public Measure1DParameter_form M1DP_form = new Measure1DParameter_form();
+        
         public Measure_1D()
         {
             InitializeComponent();
         }
-
-        bool ifopenformornot = false;
-        bool loadfinish = false;
+        
         private void Measure_Activated(object sender, EventArgs e)
         {
-            if (!ifopenformornot)
+            if (!M1DP_form.ifopenformornot)
             {
-                //如果有圖片則載入圖片至toolWindow視窗裡
-                if (Measure_Image.GetImage != null)
-                {
-                    toolWindow.WindowImage.CopyImagetoThis(Measure_Image.GetImage);
-                    toolWindow.Window.Focus();
-                    toolWindow.showImage();
-                }
+                M1DP_form.ifopenformornot = true;
+                
                 //表格參數預載
                 this.MaxEdge.Value = 40;
                 this.sigma.Value = 1;
@@ -139,43 +47,46 @@ namespace CameraProcedure
                 this.ROIWeight_trackBar.Value = 30;
 
 
-                M1DP.transition_pair = MeasureTransition_pair.all.ToString();
-                M1DP.transition_pos = MeasureTransition_pos.all.ToString();
-                M1DP.select = MeasureSelect.all.ToString();
-                M1DP.sigma = 1;
-                M1DP.threshold = 40;
+                M1DP_form.transition_pair = MeasureTransition_pair.all.ToString();
+                M1DP_form.transition_pos = MeasureTransition_pos.all.ToString();
+                M1DP_form.select = MeasureSelect.all.ToString();
+                M1DP_form.sigma = 1;
+                M1DP_form.threshold = 40;
 
-                TransitionData_pair.Add(MeasureTransition_pair.all.ToString());
-                TransitionData_pair.Add(MeasureTransition_pair.all_strongest.ToString());
-                TransitionData_pair.Add(MeasureTransition_pair.negative.ToString());
-                TransitionData_pair.Add(MeasureTransition_pair.negative_strongest.ToString());
-                TransitionData_pair.Add(MeasureTransition_pair.positive.ToString());
-                TransitionData_pair.Add(MeasureTransition_pair.positive_strongest.ToString());
+                M1DP_form.TransitionData_pair.Clear();
+                M1DP_form.TransitionData_pair.Add(MeasureTransition_pair.all.ToString());
+                M1DP_form.TransitionData_pair.Add(MeasureTransition_pair.all_strongest.ToString());
+                M1DP_form.TransitionData_pair.Add(MeasureTransition_pair.negative.ToString());
+                M1DP_form.TransitionData_pair.Add(MeasureTransition_pair.negative_strongest.ToString());
+                M1DP_form.TransitionData_pair.Add(MeasureTransition_pair.positive.ToString());
+                M1DP_form.TransitionData_pair.Add(MeasureTransition_pair.positive_strongest.ToString());
 
-                TransitionData_pos.Add(MeasureTransition_pos.all.ToString());
-                TransitionData_pos.Add(MeasureTransition_pos.negative.ToString());
-                TransitionData_pos.Add(MeasureTransition_pos.positive.ToString());
+                M1DP_form.TransitionData_pos.Clear();
+                M1DP_form.TransitionData_pos.Add(MeasureTransition_pos.all.ToString());
+                M1DP_form.TransitionData_pos.Add(MeasureTransition_pos.negative.ToString());
+                M1DP_form.TransitionData_pos.Add(MeasureTransition_pos.positive.ToString());
 
-                SelectData.Add(MeasureSelect.all.ToString());
-                SelectData.Add(MeasureSelect.first.ToString());
-                SelectData.Add(MeasureSelect.last.ToString());
+                M1DP_form.SelectData.Clear();
+                M1DP_form.SelectData.Add(MeasureSelect.all.ToString());
+                M1DP_form.SelectData.Add(MeasureSelect.first.ToString());
+                M1DP_form.SelectData.Add(MeasureSelect.last.ToString());
 
-                
-                for (int i = 0; i < O_T.Count; i++)
+                M1DP_form.SelectImage.Clear();
+                for (int i = 0; i < M1DP_in.O_T.Count; i++)
                 {
-                    for (int j = 0; j < O_T[i].OImage.Count; j++)
+                    for (int j = 0; j < M1DP_in.O_T[i].OImage.Count; j++)
                     {
-                        if (O_T[i].OImage[j] != null)
+                        if (M1DP_in.O_T[i].OImage[j] != null)
                         {
                             SelectImageNName M1S = new SelectImageNName();
-                            M1S.Image = O_T[i].OImage[j];
-                            M1S.ImageName = (string)O_T[i].OImageName[j];
-                            SelectImage.Add(M1S);
+                            M1S.Image = M1DP_in.O_T[i].OImage[j];
+                            M1S.ImageName = (string)M1DP_in.O_T[i].OImageName[j];
+                            M1DP_form.SelectImage.Add(M1S);
 
                             index_ij ij_temp = new index_ij();
                             ij_temp.i = i;
                             ij_temp.j = j;
-                            index_img.Add(ij_temp);
+                            M1DP_form.index_img.Add(ij_temp);
                         }
                     }
                 }
@@ -191,80 +102,82 @@ namespace CameraProcedure
 
 
                 whichpicture.DataSource = null;
-                whichpicture.DataSource = SelectImage;
+                whichpicture.DataSource = M1DP_form.SelectImage;
                 whichpicture.DisplayMember = "ImageName";
                 whichpicture.ValueMember = "Image";
-                loadfinish = true;
-                SelectBox.DataSource = null;
-                SelectBox.DataSource = SelectData;
-                posButton.Checked = true;
-                ifopenformornot = true;
 
-                Measure_Image.SetImage = (HObject)whichpicture.SelectedValue;
-                toolWindow.WindowImage.CopyImagetoThis(Measure_Image.GetImage);
-                toolWindow.showImage();
+                
+                SelectBox.DataSource = null;
+                SelectBox.DataSource = M1DP_form.SelectData;
+                posButton.Checked = true;
+                M1DP_form.ifopenformornot = true;
+                M1DP_form.loadfinish = true;
+
+                M1DP_form.Measure_Image.SetImage = (HObject)whichpicture.SelectedValue;
+                toolWindow.WindowImage.CopyImagetoThis(M1DP_form.Measure_Image.GetImage);
             }
-            else
-                Showresult();
+
+            if (toolWindow.WindowImage.GetImage != null)
+                toolWindow.showImage();
         }
 
 
         public void run()
         {
-            Measure_Image.SetImage = O_T[index_img[whichpicture.SelectedIndex].i].OImage[index_img[whichpicture.SelectedIndex].j];
-            switch (measuretype)
+            M1DP_form.Measure_Image.SetImage = M1DP_in.O_T[M1DP_form.index_img[whichpicture.SelectedIndex].i].OImage[M1DP_form.index_img[whichpicture.SelectedIndex].j];
+            switch (M1DP_form.measuretype)
             {
                 case (int)MeasureType.pos:
                     //如果toolWindow視窗裡有影像才執行
-                    if (Measure_Image.GetImage != null)
+                    if (M1DP_form.Measure_Image.GetImage != null)
                     {
-                        HOperatorSet.GenEmptyObj(out M1DP.ho_CrossFirst);
-                        HOperatorSet.GenMeasureRectangle2(region_line.line_rec.row,
-                            region_line.line_rec.column, region_line.line_rec.phi,
-                            region_line.line_rec.length1, ROIWeight_trackBar.Value,
-                            toolWindow.WindowImage.GetWidth, toolWindow.WindowImage.GetHeight, "nearest_neighbor", out M1DP.hv_MeasureHandle);
-                        HOperatorSet.MeasurePos(Measure_Image.GetImage, M1DP.hv_MeasureHandle, M1DP.sigma, M1DP.threshold,
-                          M1DP.transition_pos, M1DP.select, out M1DP.hv_RowEdgeFirst, out M1DP.hv_ColumnEdgeFirst, out M1DP.hv_AmplitudeFirst, out M1DP.hv_Distance);
-                        M1DP.ho_CrossFirst.Dispose();
-                        HOperatorSet.CloseMeasure(M1DP.hv_MeasureHandle);
-                        dstfirstpoint.Clear();
-                        for (int i = 0; i < M1DP.hv_RowEdgeFirst.Length; i++)
+                        HOperatorSet.GenEmptyObj(out M1DP_form.ho_CrossFirst);
+                        HOperatorSet.GenMeasureRectangle2(M1DP_in.region_line.line_rec.row,
+                            M1DP_in.region_line.line_rec.column, M1DP_in.region_line.line_rec.phi,
+                            M1DP_in.region_line.line_rec.length1, ROIWeight_trackBar.Value,
+                            toolWindow.WindowImage.GetWidth, toolWindow.WindowImage.GetHeight, "nearest_neighbor", out M1DP_form.hv_MeasureHandle);
+                        HOperatorSet.MeasurePos(M1DP_form.Measure_Image.GetImage, M1DP_form.hv_MeasureHandle, M1DP_form.sigma, M1DP_form.threshold,
+                          M1DP_form.transition_pos, M1DP_form.select, out M1DP_form.hv_RowEdgeFirst, out M1DP_form.hv_ColumnEdgeFirst, out M1DP_form.hv_AmplitudeFirst, out M1DP_form.hv_Distance);
+                        M1DP_form.ho_CrossFirst.Dispose();
+                        HOperatorSet.CloseMeasure(M1DP_form.hv_MeasureHandle);
+                        M1DP_out.dstfirstpoint.Clear();
+                        for (int i = 0; i < M1DP_form.hv_RowEdgeFirst.Length; i++)
                         {
                             PointBase PB_temp = new PointBase();
-                            PB_temp.row = M1DP.hv_RowEdgeFirst[i];
-                            PB_temp.col = M1DP.hv_ColumnEdgeFirst[i];
-                            dstfirstpoint.Add(PB_temp);
+                            PB_temp.row = M1DP_form.hv_RowEdgeFirst[i];
+                            PB_temp.col = M1DP_form.hv_ColumnEdgeFirst[i];
+                            M1DP_out.dstfirstpoint.Add(PB_temp);
                         }
                     }
                     break;
 
                 case (int)MeasureType.pair:
 
-                    if (Measure_Image.GetImage != null)
+                    if (M1DP_form.Measure_Image.GetImage != null)
                     {
-                        HOperatorSet.GenEmptyObj(out M1DP.ho_CrossFirst);
-                        HOperatorSet.GenEmptyObj(out M1DP.ho_CrossSecond);
-                        HOperatorSet.GenMeasureRectangle2(region_line.line_rec.row,
-                            region_line.line_rec.column, region_line.line_rec.phi,
-                            region_line.line_rec.length1, ROIWeight_trackBar.Value,
-                            toolWindow.WindowImage.GetWidth, toolWindow.WindowImage.GetHeight, "nearest_neighbor", out M1DP.hv_MeasureHandle);
+                        HOperatorSet.GenEmptyObj(out M1DP_form.ho_CrossFirst);
+                        HOperatorSet.GenEmptyObj(out M1DP_form.ho_CrossSecond);
+                        HOperatorSet.GenMeasureRectangle2(M1DP_in.region_line.line_rec.row,
+                            M1DP_in.region_line.line_rec.column, M1DP_in.region_line.line_rec.phi,
+                            M1DP_in.region_line.line_rec.length1, ROIWeight_trackBar.Value,
+                            toolWindow.WindowImage.GetWidth, toolWindow.WindowImage.GetHeight, "nearest_neighbor", out M1DP_form.hv_MeasureHandle);
 
-                        HOperatorSet.MeasurePairs(Measure_Image.GetImage, M1DP.hv_MeasureHandle, M1DP.sigma, M1DP.threshold, M1DP.transition_pair, M1DP.select,
-                            out M1DP.hv_RowEdgeFirst, out M1DP.hv_ColumnEdgeFirst, out M1DP.hv_AmplitudeFirst, out M1DP.hv_RowEdgeSecond,
-                            out M1DP.hv_ColumnEdgeSecond, out M1DP.hv_AmplitudeSecond, out M1DP.hv_PinWidth, out M1DP.hv_PinDistance);
-                        HOperatorSet.CloseMeasure(M1DP.hv_MeasureHandle);
-                        dstfirstpoint.Clear();
-                        dstsecondpoint.Clear();
-                        for (int i = 0; i < M1DP.hv_RowEdgeFirst.Length; i++)
+                        HOperatorSet.MeasurePairs(M1DP_form.Measure_Image.GetImage, M1DP_form.hv_MeasureHandle, M1DP_form.sigma, M1DP_form.threshold, M1DP_form.transition_pair, M1DP_form.select,
+                            out M1DP_form.hv_RowEdgeFirst, out M1DP_form.hv_ColumnEdgeFirst, out M1DP_form.hv_AmplitudeFirst, out M1DP_form.hv_RowEdgeSecond,
+                            out M1DP_form.hv_ColumnEdgeSecond, out M1DP_form.hv_AmplitudeSecond, out M1DP_form.hv_PinWidth, out M1DP_form.hv_PinDistance);
+                        HOperatorSet.CloseMeasure(M1DP_form.hv_MeasureHandle);
+                        M1DP_out.dstfirstpoint.Clear();
+                        M1DP_out.dstsecondpoint.Clear();
+                        for (int i = 0; i < M1DP_form.hv_RowEdgeFirst.Length; i++)
                         {
                             PointBase PB1_temp = new PointBase();
                             PointBase PB2_temp = new PointBase();
-                            PB1_temp.row = M1DP.hv_RowEdgeFirst[i];
-                            PB1_temp.col = M1DP.hv_ColumnEdgeFirst[i];
-                            PB2_temp.row = M1DP.hv_RowEdgeFirst[i];
-                            PB2_temp.col = M1DP.hv_ColumnEdgeFirst[i];
-                            dstfirstpoint.Add(PB1_temp);
-                            dstsecondpoint.Add(PB2_temp);
+                            PB1_temp.row = M1DP_form.hv_RowEdgeFirst[i];
+                            PB1_temp.col = M1DP_form.hv_ColumnEdgeFirst[i];
+                            PB2_temp.row = M1DP_form.hv_RowEdgeFirst[i];
+                            PB2_temp.col = M1DP_form.hv_ColumnEdgeFirst[i];
+                            M1DP_out.dstfirstpoint.Add(PB1_temp);
+                            M1DP_out.dstsecondpoint.Add(PB2_temp);
                         }
                     }
                     break;
@@ -277,8 +190,8 @@ namespace CameraProcedure
         {
             HOperatorSet.ClearWindow(EageWindow.HalconWindow);
             toolWindow.Clear_Object_disp();
-
-            switch (measuretype) {
+            
+            switch (M1DP_form.measuretype) {
                 case (int)MeasureType.pos:
                     //如果toolWindow視窗裡有影像才執行
                     if (toolWindow.WindowImage.GetImage != null)
@@ -287,33 +200,33 @@ namespace CameraProcedure
 
                         toolWindow.WindowImage.ShowImage_autosize(toolWindow.Window.HalconWindow);
 
-                        region_line.DrawLine(toolWindow.Window.HalconWindow);
-                        region_line.showROI(toolWindow.Window.HalconWindow, (int)Shape.Line_rec, "yellow", "margin", 1);
+                        M1DP_in.region_line.DrawLine(toolWindow.Window.HalconWindow);
+                        M1DP_in.region_line.showROI(toolWindow.Window.HalconWindow, (int)Shape.Line_rec, "yellow", "margin", 1);
 
-                        HOperatorSet.GenEmptyObj(out M1DP.ho_CrossFirst);
-                        HOperatorSet.GenMeasureRectangle2(region_line.line_rec.row,
-                            region_line.line_rec.column, region_line.line_rec.phi,
-                            region_line.line_rec.length1, ROIWeight_trackBar.Value,
-                            toolWindow.WindowImage.GetWidth, toolWindow.WindowImage.GetHeight, "nearest_neighbor", out M1DP.hv_MeasureHandle);
-                        HOperatorSet.MeasurePos(toolWindow.WindowImage.GetImage, M1DP.hv_MeasureHandle, M1DP.sigma, M1DP.threshold,
-                          M1DP.transition_pos, M1DP.select, out M1DP.hv_RowEdgeFirst, out M1DP.hv_ColumnEdgeFirst, out M1DP.hv_AmplitudeFirst, out M1DP.hv_Distance);
-                        M1DP.ho_CrossFirst.Dispose();
+                        HOperatorSet.GenEmptyObj(out M1DP_form.ho_CrossFirst);
+                        HOperatorSet.GenMeasureRectangle2(M1DP_in.region_line.line_rec.row,
+                            M1DP_in.region_line.line_rec.column, M1DP_in.region_line.line_rec.phi,
+                            M1DP_in.region_line.line_rec.length1, ROIWeight_trackBar.Value,
+                            toolWindow.WindowImage.GetWidth, toolWindow.WindowImage.GetHeight, "nearest_neighbor", out M1DP_form.hv_MeasureHandle);
+                        HOperatorSet.MeasurePos(toolWindow.WindowImage.GetImage, M1DP_form.hv_MeasureHandle, M1DP_form.sigma, M1DP_form.threshold,
+                          M1DP_form.transition_pos, M1DP_form.select, out M1DP_form.hv_RowEdgeFirst, out M1DP_form.hv_ColumnEdgeFirst, out M1DP_form.hv_AmplitudeFirst, out M1DP_form.hv_Distance);
+                        M1DP_form.ho_CrossFirst.Dispose();
 
                         HOperatorSet.ClearWindow(toolWindow.Window.HalconWindow);
                         HOperatorSet.DispObj(toolWindow.WindowImage.GetImage, toolWindow.Window.HalconWindow);
-                        region_line.showROI(toolWindow.Window.HalconWindow, (int)Shape.Line_rec, "yellow", "margin", 1);
+                        M1DP_in.region_line.showROI(toolWindow.Window.HalconWindow, (int)Shape.Line_rec, "yellow", "margin", 1);
 
-                        HOperatorSet.GenCrossContourXld(out M1DP.ho_CrossFirst, M1DP.hv_RowEdgeFirst, M1DP.hv_ColumnEdgeFirst,
-                            ROIWeight_trackBar.Value * 2, region_line.line_rec.phi);
-                        HOperatorSet.DispObj(M1DP.ho_CrossFirst, toolWindow.Window.HalconWindow);
-                        HOperatorSet.CloseMeasure(M1DP.hv_MeasureHandle);
-                                                
-                        temp1 = region_line.line_rec.ROI.Clone();
-                        temp2 = M1DP.ho_CrossFirst.Clone();
-                        toolWindow.Add_Object_disp(temp1, "yellow", "margin", 1);
-                        toolWindow.Add_Object_disp(temp2, "yellow", "margin", 1);
+                        HOperatorSet.GenCrossContourXld(out M1DP_form.ho_CrossFirst, M1DP_form.hv_RowEdgeFirst, M1DP_form.hv_ColumnEdgeFirst,
+                            ROIWeight_trackBar.Value * 2, M1DP_in.region_line.line_rec.phi);
+                        HOperatorSet.DispObj(M1DP_form.ho_CrossFirst, toolWindow.Window.HalconWindow);
+                        HOperatorSet.CloseMeasure(M1DP_form.hv_MeasureHandle);
 
-                        set_list(M1DP.hv_RowEdgeFirst, M1DP.hv_ColumnEdgeFirst, M1DP.hv_AmplitudeFirst, M1DP.hv_Distance, result_list);
+                        M1DP_form.temp1 = M1DP_in.region_line.line_rec.ROI.Clone();
+                        M1DP_form.temp2 = M1DP_form.ho_CrossFirst.Clone();
+                        toolWindow.Add_Object_disp(M1DP_form.temp1, "yellow", "margin", 1);
+                        toolWindow.Add_Object_disp(M1DP_form.temp2, "yellow", "margin", 1);
+
+                        set_list(M1DP_form.hv_RowEdgeFirst, M1DP_form.hv_ColumnEdgeFirst, M1DP_form.hv_AmplitudeFirst, M1DP_form.hv_Distance, result_list);
                     }
                     else
                     {
@@ -328,44 +241,44 @@ namespace CameraProcedure
                         toolWindow.Window.Focus();
                         toolWindow.WindowImage.ShowImage_autosize(toolWindow.Window.HalconWindow);
 
-                        region_line.DrawLine(toolWindow.Window.HalconWindow);
-                        region_line.showROI(toolWindow.Window.HalconWindow, (int)Shape.Line_rec, "yellow", "margin", 1);
+                        M1DP_in.region_line.DrawLine(toolWindow.Window.HalconWindow);
+                        M1DP_in.region_line.showROI(toolWindow.Window.HalconWindow, (int)Shape.Line_rec, "yellow", "margin", 1);
 
-                        HOperatorSet.GenEmptyObj(out M1DP.ho_CrossFirst);
-                        HOperatorSet.GenEmptyObj(out M1DP.ho_CrossSecond);
-                        HOperatorSet.GenMeasureRectangle2(region_line.line_rec.row,
-                            region_line.line_rec.column, region_line.line_rec.phi,
-                            region_line.line_rec.length1, ROIWeight_trackBar.Value,
-                            toolWindow.WindowImage.GetWidth, toolWindow.WindowImage.GetHeight, "nearest_neighbor", out M1DP.hv_MeasureHandle);
+                        HOperatorSet.GenEmptyObj(out M1DP_form.ho_CrossFirst);
+                        HOperatorSet.GenEmptyObj(out M1DP_form.ho_CrossSecond);
+                        HOperatorSet.GenMeasureRectangle2(M1DP_in.region_line.line_rec.row,
+                            M1DP_in.region_line.line_rec.column, M1DP_in.region_line.line_rec.phi,
+                            M1DP_in.region_line.line_rec.length1, ROIWeight_trackBar.Value,
+                            toolWindow.WindowImage.GetWidth, toolWindow.WindowImage.GetHeight, "nearest_neighbor", out M1DP_form.hv_MeasureHandle);
 
-                        HOperatorSet.MeasurePairs(toolWindow.WindowImage.GetImage, M1DP.hv_MeasureHandle, M1DP.sigma, M1DP.threshold, M1DP.transition_pair, M1DP.select,
-                            out M1DP.hv_RowEdgeFirst, out M1DP.hv_ColumnEdgeFirst, out M1DP.hv_AmplitudeFirst, out M1DP.hv_RowEdgeSecond,
-                            out M1DP.hv_ColumnEdgeSecond, out M1DP.hv_AmplitudeSecond, out M1DP.hv_PinWidth, out M1DP.hv_PinDistance);
+                        HOperatorSet.MeasurePairs(toolWindow.WindowImage.GetImage, M1DP_form.hv_MeasureHandle, M1DP_form.sigma, M1DP_form.threshold, M1DP_form.transition_pair, M1DP_form.select,
+                            out M1DP_form.hv_RowEdgeFirst, out M1DP_form.hv_ColumnEdgeFirst, out M1DP_form.hv_AmplitudeFirst, out M1DP_form.hv_RowEdgeSecond,
+                            out M1DP_form.hv_ColumnEdgeSecond, out M1DP_form.hv_AmplitudeSecond, out M1DP_form.hv_PinWidth, out M1DP_form.hv_PinDistance);
 
-                        M1DP.ho_CrossFirst.Dispose();
-                        M1DP.ho_CrossSecond.Dispose();
+                        M1DP_form.ho_CrossFirst.Dispose();
+                        M1DP_form.ho_CrossSecond.Dispose();
 
                         HOperatorSet.ClearWindow(toolWindow.Window.HalconWindow);
                         HOperatorSet.DispObj(toolWindow.WindowImage.GetImage, toolWindow.Window.HalconWindow);
-                        region_line.showROI(toolWindow.Window.HalconWindow, (int)Shape.Line_rec, "yellow", "margin", 1);
+                        M1DP_in.region_line.showROI(toolWindow.Window.HalconWindow, (int)Shape.Line_rec, "yellow", "margin", 1);
 
-                        HOperatorSet.GenCrossContourXld(out M1DP.ho_CrossFirst, M1DP.hv_RowEdgeFirst, M1DP.hv_ColumnEdgeFirst,
-                            ROIWeight_trackBar.Value * 2, region_line.line_rec.phi);
-                        HOperatorSet.GenCrossContourXld(out M1DP.ho_CrossSecond, M1DP.hv_RowEdgeSecond, M1DP.hv_ColumnEdgeSecond,
-                            ROIWeight_trackBar.Value * 2, region_line.line_rec.phi);
+                        HOperatorSet.GenCrossContourXld(out M1DP_form.ho_CrossFirst, M1DP_form.hv_RowEdgeFirst, M1DP_form.hv_ColumnEdgeFirst,
+                            ROIWeight_trackBar.Value * 2, M1DP_in.region_line.line_rec.phi);
+                        HOperatorSet.GenCrossContourXld(out M1DP_form.ho_CrossSecond, M1DP_form.hv_RowEdgeSecond, M1DP_form.hv_ColumnEdgeSecond,
+                            ROIWeight_trackBar.Value * 2, M1DP_in.region_line.line_rec.phi);
 
-                        temp1 = region_line.line_rec.ROI.Clone();
-                        temp2 = M1DP.ho_CrossFirst.Clone();
-                        temp3 = M1DP.ho_CrossSecond.Clone();
+                        M1DP_form.temp1 = M1DP_in.region_line.line_rec.ROI.Clone();
+                        M1DP_form.temp2 = M1DP_form.ho_CrossFirst.Clone();
+                        M1DP_form.temp3 = M1DP_form.ho_CrossSecond.Clone();
 
-                        toolWindow.Add_Object_disp(temp1, "yellow", "margin", 1);
-                        toolWindow.Add_Object_disp(temp2, "yellow", "margin", 1);
-                        toolWindow.Add_Object_disp(temp3, "yellow", "margin", 1);
+                        toolWindow.Add_Object_disp(M1DP_form.temp1, "yellow", "margin", 1);
+                        toolWindow.Add_Object_disp(M1DP_form.temp2, "yellow", "margin", 1);
+                        toolWindow.Add_Object_disp(M1DP_form.temp3, "yellow", "margin", 1);
 
-                        HOperatorSet.DispObj(M1DP.ho_CrossFirst, toolWindow.Window.HalconWindow);
-                        HOperatorSet.DispObj(M1DP.ho_CrossSecond, toolWindow.Window.HalconWindow);
+                        HOperatorSet.DispObj(M1DP_form.ho_CrossFirst, toolWindow.Window.HalconWindow);
+                        HOperatorSet.DispObj(M1DP_form.ho_CrossSecond, toolWindow.Window.HalconWindow);
 
-                        HOperatorSet.CloseMeasure(M1DP.hv_MeasureHandle);
+                        HOperatorSet.CloseMeasure(M1DP_form.hv_MeasureHandle);
                     }
                     else
                     {
@@ -382,34 +295,33 @@ namespace CameraProcedure
 
         private void OK_Click(object sender, EventArgs e)
         {
-            setornot = true;
-            ifopenformornot = true;
-            switch (measuretype)
+            M1DP_form.setornot = true;
+            switch (M1DP_form.measuretype)
             {
                 case (int)MeasureType.pos:
-                    dstfirstpoint.Clear();
-                    for (int i = 0; i < M1DP.hv_RowEdgeFirst.Length; i++)
+                    M1DP_out.dstfirstpoint.Clear();
+                    for (int i = 0; i < M1DP_form.hv_RowEdgeFirst.Length; i++)
                     {                        
                         PointBase PB_temp = new PointBase();
-                        PB_temp.row = M1DP.hv_RowEdgeFirst[i];
-                        PB_temp.col = M1DP.hv_ColumnEdgeFirst[i];
-                        dstfirstpoint.Add(PB_temp);
+                        PB_temp.row = M1DP_form.hv_RowEdgeFirst[i];
+                        PB_temp.col = M1DP_form.hv_ColumnEdgeFirst[i];
+                        M1DP_out.dstfirstpoint.Add(PB_temp);
                     }
                     break;
 
                 case (int)MeasureType.pair:
-                    dstfirstpoint.Clear();
-                    dstsecondpoint.Clear();
-                    for (int i = 0; i < M1DP.hv_RowEdgeFirst.Length; i++)
+                    M1DP_out.dstfirstpoint.Clear();
+                    M1DP_out.dstsecondpoint.Clear();
+                    for (int i = 0; i < M1DP_form.hv_RowEdgeFirst.Length; i++)
                     {
                         PointBase PB1_temp = new PointBase();
                         PointBase PB2_temp = new PointBase();
-                        PB1_temp.row = M1DP.hv_RowEdgeFirst[i];
-                        PB1_temp.col = M1DP.hv_ColumnEdgeFirst[i];
-                        PB2_temp.row = M1DP.hv_RowEdgeFirst[i];
-                        PB2_temp.col = M1DP.hv_ColumnEdgeFirst[i];
-                        dstfirstpoint.Add(PB1_temp);
-                        dstsecondpoint.Add(PB2_temp);
+                        PB1_temp.row = M1DP_form.hv_RowEdgeFirst[i];
+                        PB1_temp.col = M1DP_form.hv_ColumnEdgeFirst[i];
+                        PB2_temp.row = M1DP_form.hv_RowEdgeFirst[i];
+                        PB2_temp.col = M1DP_form.hv_ColumnEdgeFirst[i];
+                        M1DP_out.dstfirstpoint.Add(PB1_temp);
+                        M1DP_out.dstsecondpoint.Add(PB2_temp);
                     }
 
                     break;
@@ -421,25 +333,25 @@ namespace CameraProcedure
         private void MaxEage_trackBar_ValueChanged(object sender, EventArgs e)
         {
             this.MaxEdge.Value = this.MaxEage_trackBar.Value;
-            M1DP.threshold = (int)this.MaxEage_trackBar.Value;
+            M1DP_form.threshold = (int)this.MaxEage_trackBar.Value;
         }
 
         private void Sigma_trackBar_ValueChanged(object sender, EventArgs e)
         {
             this.sigma.Value = this.Sigma_trackBar.Value;
-            M1DP.sigma = (int)this.Sigma_trackBar.Value;
+            M1DP_form.sigma = (int)this.Sigma_trackBar.Value;
         }
 
         private void ROIWeight_trackBar_ValueChanged(object sender, EventArgs e)
         {
             this.ROIWeight.Value = this.ROIWeight_trackBar.Value;
-            M1DP.ROIweight = (int)this.ROIWeight_trackBar.Value;
+            M1DP_form.ROIweight = (int)this.ROIWeight_trackBar.Value;
         }
 
         private void MaxEdge_ValueChanged(object sender, EventArgs e)
         {
             this.MaxEage_trackBar.Value = (int)this.MaxEdge.Value;
-            M1DP.threshold = (int)this.MaxEdge.Value;
+            M1DP_form.threshold = (int)this.MaxEdge.Value;
             Showresult();
 
         }
@@ -447,41 +359,41 @@ namespace CameraProcedure
         private void sigma_ValueChanged(object sender, EventArgs e)
         {
             this.Sigma_trackBar.Value = (int)this.sigma.Value;
-            M1DP.sigma = (int)this.sigma.Value;
+            M1DP_form.sigma = (int)this.sigma.Value;
             Showresult();
         }
 
         private void ROIWeight_ValueChanged(object sender, EventArgs e)
         {
             this.ROIWeight_trackBar.Value = (int)this.ROIWeight.Value;
-            M1DP.ROIweight = (int)this.ROIWeight.Value;
+            M1DP_form.ROIweight = (int)this.ROIWeight.Value;
             Showresult();
         }
 
         private void posButton_CheckedChanged(object sender, EventArgs e)
         {
-            measuretype = 0;
-            region_line.ClearALL();
-            TransitionBox.DataSource = TransitionData_pos;
+            M1DP_form.measuretype = 0;
+            M1DP_in.region_line.ClearALL();
+            TransitionBox.DataSource = M1DP_form.TransitionData_pos;
             if(toolWindow.WindowImage.GetImage != null)
                 HOperatorSet.DispObj(toolWindow.WindowImage.GetImage, toolWindow.Window.HalconWindow);
         }
 
         private void pairButton_CheckedChanged(object sender, EventArgs e)
         {
-            measuretype = 1;
-            region_line.ClearALL();
-            TransitionBox.DataSource = TransitionData_pair;
+            M1DP_form.measuretype = 1;
+            M1DP_in.region_line.ClearALL();
+            TransitionBox.DataSource = M1DP_form.TransitionData_pair;
             if (toolWindow.WindowImage.GetImage != null)
                 HOperatorSet.DispObj(toolWindow.WindowImage.GetImage, toolWindow.Window.HalconWindow);
         }
 
         private void TransitionBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (measuretype == (int)MeasureType.pos)
-                M1DP.transition_pos = (string)TransitionBox.SelectedValue;
-            else if (measuretype == (int)MeasureType.pair)
-                M1DP.transition_pair = (string)TransitionBox.SelectedValue;
+            if (M1DP_form.measuretype == (int)MeasureType.pos)
+                M1DP_form.transition_pos = (string)TransitionBox.SelectedValue;
+            else if (M1DP_form.measuretype == (int)MeasureType.pair)
+                M1DP_form.transition_pair = (string)TransitionBox.SelectedValue;
 
             Showresult();
 
@@ -489,8 +401,8 @@ namespace CameraProcedure
 
         private void SelectBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            M1DP.select = (string)SelectBox.SelectedValue;
-            
+            M1DP_form.select = (string)SelectBox.SelectedValue;
+            if(M1DP_form.loadfinish)
                 Showresult();
         }
 
@@ -499,60 +411,60 @@ namespace CameraProcedure
         private void Showresult() {
 
             toolWindow.Clear_Object_disp();
-            switch (measuretype)
+            switch (M1DP_form.measuretype)
             {
                 case (int)MeasureType.pos:
-                    if (region_line.line_rec.ROI != null)
+                    if (M1DP_in.region_line.line_rec.ROI != null)
                     {
                         toolWindow.WindowImage.ShowImage_autosize(toolWindow.Window.HalconWindow);
-                        HOperatorSet.GenMeasureRectangle2(region_line.line_rec.row, region_line.line_rec.column, region_line.line_rec.phi, region_line.line_rec.length1, M1DP.ROIweight,
-                            toolWindow.WindowImage.GetWidth, toolWindow.WindowImage.GetHeight, "nearest_neighbor", out M1DP.hv_MeasureHandle);
-                        HOperatorSet.MeasurePos(toolWindow.WindowImage.GetImage, M1DP.hv_MeasureHandle, M1DP.sigma, M1DP.threshold,
-                          M1DP.transition_pos, M1DP.select, out M1DP.hv_RowEdgeFirst, out M1DP.hv_ColumnEdgeFirst, out M1DP.hv_AmplitudeFirst, out M1DP.hv_Distance);
-                        HOperatorSet.GenCrossContourXld(out M1DP.ho_CrossFirst, M1DP.hv_RowEdgeFirst, M1DP.hv_ColumnEdgeFirst, M1DP.ROIweight * 2, region_line.line_rec.phi);
+                        HOperatorSet.GenMeasureRectangle2(M1DP_in.region_line.line_rec.row, M1DP_in.region_line.line_rec.column, M1DP_in.region_line.line_rec.phi, M1DP_in.region_line.line_rec.length1, M1DP_form.ROIweight,
+                            toolWindow.WindowImage.GetWidth, toolWindow.WindowImage.GetHeight, "nearest_neighbor", out M1DP_form.hv_MeasureHandle);
+                        HOperatorSet.MeasurePos(toolWindow.WindowImage.GetImage, M1DP_form.hv_MeasureHandle, M1DP_form.sigma, M1DP_form.threshold,
+                          M1DP_form.transition_pos, M1DP_form.select, out M1DP_form.hv_RowEdgeFirst, out M1DP_form.hv_ColumnEdgeFirst, out M1DP_form.hv_AmplitudeFirst, out M1DP_form.hv_Distance);
+                        HOperatorSet.GenCrossContourXld(out M1DP_form.ho_CrossFirst, M1DP_form.hv_RowEdgeFirst, M1DP_form.hv_ColumnEdgeFirst, M1DP_form.ROIweight * 2, M1DP_in.region_line.line_rec.phi);
                         HOperatorSet.DispObj(toolWindow.WindowImage.GetImage, toolWindow.Window.HalconWindow);
-                        HOperatorSet.DispObj(M1DP.ho_CrossFirst, toolWindow.Window.HalconWindow);
-                        HOperatorSet.CloseMeasure(M1DP.hv_MeasureHandle);
-                        set_list(M1DP.hv_RowEdgeFirst, M1DP.hv_ColumnEdgeFirst, M1DP.hv_AmplitudeFirst, M1DP.hv_Distance, result_list);
+                        HOperatorSet.DispObj(M1DP_form.ho_CrossFirst, toolWindow.Window.HalconWindow);
+                        HOperatorSet.CloseMeasure(M1DP_form.hv_MeasureHandle);
+                        set_list(M1DP_form.hv_RowEdgeFirst, M1DP_form.hv_ColumnEdgeFirst, M1DP_form.hv_AmplitudeFirst, M1DP_form.hv_Distance, result_list);
                     }
                     break;
 
                 case (int)MeasureType.pair:
 
-                    if (region_line.line_rec.ROI != null)
+                    if (M1DP_in.region_line.line_rec.ROI != null)
                     {
                         toolWindow.WindowImage.ShowImage_autosize(toolWindow.Window.HalconWindow);
-                        HOperatorSet.GenMeasureRectangle2(region_line.line_rec.row, region_line.line_rec.column, region_line.line_rec.phi, region_line.line_rec.length1, M1DP.ROIweight,
-                            toolWindow.WindowImage.GetWidth, toolWindow.WindowImage.GetHeight, "nearest_neighbor", out M1DP.hv_MeasureHandle);
-                        HOperatorSet.MeasurePairs(toolWindow.WindowImage.GetImage, M1DP.hv_MeasureHandle, M1DP.sigma, M1DP.threshold, M1DP.transition_pair, M1DP.select,
-                            out M1DP.hv_RowEdgeFirst, out M1DP.hv_ColumnEdgeFirst, out M1DP.hv_AmplitudeFirst, out M1DP.hv_RowEdgeSecond,
-                            out M1DP.hv_ColumnEdgeSecond, out M1DP.hv_AmplitudeSecond, out M1DP.hv_PinWidth, out M1DP.hv_PinDistance);
+                        HOperatorSet.GenMeasureRectangle2(M1DP_in.region_line.line_rec.row, M1DP_in.region_line.line_rec.column, M1DP_in.region_line.line_rec.phi, M1DP_in.region_line.line_rec.length1, M1DP_form.ROIweight,
+                            toolWindow.WindowImage.GetWidth, toolWindow.WindowImage.GetHeight, "nearest_neighbor", out M1DP_form.hv_MeasureHandle);
+                        HOperatorSet.MeasurePairs(toolWindow.WindowImage.GetImage, M1DP_form.hv_MeasureHandle, M1DP_form.sigma, M1DP_form.threshold, M1DP_form.transition_pair, M1DP_form.select,
+                            out M1DP_form.hv_RowEdgeFirst, out M1DP_form.hv_ColumnEdgeFirst, out M1DP_form.hv_AmplitudeFirst, out M1DP_form.hv_RowEdgeSecond,
+                            out M1DP_form.hv_ColumnEdgeSecond, out M1DP_form.hv_AmplitudeSecond, out M1DP_form.hv_PinWidth, out M1DP_form.hv_PinDistance);
 
-                        HOperatorSet.GenCrossContourXld(out M1DP.ho_CrossFirst, M1DP.hv_RowEdgeFirst, M1DP.hv_ColumnEdgeFirst, M1DP.ROIweight * 2, region_line.line_rec.phi);
-                        HOperatorSet.GenCrossContourXld(out M1DP.ho_CrossSecond, M1DP.hv_RowEdgeSecond, M1DP.hv_ColumnEdgeSecond, M1DP.ROIweight * 2, region_line.line_rec.phi);
+                        HOperatorSet.GenCrossContourXld(out M1DP_form.ho_CrossFirst, M1DP_form.hv_RowEdgeFirst, M1DP_form.hv_ColumnEdgeFirst, M1DP_form.ROIweight * 2, M1DP_in.region_line.line_rec.phi);
+                        HOperatorSet.GenCrossContourXld(out M1DP_form.ho_CrossSecond, M1DP_form.hv_RowEdgeSecond, M1DP_form.hv_ColumnEdgeSecond, M1DP_form.ROIweight * 2, M1DP_in.region_line.line_rec.phi);
 
                         HOperatorSet.DispObj(toolWindow.WindowImage.GetImage, toolWindow.Window.HalconWindow);
-                        HOperatorSet.DispObj(M1DP.ho_CrossFirst, toolWindow.Window.HalconWindow);
-                        HOperatorSet.DispObj(M1DP.ho_CrossSecond, toolWindow.Window.HalconWindow);
-                        HOperatorSet.CloseMeasure(M1DP.hv_MeasureHandle);
+                        HOperatorSet.DispObj(M1DP_form.ho_CrossFirst, toolWindow.Window.HalconWindow);
+                        HOperatorSet.DispObj(M1DP_form.ho_CrossSecond, toolWindow.Window.HalconWindow);
+                        HOperatorSet.CloseMeasure(M1DP_form.hv_MeasureHandle);
                     }
                     break;
             }
-            if (region_line.line_rec.ROI!=null && M1DP.ho_CrossFirst != null) {
-                temp1 = region_line.line_rec.ROI.Clone();
-                temp2 = M1DP.ho_CrossFirst.Clone();
-                toolWindow.Add_Object_disp(temp1, "yellow", "margin", 1);
-                toolWindow.Add_Object_disp(temp2, "yellow", "margin", 1);
+            if (M1DP_in.region_line.line_rec.ROI!=null && M1DP_form.ho_CrossFirst != null) {
+                M1DP_form.temp1 = M1DP_in.region_line.line_rec.ROI.Clone();
+                M1DP_form.temp2 = M1DP_form.ho_CrossFirst.Clone();
+                toolWindow.Add_Object_disp(M1DP_form.temp1, "yellow", "margin", 1);
+                toolWindow.Add_Object_disp(M1DP_form.temp2, "yellow", "margin", 1);
                 if (Eage_num.Maximum > 1)
                 {
                     Eage_num.Value = 2;
                     Eage_num.Value = 1;
                 }
             }
-            if (M1DP.ho_CrossSecond != null)
+            if (M1DP_form.ho_CrossSecond != null)
             {
-                temp3 = M1DP.ho_CrossSecond.Clone();
-                toolWindow.Add_Object_disp(temp3, "yellow", "margin", 1);
+                M1DP_form.temp3 = M1DP_form.ho_CrossSecond.Clone();
+                toolWindow.Add_Object_disp(M1DP_form.temp3, "yellow", "margin", 1);
                 if (Eage_num.Maximum > 1)
                 {
                     Eage_num.Value = 2;
@@ -563,7 +475,6 @@ namespace CameraProcedure
 
         private void set_list(HTuple hv_RowEdge, HTuple hv_ColumnEdge, HTuple hv_Amplitude, HTuple hv_Distance, System.Windows.Forms.ListView listView)
         {
-
             listView.BeginUpdate();   //数据更新，UI暂时挂起，直到EndUpdate绘制控件，可以有效避免闪烁并大大提高加载速度  
             listView.Items.Clear();
             for (int i = 0; i < hv_RowEdge.Length; i++)
@@ -597,32 +508,32 @@ namespace CameraProcedure
 
         private void Eage_num_ValueChanged(object sender, EventArgs e)
         {
-            if (M1DP.hv_RowEdgeFirst.Length != 0)
-                Eage_num.Maximum = M1DP.hv_RowEdgeFirst.Length ;
+            if (M1DP_form.hv_RowEdgeFirst.Length != 0)
+                Eage_num.Maximum = M1DP_form.hv_RowEdgeFirst.Length ;
             else
                 Eage_num.Maximum = 2;
 
             HTuple hv_Width, hv_Height;
             HObject Temp;
 
-            HOperatorSet.GetImageSize(Measure_Image.GetImage, out hv_Width, out hv_Height);
+            HOperatorSet.GetImageSize(M1DP_form.Measure_Image.GetImage, out hv_Width, out hv_Height);
             HOperatorSet.SetSystem("width", hv_Width);
             HOperatorSet.SetSystem("height", hv_Height);
 
-            if ((int)Eage_num.Value < M1DP.hv_RowEdgeFirst.Length+1)
+            if ((int)Eage_num.Value < M1DP_form.hv_RowEdgeFirst.Length+1)
             {
-                hv_Height = M1DP.hv_RowEdgeFirst[(int)Eage_num.Value-1];
-                hv_Width = M1DP.hv_ColumnEdgeFirst[(int)Eage_num.Value-1];
+                hv_Height = M1DP_form.hv_RowEdgeFirst[(int)Eage_num.Value-1];
+                hv_Width = M1DP_form.hv_ColumnEdgeFirst[(int)Eage_num.Value-1];
                 HOperatorSet.SetPart(EageWindow.HalconWindow, hv_Height - 100, hv_Width - 100, hv_Height + 100, hv_Width + 100);
                 HOperatorSet.ClearWindow(EageWindow.HalconWindow);
 
-                HOperatorSet.GenCrossContourXld(out Temp, hv_Height, hv_Width, ROIWeight_trackBar.Value * 2, region_line.line_rec.phi);
+                HOperatorSet.GenCrossContourXld(out Temp, hv_Height, hv_Width, ROIWeight_trackBar.Value * 2, M1DP_in.region_line.line_rec.phi);
 
                 HOperatorSet.SetColor(EageWindow.HalconWindow, "yellow");
                 HOperatorSet.SetDraw(EageWindow.HalconWindow, "margin");
                 HOperatorSet.SetLineWidth(EageWindow.HalconWindow, 1);
 
-                HOperatorSet.DispObj(Measure_Image.GetImage, EageWindow.HalconWindow);
+                HOperatorSet.DispObj(M1DP_form.Measure_Image.GetImage, EageWindow.HalconWindow);
                 HOperatorSet.DispObj(Temp, EageWindow.HalconWindow);
             }
             else
@@ -635,10 +546,10 @@ namespace CameraProcedure
         
         private void whichpicture_SelectedValueChanged(object sender, EventArgs e)
         {
-            if (loadfinish)
+            if (M1DP_form.loadfinish)
             {
-                Measure_Image.SetImage = (HObject)whichpicture.SelectedValue;
-                toolWindow.WindowImage.CopyImagetoThis(Measure_Image.GetImage);
+                M1DP_form.Measure_Image.SetImage = (HObject)whichpicture.SelectedValue;
+                toolWindow.WindowImage.CopyImagetoThis(M1DP_form.Measure_Image.GetImage);
                 toolWindow.showImage();
                 Showresult();
             }
@@ -646,7 +557,16 @@ namespace CameraProcedure
 
         private void Measure_1D_FormClosing(object sender, FormClosingEventArgs e)
         {
-            ifopenformornot = true;
+            //如果已經設定過了則不要清除資訊
+            if (!M1DP_form.setornot)
+            {
+                EageWindow.HalconWindow.ClearWindow();
+                toolWindow.ClearAll();
+                result_list.Clear();
+
+            }
+            M1DP_form.loadfinish = false;
+            M1DP_form.ifopenformornot = false;
             Hide();
         }
     }

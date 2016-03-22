@@ -110,38 +110,7 @@ namespace CameraProcedure
                 
             }
         }
-        /// <summary>
-        /// 設定MainWindowObjectTable的左鍵表單
-        /// </summary>
-        private void MainWindowObjectTable_CellContextMenuStripNeeded(object sender, DataGridViewCellContextMenuStripNeededEventArgs e)
-        {
-            //將object sender轉換成 DataGridView dgv
-            DataGridView dgv = (DataGridView)sender;
-            //清除選項
-            dgv.ClearSelection();
-            //選擇一整列
-            dgv.Rows[e.RowIndex].Selected = true;
-
-            //表單控制項(現在選在哪一格上)
-            CurrencyManager cm = (CurrencyManager)this.BindingContext[Camera.Object];
-            //滑鼠的row傳給cm 顯示控制
-            cm.Position = e.RowIndex;
-
-            if (e.RowIndex < 0)
-            {
-                //表單標頭備用
-            }
-            else if (e.ColumnIndex < 0)
-            {
-                //表單標頭備用
-            }
-            else
-            {
-                //右鍵Object表單
-                e.ContextMenuStrip = this.ObjectMenuStrip;
-            }
-        }
-
+        
         /// <summary>
         /// 刪除程序
         /// </summary>
@@ -368,34 +337,34 @@ namespace CameraProcedure
                     Measure_1D M1_temp = (Measure_1D)Camera.Procedure[cm.Position].SettingForm;
                     if (cm.Position != 0)
                     {
-                        M1_temp.O_T = Camera.Object;
+                        M1_temp.M1DP_in.O_T = Camera.Object;
                     }
                     M1_temp.ShowDialog();
 
-                    if (M1_temp.setornot == true)
+                    if (M1_temp.M1DP_form.setornot == true)
                     {
                         Camera.Object[cm.Position].OPoint.Clear();
                         Camera.Object[cm.Position].OPointName.Clear();
-                        if (M1_temp.dstfirstpoint != null)
+                        if (M1_temp.M1DP_out.dstfirstpoint != null)
                         {
-                            for (int i = 0; i < M1_temp.dstfirstpoint.Count; i++)
+                            for (int i = 0; i < M1_temp.M1DP_out.dstfirstpoint.Count; i++)
                             {
-                                Camera.Object[cm.Position].OPoint.Add(M1_temp.dstfirstpoint[i]);
+                                Camera.Object[cm.Position].OPoint.Add(M1_temp.M1DP_out.dstfirstpoint[i]);
                                 Camera.Object[cm.Position].OPointName.Add("dstfirstpoint" + i);
                             }
                         }
-                        if (M1_temp.dstsecondpoint != null)
+                        if (M1_temp.M1DP_out.dstsecondpoint != null)
                         {
-                            for (int i = 0; i < M1_temp.dstsecondpoint.Count; i++)
+                            for (int i = 0; i < M1_temp.M1DP_out.dstsecondpoint.Count; i++)
                             {
-                                Camera.Object[cm.Position].OPoint.Add(M1_temp.dstsecondpoint[i]);
+                                Camera.Object[cm.Position].OPoint.Add(M1_temp.M1DP_out.dstsecondpoint[i]);
                                 Camera.Object[cm.Position].OPointName.Add("dstsecondpoint" + i);
                             }
                         }
                     }
                     Camera.Procedure[cm.Position].procedurefunction.doprocedurefunction += M1_temp.run;
                     Camera.Procedure[cm.Position].SettingForm = M1_temp;
-                    Camera.Procedure[cm.Position].Setornot = M1_temp.setornot;
+                    Camera.Procedure[cm.Position].Setornot = M1_temp.M1DP_form.setornot;
 
                     break;
 
@@ -429,32 +398,31 @@ namespace CameraProcedure
                 case (int)PROCEDURE.Measure_2D_Line:
 
                     Measure_2D_Line M2DL_temp = (Measure_2D_Line)Camera.Procedure[cm.Position].SettingForm;
+                    
                     if (cm.Position != 0)
                     {
-                        M2DL_temp.MeasureImage = Camera.Object[cm.Position - 1].OImage[0];           //暫時使用前一個程序的圖片(載入圖片)
+                        M2DL_temp.M2DLP_in.O_T = Camera.Object;          //暫時使用前一個程序的圖片(載入圖片)
+                    }
+                    M2DL_temp.ShowDialog();
+
+                    if (M2DL_temp.M2DLP_out.setornot == true)
+                    {
+                        Camera.Object[cm.Position].OLine.Clear();
+                        Camera.Object[cm.Position].OLineName.Clear();
+                        if (M2DL_temp.M2DLP_out.dst_line != null)
+                        {
+                            Camera.Object[cm.Position].OLine.Add(M2DL_temp.M2DLP_out.dst_line);
+                            Camera.Object[cm.Position].OLineName.Add("TheVerticalLine");
+                        }
                     }
 
-                    M2DL_temp.ShowDialog();
+
                     Camera.Procedure[cm.Position].procedurefunction.doprocedurefunction += M2DL_temp.run;
                     Camera.Procedure[cm.Position].SettingForm = M2DL_temp;
-                    Camera.Procedure[cm.Position].Setornot = M2DL_temp.setornot;
+                    Camera.Procedure[cm.Position].Setornot = M2DL_temp.M2DLP_out.setornot;
 
                     break;
-
-                case (int)PROCEDURE.Measure_2D_Ellipse:
-
-                    Measure_2D_Ellipse M2DE_temp = (Measure_2D_Ellipse)Camera.Procedure[cm.Position].SettingForm;
-                    if (cm.Position != 0)
-                    {
-                        M2DE_temp.MeasureImage = Camera.Object[cm.Position - 1].OImage[0];           //暫時使用前一個程序的圖片(載入圖片)
-                    }
-
-                    M2DE_temp.ShowDialog();
-                    Camera.Procedure[cm.Position].procedurefunction.doprocedurefunction += M2DE_temp.run;
-                    Camera.Procedure[cm.Position].SettingForm = M2DE_temp;
-                    Camera.Procedure[cm.Position].Setornot = M2DE_temp.setornot;
-                    break;
-
+                    
 
                 case (int)PROCEDURE.CreateMatchingModel:
 
@@ -573,23 +541,23 @@ namespace CameraProcedure
 
                             Measure_1D M1_temp = (Measure_1D)Camera.Procedure[i].SettingForm;
                             
-                            if (M1_temp.setornot == true)
+                            if (M1_temp.M1DP_form.setornot == true)
                             {
                                 Camera.Object[i].OPoint.Clear();
                                 Camera.Object[i].OPointName.Clear();
-                                if (M1_temp.dstfirstpoint != null)
+                                if (M1_temp.M1DP_out.dstfirstpoint != null)
                                 {
-                                    for (int j = 0; j < M1_temp.dstfirstpoint.Count; j++)
+                                    for (int j = 0; j < M1_temp.M1DP_out.dstfirstpoint.Count; j++)
                                     {
-                                        Camera.Object[i].OPoint.Add(M1_temp.dstfirstpoint[j]);
+                                        Camera.Object[i].OPoint.Add(M1_temp.M1DP_out.dstfirstpoint[j]);
                                         Camera.Object[i].OPointName.Add("dstfirstpoint" + j);
                                     }
                                 }
-                                if (M1_temp.dstsecondpoint != null)
+                                if (M1_temp.M1DP_out.dstsecondpoint != null)
                                 {
-                                    for (int j = 0; j < M1_temp.dstsecondpoint.Count; j++)
+                                    for (int j = 0; j < M1_temp.M1DP_out.dstsecondpoint.Count; j++)
                                     {
-                                        Camera.Object[i].OPoint.Add(M1_temp.dstsecondpoint[j]);
+                                        Camera.Object[i].OPoint.Add(M1_temp.M1DP_out.dstsecondpoint[j]);
                                         Camera.Object[i].OPointName.Add("dstsecondpoint" + j);
                                     }
                                 }
@@ -648,6 +616,22 @@ namespace CameraProcedure
                                 }
                             }
                             
+                            break;
+                        case (int)PROCEDURE.Measure_2D_Line:
+
+                            Measure_2D_Line M2DL_temp = (Measure_2D_Line)Camera.Procedure[i].SettingForm;
+
+
+                            if (M2DL_temp.M2DLP_out.setornot == true)
+                            {
+                                Camera.Object[i].OLine.Clear();
+                                Camera.Object[i].OLineName.Clear();
+                                if (M2DL_temp.M2DLP_out.dst_line != null)
+                                {
+                                    Camera.Object[i].OLine.Add(M2DL_temp.M2DLP_out.dst_line);
+                                    Camera.Object[i].OLineName.Add("TheVerticalLine");
+                                }
+                            }
                             break;
 
                     }
@@ -743,43 +727,7 @@ namespace CameraProcedure
             setProcedurecolor();
         }
 
-        private void 二維量測EllipseToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            //控制項目前cell位置
-            CurrencyManager cm = (CurrencyManager)this.BindingContext[ProcedureTable.DataSource];
-            //設定Procedure_Table顯示字串
-            Procedure_Table p = new Procedure_Table();
-            Object_Table O = new Object_Table();
-
-            p.ProcedureName = "Measure_2D_Eillpse";
-            p.Setornot = false;
-            p.ProcedureMethod = (int)PROCEDURE.Measure_2D_Ellipse;
-            p.SettingForm = new Measure_2D_Ellipse();
-
-            Camera.Procedure.Insert(cm.Position + 1, p);
-            Camera.Object.Insert(cm.Position + 1, O);
-
-            //重新排序Procedure編號
-            remarkProcedure(0);
-
-            //更新表格
-            if (cm != null)
-            {
-                cm.Refresh();
-                ProcedureTable.ClearSelection();
-
-                if (ProcedureTable.RowCount < cm.Position + 1)
-                {
-                    ProcedureTable.Rows[cm.Position + 1].Selected = true;
-                }
-                else
-                {
-                    ProcedureTable.Rows[cm.Position].Selected = true;
-                }
-            }
-
-            setProcedurecolor();
-        }
+       
 
         private void 中垂線ToolStripMenuItem_Click(object sender, EventArgs e)
         {
